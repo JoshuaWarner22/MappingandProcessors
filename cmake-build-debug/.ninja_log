@@ -1,0 +1,11 @@
+# ninja log v6
+9	52	1718297264307365271	CMakeFiles/untitled.dir/mapping.c.o	deec7d5e68b7f670
+9	52	1718297264306945976	CMakeFiles/untitled.dir/adder.c.o	d6eac70c5e4b036c
+19	3795	1718297192200488212	CMakeFiles/untitled.dir/tester.c.o	e52fd6d9700a6319
+9	40	1718297264307527647	CMakeFiles/untitled.dir/processor.c.o	edaca91ade2169ab
+11	58	1718297275242964809	build.ninja	142c51b576ded254
+9	51	1718297264307209728	CMakeFiles/untitled.dir/main.c.o	5fb007e1bdf7baa8
+1	12	1718297275203630000	/Users/dp9443/Documents/Princeton/untitled/cmake-build-debug/CMakeFiles/cmake.verify_globs	e6a73aec5a58ef89
+12	58	1718297275242964809	build.ninja	142c51b576ded254
+0	9	1718297275250822708	/Users/dp9443/Documents/Princeton/untitled/cmake-build-debug/CMakeFiles/cmake.verify_globs	e6a73aec5a58ef89
+9	60	1718297275259584441	untitled	f3d2fb03c5657053
