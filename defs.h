@@ -18,4 +18,9 @@ typedef float (*tTickFunc)(void*);
 // Defines `_tParameter` to be the name of a new function pointer type
 typedef void (*tSetter)(void*, float);
 
+typedef enum {
+    ModuleTypeMultiOscModule
+
+} ModuleType;
+
 #endif

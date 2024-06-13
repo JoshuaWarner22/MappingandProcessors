@@ -41,6 +41,5 @@ void tAddInitializer(tProcessor* processor, tAdder* adder, int ID) {
     processor->numSetterFunctions = 2;
     processor->setterFunctions[0] = (tSetter) &tAdder_setA;
     processor->setterFunctions[1] = (tSetter) &tAdder_setB;
-    processor->inParameters[0] = adder->a;
-    processor->inParameters[1] = adder->b;
+
 }
