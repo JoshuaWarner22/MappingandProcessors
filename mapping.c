@@ -48,7 +48,7 @@ void tMappingInitializer(tMapping *mapping, tProcessor *outputProcessor,
     
     mapping->initialVal = destProcessor->inParameters[destParam];
     mapping->setter = destProcessor->setterFunctions[destParam];
-    mapping->processorID = destProcessor->processorID;
+    mapping->processorUniqueID = destProcessor->processorUniqueID;
     mapping->paramID = destParam; 
     mapping->destObject = destProcessor->object;
 }

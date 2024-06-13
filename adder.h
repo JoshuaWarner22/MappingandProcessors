@@ -3,6 +3,8 @@
 /*               Authors: Davis Polito and Joshua Warner              */
 /**********************************************************************/
 
+#include "processor.h"
+
 #ifndef ADDER_HEADER
 #define ADDER_HEADER
 
@@ -25,5 +27,7 @@ void tAdder_setA (tAdder* adder, float a);
 // Setter function for a `tAdd` object.  Sets the adder's second addend to
 // the value of `b`.
 void tAdder_setB (tAdder* adder, float b);
+
+void tAddInitializer(tProcessor* processor, tAdder* adder, int ID);
 
 #endif

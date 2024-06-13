@@ -12,7 +12,8 @@
 // Defines a struct Processor as a _tProcessor object
 typedef struct Processor
 {
-    u_int8_t processorID; // ID for this processor
+    u_int8_t processorUniqueID; // ID for this processor
+    u_int8_t processorTypeID; // ID for this processor
 
     void *object; // Processor's aliased Leaf object
     tTickFunc tick; // The object's tick function

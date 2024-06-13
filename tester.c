@@ -21,31 +21,16 @@ int main(void)
 
     tProcessor processor1;
 
-    processor1.processorID = 1; // ID for this processor
-    processor1.object = &adder1; // Processor's aliased Leaf object
-    processor1.tick = (tTickFunc) &tAdder_tick; // The object's tick function
-    processor1.numSetterFunctions = 2; // Number of setter functions used by
-                                       // the processor's object
-    processor1.setterFunctions[0] = (tSetter) &tAdder_setA;
-    processor1.setterFunctions[1] = (tSetter) &tAdder_setB;
-
-    processor1.inParameters[1] = 10; // IN sources for the processor
-
     tAdder adder2;
     adder2.a = 30;
     adder2.b = 40;
     
     tProcessor processor2;
 
-    processor2.processorID = 2; // ID for this processor
-    processor2.object = &adder2; // Processor's aliased Leaf object
-    processor2.tick = (tTickFunc) &tAdder_tick; // The object's tick function
-    processor2.numSetterFunctions = 2; // Number of setter functions used by
-    // the processor's object
-    processor2.setterFunctions[0] = (tSetter) &tAdder_setA;
-    processor2.setterFunctions[1] = (tSetter) &tAdder_setB;
+    tAddInitializer(&processor1,&adder1,1);
+    tAddInitializer(&processor2, &adder2, 2);
 
-    processor2.inParameters[1] = 30; // IN sources for the processor
+
 
  
     // Constructs and initialized _tMapping object from the output of

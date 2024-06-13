@@ -5,7 +5,7 @@
 
 #include <assert.h>
 #include "adder.h"
-#include "processor.h"
+
 
 
 // Tick function for a _tAdd object.  Returns the sum of adder's two
@@ -29,18 +29,18 @@ void tAdder_setB (tAdder* adder, float b)
 
 // Initializes the `processor` object to encapsulate the _tAdd adder 
 // object and its related setter functions, parameters, and ID
-void tAddInitializer(tProcessor* processor, tAdder* adder) {
+void tAddInitializer(tProcessor* processor, tAdder* adder, int ID) {
 
     // Checks that arguments are valid
     assert (processor != NULL);
     assert (adder != NULL);
 
-    processor->processorID = 1;
+    processor->processorUniqueID = ID;
     processor->object = adder;
-    processor->tick = &tAdder_tick;
+    processor->tick = (tTickFunc) &tAdder_tick;
     processor->numSetterFunctions = 2;
-    processor->setterFunctions[1] = &tAdder_setA;
-    processor->setterFunctions[2] = &tAdder_setB;
-    processor->inParameters[1] = adder->a;
-    processor->inParameters[2] = adder->b;
+    processor->setterFunctions[0] = (tSetter) &tAdder_setA;
+    processor->setterFunctions[1] = (tSetter) &tAdder_setB;
+    processor->inParameters[0] = adder->a;
+    processor->inParameters[1] = adder->b;
 }
