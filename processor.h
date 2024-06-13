@@ -23,7 +23,7 @@ typedef struct Processor
     // pointers to the setter functions for the processor's object
 
 
-    float inParameters[MAX_NUM_PARAMS]; // IN sources for the processor
+    float* inParameters; //  points to parameter array of the actual object
     float outParameters[MAX_NUM_PARAMS]; // OUT sources for the processor
 
 } tProcessor;

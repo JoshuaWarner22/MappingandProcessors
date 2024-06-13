@@ -5,6 +5,7 @@ cmake_policy(SET CMP0009 NEW)
 # SRC at CMakeLists.txt:7 (file)
 file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/joshuawarner/Downloads/Summer JUCE/untitled/*.c")
 set(OLD_GLOB
+  "/Users/joshuawarner/Downloads/Summer JUCE/untitled/MultiOscModule.c"
   "/Users/joshuawarner/Downloads/Summer JUCE/untitled/adder.c"
   "/Users/joshuawarner/Downloads/Summer JUCE/untitled/mapping.c"
   "/Users/joshuawarner/Downloads/Summer JUCE/untitled/processor.c"
@@ -18,6 +19,7 @@ endif()
 # SRC at CMakeLists.txt:7 (file)
 file(GLOB NEW_GLOB LIST_DIRECTORIES true "/Users/joshuawarner/Downloads/Summer JUCE/untitled/*.h")
 set(OLD_GLOB
+  "/Users/joshuawarner/Downloads/Summer JUCE/untitled/MultiOscModule.h"
   "/Users/joshuawarner/Downloads/Summer JUCE/untitled/adder.h"
   "/Users/joshuawarner/Downloads/Summer JUCE/untitled/defs.h"
   "/Users/joshuawarner/Downloads/Summer JUCE/untitled/mapping.h"

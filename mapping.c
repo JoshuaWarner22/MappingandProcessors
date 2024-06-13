@@ -3,11 +3,8 @@
 /*               Authors: Davis Polito and Joshua Warner              */
 /**********************************************************************/
 
-#include <stdio.h>
 #include <assert.h>
-#include "defs.h"
 #include "mapping.h"
-#include "processor.h"
 
 // Process mapping function
 void processMapping (tMapping* mapping)

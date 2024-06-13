@@ -8,6 +8,13 @@
 #include "adder.h"
 #include "mapping.h"
 #include "processor.h"
+#include "LEAF/leaf/leaf.h"
+#include "LEAF/leaf/Inc/leaf-mempool.h"
+#include "MultiOscModule.h"
+char dummy_memory[32];
+
+float myrand()
+{return (float)rand()/RAND_MAX;}
 
 
 int main(void) 
@@ -15,55 +22,70 @@ int main(void)
     // Constructs two processors which encapsulate two different 
     // `_tAdd` objects
 
+    LEAF leaf;
+    LEAF_init(&leaf, 44100.f, dummy_memory, 32, &myrand);
+    leaf.clearOnAllocation;
+
+    tMultiOscModule module1;
+
+    tMultiOscModule_init(&module1, &leaf);
+
+    tProcessor proc1;
+
+
+    tMultiOscModule_setPhase(&module1, 0.0f);
+    tMultiOscModule_setFreq(&module1, 440.f);
+    tMultiOscModule_setSampleRate(&module1, 44100.f);
+    tMultiOscModule_setAmp(module1, 0.5f);
+    tMultiOscModule_setHarmonic(module1, 1.f);
+
+
+    tMultiOscModule_processorInit(&module1, &proc1);
+
+
     tAdder adder1;
     tAdder_setA (&adder1, 10);
     tAdder_setB (&adder1, 20);
 
-    tProcessor processor1;
-
-    tAdder adder2;
-    adder2.a = 30;
-    adder2.b = 40;
-    
-    tProcessor processor2;
-
-    tAddInitializer(&processor1,&adder1,1);
-    tAddInitializer(&processor2, &adder2, 2);
+    tProcessor proc2;
 
 
+    tAddInitializer(&proc2, &adder1, 2);
 
- 
+
     // Constructs and initialized _tMapping object from the output of
     // `_adder2` to the field `a` of `_adder1`
 
     tMapping mapping;
     float scalingValues[] = {1.0, 1.0, 1.0};
 
-    tMappingInitializer(&mapping, &processor2, &processor1, 0, 0,
+    tMappingInitializer(&mapping, &proc2, &proc1, MultiOscFreq, 0,
     scalingValues);
 
 
     // Run the process without a mapping
-    processor1.outParameters[0] =  processor1.tick(processor1.object);
-    processor2.outParameters[0] =  processor2.tick(processor2.object);
+    proc2.outParameters[0] =  proc2.tick(proc2.object);
+    proc1.outParameters[0] = proc1.tick(proc2.object);
 
-    // Print statements for testing
-    printf("\nValues of out processors' out parameters after one tick:\n\n");
-    printf("_processor1.outParameters[0] = %f (should be 30)\n",  
-    processor1.outParameters[0]);
-    printf("_processor2.outParameters[0] = %f (should be 70)\n\n",  
-    processor2.outParameters[0]);
-
-    // Run the process with the mapping
     processMapping(&mapping);
-    processor1.outParameters[0] =  processor1.tick(processor1.object);
-    processor2.outParameters[0] =  processor2.tick(processor2.object);
 
-    // Print statements for testing
-    printf("Values of out processors' out parameters after one tick with"
-    " mapping: \n\n");
-    printf("_processor1.outParameters[0] = %f (should be 100)\n",  
-    processor1.outParameters[0]);
-    printf("_processor2.outParameters[0] = %f (should be 70)\n\n",  
-    processor2.outParameters[0]);
+    proc2.outParameters[0] =  proc2.tick(proc2.object);
+    proc1.outParameters[0] = proc1.tick(proc2.object);
+
+
+
+
+//
+//    // Run the process with the mapping
+//    processMapping(&mapping);
+//    processor1.outParameters[0] =  processor1.tick(processor1.object);
+//    processor2.outParameters[0] =  processor2.tick(processor2.object);
+//
+//    // Print statements for testing
+//    printf("Values of out processors' out parameters after one tick with"
+//    " mapping: \n\n");
+//    printf("_processor1.outParameters[0] = %f (should be 100)\n",
+//    processor1.outParameters[0]);
+//    printf("_processor2.outParameters[0] = %f (should be 70)\n\n",
+//    processor2.outParameters[0]);
 }

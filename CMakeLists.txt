@@ -6,7 +6,9 @@ add_library(LEAF INTERFACE)
 
 file(GLOB SRC CONFIGURE_DEPENDS "*.h" "*.c")
 target_include_directories(LEAF INTERFACE LEAF/leaf/leaf.h)
-add_executable(untitled ${SRC})
+add_executable(untitled ${SRC}
+        MultiOscModule.h
+        MultiOscModule.c)
 
 
 target_link_libraries(untitled PRIVATE LEAF)
