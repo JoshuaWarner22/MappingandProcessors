@@ -11,7 +11,7 @@
 #include "LEAF/leaf/leaf.h"
 #include "LEAF/leaf/Inc/leaf-mempool.h"
 #include "MultiOscModule.h"
-char dummy_memory[32];
+char leafMemory[65535];
 
 float myrand()
 {return (float)rand()/RAND_MAX;}
@@ -23,13 +23,14 @@ int main(void)
     // `_tAdd` objects
 
     LEAF leaf;
-    LEAF_init(&leaf, 44100.f, dummy_memory, 32, &myrand);
+    LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
     leaf.clearOnAllocation;
 
     tMultiOscModule module1;
 
     tMultiOscModule_init(&module1, &leaf);
 
+    module1->moduleType = ModuleTypeMultiOscModule;
     tProcessor proc1;
 
 
@@ -65,12 +66,12 @@ int main(void)
 
     // Run the process without a mapping
     proc2.outParameters[0] =  proc2.tick(proc2.object);
-    proc1.outParameters[0] = proc1.tick(proc2.object);
+    proc1.outParameters[0] = proc1.tick(&proc1.object);
 
     processMapping(&mapping);
 
     proc2.outParameters[0] =  proc2.tick(proc2.object);
-    proc1.outParameters[0] = proc1.tick(proc2.object);
+    proc1.outParameters[0] = proc1.tick(&proc1.object);
 
 
 

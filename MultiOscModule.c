@@ -9,6 +9,7 @@
 void tMultiOscModule_init(tMultiOscModule* const osc, LEAF* const leaf)
 {
     tMultiOscModule_iniToPool(osc, &leaf->mempool);
+
 }
 
 void tMultiOscModule_iniToPool(tMultiOscModule* const osc, tMempool* const mempool)
@@ -21,6 +22,8 @@ void tMultiOscModule_iniToPool(tMultiOscModule* const osc, tMempool* const mempo
     tCycle_initToPool(&multiOsc->oscs[1], mempool);
     tCycle_initToPool(&multiOsc->oscs[2], mempool);
     tCycle_initToPool(&multiOsc->oscs[3], mempool);
+    multiOsc->moduleType = ModuleTypeMultiOscModule;
+    //multiOsc->tick = &tMultiOscModule_tick;
 }
 
 void tMultiOscModule_free(tMultiOscModule* const osc)
@@ -110,7 +113,7 @@ void tMultiOscModule_processorInit(tMultiOscModule* const osc, tProcessor* proce
     _tMultiOscModule * multiOscModule = *osc;
 
     processor->processorUniqueID = multiOscModule->uniqueID;
-    processor->object = osc;
+    processor->object = multiOscModule;
     processor->tick = (tTickFunc) &tMultiOscModule_tick;
 
     processor->numSetterFunctions = MultiOscNumParams;
