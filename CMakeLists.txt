@@ -11,6 +11,6 @@ file(GLOB SRC CONFIGURE_DEPENDS "*.h" "*.c")
 add_executable(untitled ${SRC})
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/LEAF/leaf)
-target_link_libraries(${PROJECT_NAME} LEAF)
+#$target_link_libraries(${PROJECT_NAME} LEAF)
 #add_dependencies(${PROJECT_NAME} LEAF)
 #target_link_libraries(untitled PRIVATE LEAF)
