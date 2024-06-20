@@ -5,11 +5,11 @@
 #ifndef UNTITLED_MULTIOSCMODULE_H
 #define UNTITLED_MULTIOSCMODULE_H
 
-#include "LEAF/leaf/leaf.h"
-#include "defs.h"
-#include "processor.h"
-#include "LEAF/leaf/Inc/leaf-mempool.h"
-#include "LEAF/leaf/Inc/leaf-oscillators.h"
+#include "../LEAF/leaf/leaf.h"
+#include "../defs.h"
+#include "../processor.h"
+#include "../LEAF/leaf/Inc/leaf-mempool.h"
+#include "../LEAF/leaf/Inc/leaf-oscillators.h"
 
 typedef enum {
     MultiOscFreq,

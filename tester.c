@@ -10,7 +10,7 @@
 #include "processor.h"
 #include "LEAF/leaf/leaf.h"
 #include "LEAF/leaf/Inc/leaf-mempool.h"
-#include "MultiOscModule.h"
+#include "modules/MultiOscModule.h"
 char leafMemory[65535];
 
 float myrand()
