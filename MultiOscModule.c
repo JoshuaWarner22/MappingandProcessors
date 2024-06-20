@@ -39,81 +39,79 @@ void tMultiOscModule_free(tMultiOscModule* const osc)
 }
 
 // MultiOsc tick function
-float tMultiOscModule_tick (tMultiOscModule* const osc)
+float tMultiOscModule_tick (tMultiOscModule osc)
 {
-    _tMultiOscModule * multiOscModule = *osc;
-    float finalFreq = multiOscModule->params[MultiOscFreq] * multiOscModule->params[MultiOscHarmonic];
 
-    tCycle_setFreq(multiOscModule->oscs[0], finalFreq);
-    tCycle_setFreq(multiOscModule->oscs[1], finalFreq * 2);
-    tCycle_setFreq(multiOscModule->oscs[2], finalFreq * 3);
-    tCycle_setFreq(multiOscModule->oscs[3], finalFreq * 4);
+    float finalFreq = osc->params[MultiOscFreq] * osc->params[MultiOscHarmonic];
 
-    multiOscModule->outputs[MultiOscFreq] = finalFreq;
+    tCycle_setFreq(osc->oscs[0], finalFreq);
+    tCycle_setFreq(osc->oscs[1], finalFreq * 2);
+    tCycle_setFreq(osc->oscs[2], finalFreq * 3);
+    tCycle_setFreq(osc->oscs[3], finalFreq * 4);
+
+    osc->outputs[MultiOscFreq] = finalFreq;
 
     float sum = 0.f;
 
-    sum += tCycle_tick(multiOscModule->oscs[0]) * 0.25;
-    sum += tCycle_tick(multiOscModule->oscs[1]) * 0.25;
-    sum += tCycle_tick(multiOscModule->oscs[2]) * 0.25;
-    sum += tCycle_tick(multiOscModule->oscs[3]) * 0.25;
+    sum += tCycle_tick(osc->oscs[0]) * 0.25;
+    sum += tCycle_tick(osc->oscs[1]) * 0.25;
+    sum += tCycle_tick(osc->oscs[2]) * 0.25;
+    sum += tCycle_tick(osc->oscs[3]) * 0.25;
 
-    return sum * multiOscModule->params[MultiOscAmp];
+    return sum * osc->params[MultiOscAmp];
 
 }
 
 // Modulatable setters
-void tMultiOscModule_setFreq (tMultiOscModule* const osc, float freq)
+void tMultiOscModule_setFreq (tMultiOscModule osc, float freq)
 {
-    _tMultiOscModule * multiOscModule = *osc;
-    multiOscModule->params[MultiOscFreq] = freq;
-}
-void tMultiOscModule_setFineTune (tMultiOscModule* const osc, float ft)
-{
-    _tMultiOscModule * multiOscModule = *osc;
-    multiOscModule->params[MultiOscFineTune] = ft;
-}
-void tMultiOscModule_setHarmonic (tMultiOscModule* const osc, float harmonic)
-{
-    _tMultiOscModule * multiOscModule = *osc;
-    multiOscModule->params[MultiOscHarmonic] = harmonic;
-}
-void tMultiOscModule_setAmp (tMultiOscModule* const osc, float amp)
-{
-    _tMultiOscModule * multiOscModule = *osc;
-    multiOscModule->params[MultiOscAmp] = amp;
-}
-void tMultiOscModule_setPhase (tMultiOscModule* const osc, float phase)
-{
-    _tMultiOscModule * multiOscModule = *osc;
-    multiOscModule->params[MultiOscPhase] = phase;
 
-    tCycle_setPhase(multiOscModule->oscs[0], phase);
-    tCycle_setPhase(multiOscModule->oscs[1], phase);
-    tCycle_setPhase(multiOscModule->oscs[2], phase);
-    tCycle_setPhase(multiOscModule->oscs[3], phase);
+    osc->params[MultiOscFreq] = freq;
+}
+void tMultiOscModule_setFineTune (tMultiOscModule osc, float ft)
+{
+
+    osc->params[MultiOscFineTune] = ft;
+}
+void tMultiOscModule_setHarmonic (tMultiOscModule osc, float harmonic)
+{
+   osc->params[MultiOscHarmonic] = harmonic;
+}
+void tMultiOscModule_setAmp (tMultiOscModule  osc, float amp)
+{
+    osc->params[MultiOscAmp] = amp;
+}
+void tMultiOscModule_setPhase (tMultiOscModule osc, float phase)
+{
+    //_tMultiOscModule * multiOscModule = *osc;
+    osc->params[MultiOscPhase] = phase;
+
+    tCycle_setPhase(osc->oscs[0], phase);
+    tCycle_setPhase(osc->oscs[1], phase);
+    tCycle_setPhase(osc->oscs[2], phase);
+    tCycle_setPhase(osc->oscs[3], phase);
 }
 
 // Non-modulatable setters
-void tMultiOscModule_setSampleRate (tMultiOscModule* const osc, float sr)
+void tMultiOscModule_setSampleRate (tMultiOscModule osc, float sr)
 {
-    _tMultiOscModule * multiOscModule = *osc;
-    tCycle_setSampleRate(multiOscModule->oscs[0], sr);
-    tCycle_setSampleRate(multiOscModule->oscs[1], sr);
-    tCycle_setSampleRate(multiOscModule->oscs[2], sr);
-    tCycle_setSampleRate(multiOscModule->oscs[3], sr);
+
+    tCycle_setSampleRate(osc->oscs[0], sr);
+    tCycle_setSampleRate(osc->oscs[1], sr);
+    tCycle_setSampleRate( osc->oscs[2], sr);
+    tCycle_setSampleRate(osc->oscs[3], sr);
 }
 
-void tMultiOscModule_processorInit(tMultiOscModule* const osc, tProcessor* processor)
+void tMultiOscModule_processorInit(tMultiOscModule osc, tProcessor* processor)
 {
     // Checks that arguments are valid
     assert (osc != NULL);
     assert (processor != NULL);
 
-    _tMultiOscModule * multiOscModule = *osc;
 
-    processor->processorUniqueID = multiOscModule->uniqueID;
-    processor->object = multiOscModule;
+
+    processor->processorUniqueID = osc->uniqueID;
+    processor->object = osc;
     processor->tick = (tTickFunc) &tMultiOscModule_tick;
 
     processor->numSetterFunctions = MultiOscNumParams;
@@ -122,7 +120,7 @@ void tMultiOscModule_processorInit(tMultiOscModule* const osc, tProcessor* proce
     processor->setterFunctions[MultiOscHarmonic] = (tSetter) &tMultiOscModule_setHarmonic;
     processor->setterFunctions[MultiOscAmp] = (tSetter) &tMultiOscModule_setAmp;
     processor->setterFunctions[MultiOscPhase] = (tSetter) &tMultiOscModule_setPhase;
-    processor->inParameters = &multiOscModule->params;
+    processor->inParameters = osc->params;
 
     processor->processorTypeID = ModuleTypeMultiOscModule;
 }

@@ -6,11 +6,12 @@ set(CMAKE_C_STANDARD 11)
 
 file(GLOB SRC CONFIGURE_DEPENDS "*.h" "*.c")
 
+#add_library(LEAF)
+add_subdirectory(${CMAKE_SOURCE_DIR}/LEAF/leaf)
 
 #target_include_directories(LEAF INTERFACE LEAF/leaf/leaf.h)
-add_executable(untitled ${SRC})
+add_executable(${PROJECT_NAME} ${SRC})
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/LEAF/leaf)
-#$target_link_libraries(${PROJECT_NAME} LEAF)
+target_link_libraries(${PROJECT_NAME} LEAF)
 #add_dependencies(${PROJECT_NAME} LEAF)
 #target_link_libraries(untitled PRIVATE LEAF)

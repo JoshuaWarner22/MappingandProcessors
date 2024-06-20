@@ -34,14 +34,14 @@ int main(void)
     tProcessor proc1;
 
 
-    tMultiOscModule_setPhase(&module1, 0.0f);
-    tMultiOscModule_setFreq(&module1, 440.f);
-    tMultiOscModule_setSampleRate(&module1, 44100.f);
+    tMultiOscModule_setPhase(module1, 10.0f);
+    tMultiOscModule_setFreq(module1, 440.f);
+    tMultiOscModule_setSampleRate(module1, 44100.f);
     tMultiOscModule_setAmp(module1, 0.5f);
     tMultiOscModule_setHarmonic(module1, 1.f);
 
 
-    tMultiOscModule_processorInit(&module1, &proc1);
+    tMultiOscModule_processorInit(module1, &proc1);
 
 
     tAdder adder1;
@@ -66,12 +66,12 @@ int main(void)
 
     // Run the process without a mapping
     proc2.outParameters[0] =  proc2.tick(proc2.object);
-    proc1.outParameters[0] = proc1.tick(&proc1.object);
+    proc1.outParameters[0] = proc1.tick(proc1.object);
 
     processMapping(&mapping);
 
     proc2.outParameters[0] =  proc2.tick(proc2.object);
-    proc1.outParameters[0] = proc1.tick(&proc1.object);
+    proc1.outParameters[0] = proc1.tick(proc1.object);
 
 
 

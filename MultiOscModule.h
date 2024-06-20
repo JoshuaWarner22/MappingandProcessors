@@ -37,20 +37,20 @@ void tMultiOscModule_iniToPool(tMultiOscModule* const osc, tMempool* const mempo
 void tMultiOscModule_free(tMultiOscModule* const osc);
 
 // MultiOsc tick function
-float tMultiOscModule_tick (tMultiOscModule* const osc);
+float tMultiOscModule_tick (tMultiOscModule osc);
 
 // Modulatable setters
-void tMultiOscModule_setFreq (tMultiOscModule* const osc, float freq);
-void tMultiOscModule_setFineTune (tMultiOscModule* const osc, float ft);
-void tMultiOscModule_setHarmonic (tMultiOscModule* const osc, float harmonic);
-void tMultiOscModule_setAmp (tMultiOscModule* const osc, float amp);
-void tMultiOscModule_setPhase (tMultiOscModule* const osc, float phase);
+void tMultiOscModule_setFreq (tMultiOscModule osc, float freq);
+void tMultiOscModule_setFineTune (tMultiOscModule osc, float ft);
+void tMultiOscModule_setHarmonic (tMultiOscModule osc, float harmonic);
+void tMultiOscModule_setAmp (tMultiOscModule  osc, float amp);
+void tMultiOscModule_setPhase (tMultiOscModule osc, float phase);
 
 // Non-modulatable setters
-void tMultiOscModule_setSampleRate (tMultiOscModule* const osc, float sr);
+void tMultiOscModule_setSampleRate (tMultiOscModule osc, float sr);
 
 // Initializer function
-void tMultiOscModule_processorInit(tMultiOscModule* const osc, tProcessor* processor);
+void tMultiOscModule_processorInit(tMultiOscModule osc, tProcessor* processor);
 
 
 
