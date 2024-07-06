@@ -6,13 +6,13 @@
 
 #include <assert.h>
 
-void tMultiOscModule_init(tMultiOscModule* const osc, LEAF* const leaf)
+void tMultiOscModule_init(void** const osc, LEAF* const leaf)
 {
     tMultiOscModule_iniToPool(osc, &leaf->mempool);
 
 }
 
-void tMultiOscModule_iniToPool(tMultiOscModule* const osc, tMempool* const mempool)
+void tMultiOscModule_iniToPool(void** const osc, tMempool* const mempool)
 {
     _tMempool* m = *mempool;
     _tMultiOscModule* multiOsc = *osc = (_tMultiOscModule*) mpool_alloc(sizeof(_tMultiOscModule), m);
@@ -26,9 +26,9 @@ void tMultiOscModule_iniToPool(tMultiOscModule* const osc, tMempool* const mempo
     //multiOsc->tick = &tMultiOscModule_tick;
 }
 
-void tMultiOscModule_free(tMultiOscModule* const osc)
+void tMultiOscModule_free(void**  const osc)
 {
-    _tMultiOscModule* multiOscModule = *osc;
+    _tMultiOscModule* multiOscModule = (_tMultiOscModule*) *osc;
 
     tCycle_free(&multiOscModule->oscs[0]);
     tCycle_free(&multiOscModule->oscs[1]);

@@ -24,13 +24,13 @@ int main(void)
 
     LEAF leaf;
     LEAF_init(&leaf, 44100.f, leafMemory, 65535, &myrand);
-    leaf.clearOnAllocation;
+    leaf.clearOnAllocation = 1;
 
-    tMultiOscModule module1;
+    void* module1;
 
     tMultiOscModule_init(&module1, &leaf);
 
-    module1->moduleType = ModuleTypeMultiOscModule;
+
     tProcessor proc1;
 
 

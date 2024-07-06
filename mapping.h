@@ -12,10 +12,10 @@
 
 typedef struct Mapping {
     tSetter setter; // Setter function for the parameter of the mapping
-    u_int8_t paramID; //ID for the mapping's parameter
+    u_int8_t  ; //ID for the mapping's parameter
     u_int8_t processorUniqueID; // ID for processor that param is in
     void *destObject; // OUT destination for the mapping
-
+    int paramID;
     u_int8_t numUsedSources; // Number of active sources for the mapping
     float* inSources[MAX_NUM_SOURCES]; // IN sources from processors
     float scalingValues[MAX_NUM_SOURCES]; // Scaling for the IN sources

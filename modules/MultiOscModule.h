@@ -24,17 +24,17 @@ typedef struct _MultiOscModule {
    tCycle oscs[4];
    uint8_t moduleType;
    uint8_t uniqueID;
+    tTickFunc tick; // The object's tick function
    float params[MultiOscNumParams];
    float outputs[MultiOscNumParams];
-   tTickFunc tick; // The object's tick function
    tMempool mempool;
 } _tMultiOscModule;
 
 typedef _tMultiOscModule* tMultiOscModule;
 
-void tMultiOscModule_init(tMultiOscModule* const osc, LEAF* const leaf);
-void tMultiOscModule_iniToPool(tMultiOscModule* const osc, tMempool* const mempool);
-void tMultiOscModule_free(tMultiOscModule* const osc);
+void tMultiOscModule_init(void** const osc, LEAF* const leaf);
+void tMultiOscModule_iniToPool(void** const osc, tMempool* const mempool);
+void tMultiOscModule_free(void** const osc);
 
 // MultiOsc tick function
 float tMultiOscModule_tick (tMultiOscModule osc);

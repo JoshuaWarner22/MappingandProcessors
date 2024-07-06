@@ -11,7 +11,8 @@ file(GLOB _MODULES CONFIGURE_DEPENDS "modules/*.h" "modules/*.c")
 add_subdirectory(${CMAKE_SOURCE_DIR}/LEAF/leaf)
 
 #target_include_directories(LEAF INTERFACE LEAF/leaf/leaf.h)
-add_executable(${PROJECT_NAME} ${SRC} ${_MODULES})
+add_executable(${PROJECT_NAME} ${SRC} ${_MODULES}
+        modules/LFOModule.c)
 
 target_link_libraries(${PROJECT_NAME} LEAF)
 #add_dependencies(${PROJECT_NAME} LEAF)

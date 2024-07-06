@@ -19,7 +19,8 @@ typedef float (*tTickFunc)(void*);
 typedef void (*tSetter)(void*, float);
 
 typedef enum {
-    ModuleTypeMultiOscModule
+    ModuleTypeMultiOscModule,
+    ModuleTypeLFOModule
 
 } ModuleType;
 
