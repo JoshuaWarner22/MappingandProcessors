@@ -25,45 +25,45 @@ void tLFOModule_initToPool(void** const lfo, float* const params, tMempool* cons
     _tLFOModule* LFOModule = *lfo = (_tLFOModule*) mpool_alloc(sizeof(_tLFOModule), m);
     memcpy(LFOModule->params, params, LFONumParams);
 
-    int shape = roundf(LFOModule->params[LFOShape]);
+    int type = roundf(LFOModule->params[LFOType]);
     LFOModule->mempool = m;
     LFOModule->setterFunctions[LFONoteOnWatchFlag] = &tLFOModule_onNoteOn;
-    if (shape == LFOShapeSineTri) {
+    if (type == LFOTypeSineTri) {
         tSineTriLFO_initToPool(LFOModule->theLFO, mempool);
         LFOModule->setterFunctions[LFOPhase] = &tSineTriLFO_setPhase;
         LFOModule->setterFunctions[LFOShape] = &tSineTriLFO_setShape;
         LFOModule->setterFunctions[LFORate] = &tSineTriLFO_setFreq;
         LFOModule->tick = tSineTriLFO_tick;
     }
-    else if (shape == LFOShapeSawSquare) {
+    else if (type == LFOTypeSawSquare) {
         tSawSquareLFO_initToPool(LFOModule->theLFO, mempool);
         LFOModule->setterFunctions[LFOPhase] = &tSawSquareLFO_setPhase;
         LFOModule->setterFunctions[LFOShape] = &tSawSquareLFO_setShape;
         LFOModule->setterFunctions[LFORate] = &tSawSquareLFO_setFreq;
         LFOModule->tick = &tSawSquareLFO_tick;
     }
-    else if (shape == LFOShapeSine) {
+    else if (type == LFOTypeSine) {
         tCycle_initToPool(LFOModule->theLFO, mempool);
         LFOModule->setterFunctions[LFOPhase] = &tCycle_setPhase;
         LFOModule->setterFunctions[LFOShape] = &tLFOModule_blankFunction;//better way to do this?
         LFOModule->setterFunctions[LFORate] = &tCycle_setFreq;
         LFOModule->tick = &tCycle_tick;
     }
-    else if (shape == LFOShapeTri) {
+    else if (type == LFOTypeTri) {
         tTriLFO_initToPool(LFOModule->theLFO, mempool);
         LFOModule->setterFunctions[LFOPhase] = &tTriLFO_setPhase;
         LFOModule->setterFunctions[LFOShape] = &tLFOModule_blankFunction;//better way to do this?
         LFOModule->setterFunctions[LFORate] = &tTriLFO_setFreq;
         LFOModule->tick = &tTriLFO_tick;
     }
-    else if (shape == LFOShapeSaw) {
+    else if (type == LFOTypeSaw) {
         tIntPhasor_initToPool(LFOModule->theLFO, mempool);
         LFOModule->setterFunctions[LFOPhase] = &tIntPhasor_setPhase;
         LFOModule->setterFunctions[LFOShape] = &tLFOModule_blankFunction;//better way to do this?
         LFOModule->setterFunctions[LFORate] = &tIntPhasor_setFreq;
-        LFOModule->tick = &tIntPhasor_tick;
+        LFOModule->tick = &tIntPhasor_tickBiPolar;
     }
-    else if (shape == LFOShapeSquare) {
+    else if (type == LFOTypeSquare) {
         tSquareLFO_initToPool(LFOModule->theLFO, mempool);
         LFOModule->setterFunctions[LFOPhase] = &tSquareLFO_setPhase;
         LFOModule->setterFunctions[LFOShape] = &tSquareLFO_setPulseWidth;//better way to do this?
@@ -78,26 +78,31 @@ void tLFOModule_initToPool(void** const lfo, float* const params, tMempool* cons
 void tLFOModule_free(void** const lfo)
 {
     _tLFOModule* LFOModule = *lfo;
-    int shape = roundf(LFOModule->params[LFOShape]);
-    if (shape == LFOShapeSineTri) {
+    int type = roundf(LFOModule->params[LFOType]);
+    if (type == LFOTypeSineTri) {
         tSineTriLFO_free(LFOModule->theLFO);
     }
-    else if (shape == LFOShapeSawSquare) {
+    else if (type == LFOTypeSawSquare) {
         tSawSquareLFO_free(LFOModule->theLFO);
     }
-    else if (shape == LFOShapeSine) {
+    else if (type == LFOTypeSine) {
         tCycle_free(LFOModule->theLFO);
     }
-    else if (shape == LFOShapeTri) {
+    else if (type == LFOTypeTri) {
         tTriLFO_free(LFOModule->theLFO);
     }
-    else if (shape == LFOShapeSaw) {
+    else if (type == LFOTypeSaw) {
         tIntPhasor_free(LFOModule->theLFO);
     }
-    else if (shape == LFOShapeSquare) {
+    else if (type == LFOTypeSquare) {
         tSquareLFO_free(LFOModule->theLFO);
     }
     mpool_free((char*)LFOModule, LFOModule->mempool);
+}
+//tick function
+void tLFOModule_tick (tLFOModule const lfo)
+{
+    lfo->outputs[0] = lfo->tick(lfo->theLFO);
 }
 
 // Modulatable setters
@@ -118,7 +123,8 @@ void tLFOModule_setRateTableLocation (tLFOModule const lfo, float* tableAddress)
 }
 void tLFOModule_setSampleRate (tLFOModule const lfo, float sr)
 {
-    //tCycle_setSampleRate(osc->oscs[0], sr);
+    //how to handle this? if then cases for different types?
+
 }
 
 void tLFOModule_processorInit(tLFOModule const lfo, tProcessor* processor)
@@ -130,7 +136,7 @@ void tLFOModule_processorInit(tLFOModule const lfo, tProcessor* processor)
     processor->processorUniqueID = lfo->uniqueID;
     processor->object = lfo;
     processor->numSetterFunctions = LFONumParams;
-    processor->tick = (tTickFunc) *lfo->tick;
+    processor->tick = tLFOModule_tick;
     memcpy(processor->setterFunctions, lfo->setterFunctions, LFONumParams);
     //write over the rate setter since it has some scaling
     processor->setterFunctions[LFORate] = &tLFOModule_setRate;

@@ -12,7 +12,9 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/LEAF/leaf)
 
 #target_include_directories(LEAF INTERFACE LEAF/leaf/leaf.h)
 add_executable(${PROJECT_NAME} ${SRC} ${_MODULES}
-        modules/LFOModule.c)
+        modules/LFOModule.c
+        modules/SimpleOscModule.c
+)
 
 target_link_libraries(${PROJECT_NAME} LEAF)
 #add_dependencies(${PROJECT_NAME} LEAF)

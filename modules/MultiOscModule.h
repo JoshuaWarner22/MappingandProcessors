@@ -22,11 +22,11 @@ typedef enum {
 
 typedef struct _MultiOscModule {
    tCycle oscs[4];
-   uint8_t moduleType;
-   uint8_t uniqueID;
-    tTickFunc tick; // The object's tick function
+   uint32_t moduleType;
+   uint32_t uniqueID;
+    tTickFuncReturningFloat tick; // The object's tick function
    float params[MultiOscNumParams];
-   float outputs[MultiOscNumParams];
+   float outputs[1];
    tMempool mempool;
 } _tMultiOscModule;
 
@@ -37,7 +37,7 @@ void tMultiOscModule_iniToPool(void** const osc, tMempool* const mempool);
 void tMultiOscModule_free(void** const osc);
 
 // MultiOsc tick function
-float tMultiOscModule_tick (tMultiOscModule osc);
+void tMultiOscModule_tick (tMultiOscModule osc);
 
 // Modulatable setters
 void tMultiOscModule_setFreq (tMultiOscModule osc, float freq);

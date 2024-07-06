@@ -39,7 +39,7 @@ void tMultiOscModule_free(void**  const osc)
 }
 
 // MultiOsc tick function
-float tMultiOscModule_tick (tMultiOscModule osc)
+void tMultiOscModule_tick (tMultiOscModule osc)
 {
 
     float finalFreq = osc->params[MultiOscFreq] * osc->params[MultiOscHarmonic];
@@ -58,14 +58,13 @@ float tMultiOscModule_tick (tMultiOscModule osc)
     sum += tCycle_tick(osc->oscs[2]) * 0.25;
     sum += tCycle_tick(osc->oscs[3]) * 0.25;
 
-    return sum * osc->params[MultiOscAmp];
+    osc->outputs[0] = sum * osc->params[MultiOscAmp];
 
 }
 
 // Modulatable setters
 void tMultiOscModule_setFreq (tMultiOscModule osc, float freq)
 {
-
     osc->params[MultiOscFreq] = freq;
 }
 void tMultiOscModule_setFineTune (tMultiOscModule osc, float ft)
@@ -112,7 +111,7 @@ void tMultiOscModule_processorInit(tMultiOscModule osc, tProcessor* processor)
 
     processor->processorUniqueID = osc->uniqueID;
     processor->object = osc;
-    processor->tick = (tTickFunc) &tMultiOscModule_tick;
+    processor->tick = (tTickFuncReturningVoid) &tMultiOscModule_tick;
 
     processor->numSetterFunctions = MultiOscNumParams;
     processor->setterFunctions[MultiOscFreq] = (tSetter) &tMultiOscModule_setFreq;

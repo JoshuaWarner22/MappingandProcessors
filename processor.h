@@ -16,7 +16,7 @@ typedef struct Processor
     u_int8_t processorTypeID; // ID for this processor
 
     void *object; // Processor's aliased Leaf object
-    tTickFunc tick; // The object's tick function
+    tTickFuncReturningVoid tick; // The object's tick function
     u_int8_t numSetterFunctions; // Number of setter functions used by
     // the processor's object
     tSetter setterFunctions[MAX_NUM_PARAMS]; // Array containing
