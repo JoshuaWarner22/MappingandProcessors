@@ -13,10 +13,9 @@
 
 
 typedef enum {
-    OscNoteOnWatchFlag,
     OscMidiPitch,
     OscHarmonic,
-    OscPitchTranspose,
+    OscPitchOffset,
     OscFine,
     OscFreq,
     OscShape,
@@ -50,7 +49,6 @@ typedef struct _tOscModule {
     tFreqSetFunc freq_set_func;
     tSetter setterFunctions[OscNumParams]; // Array containing setter functions
     float params[OscNumParams];
-    float scaledParams[OscNumParams];
     float outputs[1];
     float fine;
     float harmonicMultiplier;
@@ -77,8 +75,6 @@ void tOscModule_initToPool(void** const osc, float* const params, tMempool* cons
 void tOscModule_free(void** const osc);
 
 // Modulatable setters
-void tOscModule_setFreq (tOscModule const osc, float rate);
-
 void tOscModule_tick (tOscModule const osc);
 
 

@@ -7,7 +7,7 @@
 #define DEFS_HEADER
 
 // Maximum number of parameters for a processor object
-#define MAX_NUM_PARAMS 8
+#define MAX_NUM_PARAMS 16
 
 // Maximum number of processor sources for a mapping object
 #define MAX_NUM_SOURCES 3
