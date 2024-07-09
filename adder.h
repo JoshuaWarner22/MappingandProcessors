@@ -14,11 +14,12 @@ typedef struct Add
 {
     float a; // addend 1
     float b; // addend 2
+    float out;
 } tAdder;
 
 // Tick function for a `tAdd` object.  Returns the sum of adder's two
 // addends.
-float tAdder_tick (tAdder* adder);
+void tAdder_tick (tAdder* adder);
 
 // Setter function for a `tAdd` object.  Sets the adder's first addend to
 // the value of `a`.

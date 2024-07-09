@@ -23,8 +23,9 @@ typedef struct Mapping {
 } tMapping;
 
 void processMapping (tMapping* mapping);
+void tMapping_init(tMapping *mapping);
 
-void tMappingInitializer(tMapping *mapping, tProcessor *outputProcessor,
+void tMappingAdd(tMapping *mapping, tProcessor *outputProcessor,
     tProcessor *destProcessor, u_int8_t destParam, u_int8_t source,
     float const scalingValues[MAX_NUM_SOURCES]);
 

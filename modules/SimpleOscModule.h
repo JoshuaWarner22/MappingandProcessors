@@ -14,8 +14,9 @@
 
 typedef enum {
     OscNoteOnWatchFlag,
+    OscMidiPitch,
     OscHarmonic,
-    OscPitch,
+    OscPitchTranspose,
     OscFine,
     OscFreq,
     OscShape,
@@ -49,6 +50,7 @@ typedef struct _tOscModule {
     tFreqSetFunc freq_set_func;
     tSetter setterFunctions[OscNumParams]; // Array containing setter functions
     float params[OscNumParams];
+    float scaledParams[OscNumParams];
     float outputs[1];
     float fine;
     float harmonicMultiplier;
@@ -70,22 +72,22 @@ typedef struct _tOscModule {
 typedef _tOscModule* tOscModule;
 
 //init module
-void tOscModule_init(void** const lfo, float* const params, LEAF* const leaf);
-void tOscModule_initToPool(void** const lfo, float* const params, tMempool* const mempool);
-void tOscModule_free(void** const lfo);
+void tOscModule_init(void** const osc, float* const params, LEAF* const leaf);
+void tOscModule_initToPool(void** const osc, float* const params, tMempool* const mempool);
+void tOscModule_free(void** const osc);
 
 // Modulatable setters
-void tOscModule_setFreq (tOscModule const lfo, float rate);
+void tOscModule_setFreq (tOscModule const osc, float rate);
 
-void tOscModule_tick (tOscModule const lfo);
+void tOscModule_tick (tOscModule const osc);
 
 
 // Non-modulatable setters
 void tOscModule_setMTOFTableLocation (tOscModule const osc, float* tableAddress);
-void tOscModule_setSampleRate (tOscModule const lfo, float sr);
+void tOscModule_setSampleRate (tOscModule const osc, float sr);
 
 //init processor
-void tOscModule_processorInit(tOscModule const lfo, tProcessor* processor);
+void tOscModule_processorInit(tOscModule const osc, tProcessor* processor);
 
 
 

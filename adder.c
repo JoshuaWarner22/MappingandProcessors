@@ -10,9 +10,9 @@
 
 // Tick function for a _tAdd object.  Returns the sum of adder's two
 // fields.
-float tAdder_tick (tAdder* adder)
+void tAdder_tick (tAdder* adder)
 {
-    return adder->a + adder->b;
+    adder->out =  adder->a + adder->b;
 }
 
 // Setter function for the `a` parameter of a _tAdd object
@@ -37,9 +37,9 @@ void tAddInitializer(tProcessor* processor, tAdder* adder, int ID) {
 
     processor->processorUniqueID = ID;
     processor->object = adder;
-    processor->tick = (tTickFunc) &tAdder_tick;
+    processor->tick = (tTickFuncReturningVoid) &tAdder_tick;
     processor->numSetterFunctions = 2;
     processor->setterFunctions[0] = (tSetter) &tAdder_setA;
     processor->setterFunctions[1] = (tSetter) &tAdder_setB;
-
+    processor->outParameters = &adder->out;
 }

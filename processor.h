@@ -24,7 +24,7 @@ typedef struct Processor
 
 
     float* inParameters; //  points to parameter array of the actual object
-    float outParameters[MAX_NUM_PARAMS]; // OUT sources for the processor
+    float* outParameters; // OUT sources for the processor
 
 } tProcessor;
 

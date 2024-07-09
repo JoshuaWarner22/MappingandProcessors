@@ -24,40 +24,45 @@ void tOscModule_initToPool(void** const osc, float* const params, tMempool* cons
     int type = roundf(OscModule->params[OscType]);
     OscModule->mempool = m;
     OscModule->setterFunctions[OscNoteOnWatchFlag] = &tOscModule_blankFunction;
-    OscModule->pitchSmoother = (_tExpSmooth*) mpool_alloc(sizeof(_tExpSmooth), m);
+
    //fix this when expsmooth is fixed to new style
     tExpSmooth_initToPool(&OscModule->pitchSmoother, 64.0f, 0.05f, &m);
     if (type == OscTypeSawSquare) {
-        tPBSawSquare_initToPool(OscModule->theOsc, mempool);
+        tPBSawSquare_initToPool((tPBSawSquare*)&OscModule->theOsc, mempool);
         OscModule->freq_set_func = tPBSawSquare_setFreq;
         OscModule->setterFunctions[OscShape] = tPBSawSquare_setShape;
         OscModule->tick = tPBSawSquare_tick;
     }
     else if (type == OscTypeSineTri) {
+        //OscModule->theOsc = (_tPBSineTriangle*) mpool_alloc(sizeof(_tPBSineTriangle), m);
         tPBSineTriangle_initToPool(OscModule->theOsc, mempool);
         OscModule->freq_set_func = tPBSineTriangle_setFreq;
         OscModule->setterFunctions[OscShape] = tPBSineTriangle_setShape;
         OscModule->tick = tPBSineTriangle_tick;
     }
     else if (type == OscTypeSaw) {
+        //OscModule->theOsc = (_tPBSaw*) mpool_alloc(sizeof(_tPBSaw), m);
         tPBSaw_initToPool(OscModule->theOsc, mempool);
         OscModule->freq_set_func = tPBSaw_setFreq;
         OscModule->setterFunctions[OscShape] = tOscModule_blankFunction;
         OscModule->tick = tPBSaw_tick;
     }
     else if (type == OscTypePulse) {
+        //OscModule->theOsc = (_tPBPulse*) mpool_alloc(sizeof(_tPBPulse), m);
         tPBPulse_initToPool(OscModule->theOsc, mempool);
         OscModule->freq_set_func = tPBPulse_setFreq;
         OscModule->setterFunctions[OscShape] = tPBPulse_setWidth;
         OscModule->tick = tPBPulse_tick;
     }
     else if (type == OscTypeSine) {
+        //OscModule->theOsc = (_tCycle*) mpool_alloc(sizeof(_tCycle), m);
         tCycle_initToPool(OscModule->theOsc, mempool);
         OscModule->freq_set_func = tCycle_setFreq;
         OscModule->setterFunctions[OscShape] = tOscModule_blankFunction;
         OscModule->tick = tCycle_tick;
     }
     else if (type == OscTypeTri) {
+        //OscModule->theOsc = (_tPBTriangle*) mpool_alloc(sizeof(_tPBTriangle), m);
         tPBTriangle_initToPool(OscModule->theOsc, mempool);
         OscModule->freq_set_func = tPBTriangle_setFreq;
         OscModule->setterFunctions[OscShape] = tPBTriangle_setSkew;
@@ -95,12 +100,20 @@ void tOscModule_free(void** const lfo)
 
 
 // tick function
-void tOscModule_tick (tOscModule const osc, float rate)
+void tOscModule_tick (tOscModule const osc)
 {
     float freqToSmooth = (osc->inputNote + (osc->fine));
     tExpSmooth_setDest(&osc->pitchSmoother, freqToSmooth);
     float tempMIDI = tExpSmooth_tick(&osc->pitchSmoother) + osc->pitchOffset + osc->octaveOffset;
-    float finalFreq = (osc->mtofTable(tempMIDI) * osc->harmonicMultiplier) + osc->freqOffset;
+
+    float tempIndexF = ((LEAF_clip(-163.0f, tempMIDI, 163.0f) * 100.0f) + 16384.0f);
+    int tempIndexI = (int)tempIndexF;
+    tempIndexF = tempIndexF -tempIndexI;
+    float freqToSmooth1 = osc->mtofTable[tempIndexI & 32767];
+    float freqToSmooth2 = osc->mtofTable[(tempIndexI + 1) & 32767];
+    float nowFreq =  ((freqToSmooth1 * (1.0f - tempIndexF)) + (freqToSmooth2 * tempIndexF));
+
+    float finalFreq = (nowFreq * osc->harmonicMultiplier) + osc->freqOffset;
     osc->freq_set_func(osc->theOsc, finalFreq);
     osc->outputs[0] = osc->tick(osc->theOsc) * osc->amp;
 }
@@ -159,7 +172,7 @@ void tOscModule_setGlide (tOscModule const osc, float glide)
     if (glide >= 0.00001f) {
         factor = 1.0f - (expf(-osc->invSr / glide));
     }
-    tExpSmooth_setFactor(osc->pitchSmoother,factor);
+    tExpSmooth_setFactor(&osc->pitchSmoother,factor);
 }
 void tOscModule_setStepped (tOscModule const osc, float stepped)
 {
@@ -196,7 +209,7 @@ void tOscModule_processorInit(tOscModule const osc, tProcessor* processor)
     processor->object = osc;
     processor->numSetterFunctions = OscNumParams;
     processor->tick = &tOscModule_tick;
-
+    processor->setterFunctions[OscNoteOnWatchFlag] = &tOscModule_blankFunction;
     processor->setterFunctions[OscHarmonic] = &tOscModule_setHarmonic;
     processor->setterFunctions[OscPitch] = &tOscModule_setPitch;
     processor->setterFunctions[OscFine] = &tOscModule_setFine;
@@ -207,8 +220,13 @@ void tOscModule_processorInit(tOscModule const osc, tProcessor* processor)
     processor->setterFunctions[OscStepped] = &tOscModule_setStepped;
     processor->setterFunctions[OscSyncMode] = &tOscModule_setSyncMode;
     processor->setterFunctions[OscSyncIn] = &tOscModule_setSyncIn;
-
+    processor->setterFunctions[OscType] = &tOscModule_blankFunction;
+    for (int i = 0; i < OscNumParams; i++)
+    {
+        processor->setterFunctions[i](osc, osc->params[i]);
+    }
     processor->inParameters = osc->params;
+    processor->outParameters = osc->outputs;
     processor->processorTypeID = ModuleTypeOscModule;
 }
 

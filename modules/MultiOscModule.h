@@ -32,8 +32,8 @@ typedef struct _MultiOscModule {
 
 typedef _tMultiOscModule* tMultiOscModule;
 
-void tMultiOscModule_init(void** const osc, LEAF* const leaf);
-void tMultiOscModule_iniToPool(void** const osc, tMempool* const mempool);
+void tMultiOscModule_init(void** const osc, float* const params, LEAF* const leaf);
+void tMultiOscModule_iniToPool(void** const osc, float* const params, tMempool* const mempool);
 void tMultiOscModule_free(void** const osc);
 
 // MultiOsc tick function

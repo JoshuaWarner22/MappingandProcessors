@@ -19,11 +19,16 @@ void processMapping (tMapping* mapping)
     mapping->setter(mapping->destObject, sum);
 }
 
+//clears out a new mapping
+void tMapping_init(tMapping *mapping)
+{
+    mapping-> numUsedSources= 0;
+}
 // Initializes the mapping `mapping` to map from the output of 
 // `outputProcessor` to the input of `destProcessor` on the parameter 
 // `destParam`.  The mapping scales this value by the factors in
 // `scalingValues`.
-void tMappingInitializer(tMapping *mapping, tProcessor *outputProcessor,
+void tMappingAdd(tMapping *mapping, tProcessor *outputProcessor,
     tProcessor *destProcessor, u_int8_t destParam, u_int8_t source,
     float const scalingValues[MAX_NUM_SOURCES])
 {

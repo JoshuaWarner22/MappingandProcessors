@@ -6,13 +6,13 @@
 
 #include <assert.h>
 
-void tMultiOscModule_init(void** const osc, LEAF* const leaf)
+void tMultiOscModule_init(void** const osc, float* const params, LEAF* const leaf)
 {
-    tMultiOscModule_iniToPool(osc, &leaf->mempool);
+    tMultiOscModule_iniToPool(osc, params, &leaf->mempool);
 
 }
 
-void tMultiOscModule_iniToPool(void** const osc, tMempool* const mempool)
+void tMultiOscModule_iniToPool(void** const osc, float* const params, tMempool* const mempool)
 {
     _tMempool* m = *mempool;
     _tMultiOscModule* multiOsc = *osc = (_tMultiOscModule*) mpool_alloc(sizeof(_tMultiOscModule), m);
@@ -44,12 +44,10 @@ void tMultiOscModule_tick (tMultiOscModule osc)
 
     float finalFreq = osc->params[MultiOscFreq] * osc->params[MultiOscHarmonic];
 
-    tCycle_setFreq(osc->oscs[0], finalFreq);
+    tCycle_setFreq(&osc->oscs[0], finalFreq);
     tCycle_setFreq(osc->oscs[1], finalFreq * 2);
     tCycle_setFreq(osc->oscs[2], finalFreq * 3);
     tCycle_setFreq(osc->oscs[3], finalFreq * 4);
-
-    osc->outputs[MultiOscFreq] = finalFreq;
 
     float sum = 0.f;
 
@@ -120,6 +118,7 @@ void tMultiOscModule_processorInit(tMultiOscModule osc, tProcessor* processor)
     processor->setterFunctions[MultiOscAmp] = (tSetter) &tMultiOscModule_setAmp;
     processor->setterFunctions[MultiOscPhase] = (tSetter) &tMultiOscModule_setPhase;
     processor->inParameters = osc->params;
+    processor->outParameters = osc->outputs;
 
     processor->processorTypeID = ModuleTypeMultiOscModule;
 }
