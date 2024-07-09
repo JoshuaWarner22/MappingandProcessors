@@ -48,7 +48,7 @@ void tEnvModule_onNoteOn(tEnvModule const env, float pitch, float velocity)
 {
     //env->setterFunctions[LFOPhase](env->theLFO, env->params[LFOPhase]); //call actual function
 }
-
+/*
 // Modulatable setters
 void tEnvModule_setRate (tEnvModule const env, float rate)
 {
@@ -89,3 +89,4 @@ void tEnvModule_processorInit(tEnvModule const env, tProcessor* processor)
     processor->processorTypeID = ModuleTypeEnvModule;
 }
 
+*/
