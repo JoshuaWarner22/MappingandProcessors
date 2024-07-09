@@ -23,7 +23,10 @@ typedef void (*tSetter)(void*, float);
 typedef enum {
     ModuleTypeMultiOscModule,
     ModuleTypeLFOModule,
-    ModuleTypeOscModule
+    ModuleTypeOscModule,
+    ModuleTypeEnvModule,
+    ModuleTypeFilterModule,
+    ModuleTypeVCAModule,
 
 } ModuleType;
 

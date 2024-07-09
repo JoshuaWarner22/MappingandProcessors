@@ -10,11 +10,7 @@ void tLFOModule_init(void** const lfo, float* params, LEAF* const leaf)
 {
     tLFOModule_initToPool(lfo, params, &leaf->mempool);
 }
-void tLFOModule_onNoteOn(void* const lfoV, float value)
-{
-    _tLFOModule* const lfo = (_tLFOModule*) lfoV;
-    lfo->setterFunctions[LFOPhase](lfo->theLFO, lfo->params[LFOPhase]); //call actual function
-}
+
 void tLFOModule_blankFunction (tLFOModule const lfo, float freq)
 {
     ;
@@ -107,6 +103,12 @@ void tLFOModule_free(void** const lfo)
 void tLFOModule_tick (tLFOModule const lfo)
 {
     lfo->outputs[0] = lfo->tick(lfo->theLFO);
+}
+
+//special noteOnFunction
+void tLFOModule_onNoteOn(tLFOModule const lfo, float pitch, float velocity)
+{
+    lfo->setterFunctions[LFOPhase](lfo->theLFO, lfo->params[LFOPhase]); //call actual function
 }
 
 // Modulatable setters

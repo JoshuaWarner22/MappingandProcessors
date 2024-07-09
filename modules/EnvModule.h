@@ -5,55 +5,56 @@
 #ifndef ENVMODULE_H
 #define ENVMODULE_H
 
-typedef enum {
-    LFONoteOnWatchFlag,
-    LFORate,
-    LFOShape,
-    LFOPhase,
-    LFOType,//non modulatable
-    LFONumParams
-} LFOParams;
+#include "../LEAF/leaf/leaf.h"
+#include "../defs.h"
+#include "../processor.h"
+#include "../LEAF/leaf/Inc/leaf-mempool.h"
+#include "../LEAF/leaf/Inc/leaf-envelopes.h"
 
 typedef enum {
-    LFOTypeSineTri,
-    LFOTypeSawSquare,
-    LFOTypeSine,
-    LFOTypeTri,
-    LFOTypeSaw,
-    LFOTypeSquare,
-    LFONumTypes
-} LFOTypes;
+    EnvNoteOnWatchFlag,
+    EnvAttack,
+    EnvDecay,
+    EnvSustain,
+    EnvRelease,
+    EnvLeak,
+    EnvShapeAttack,
+    EnvShapeRelease,
+    EnvNumParams
+} EnvParams;
 
-typedef struct _tLFOModule {
-    void* theLFO;
+
+typedef struct _tEnvModule {
+    tADSRT theEnv;
     uint32_t moduleType;
     uint32_t uniqueID;
     tTickFuncReturningFloat tick; // The object's tick function
-    tSetter setterFunctions[LFONumParams]; // Array containing setter functions
-    float params[LFONumParams];
+    tSetter setterFunctions[EnvNumParams]; // Array containing setter functions
+    float params[EnvNumParams];
     float outputs[1];
-    float* rateTable;
+    float* expTable;
+    uint32_t tableSize;
     tMempool mempool;
-} _tLFOModule;
+} _tEnvModule;
 
-typedef _tLFOModule* tLFOModule;
+typedef _tEnvModule* tEnvModule;
 
 //init module
-void tLFOModule_init(void** const lfo, float* const params, LEAF* const leaf);
-void tLFOModule_initToPool(void** const lfo, float* const params, tMempool* const mempool);
-void tLFOModule_free(void** const lfo);
+void tEnvModule_init(void** const env, float* const params, LEAF* const leaf);
+void tEnvModule_initToPool(void** const env, float* const params, tMempool* const mempool);
+void tEnvModule_free(void** const env);
 
 //note on action
-void tLFOModule_onNoteOn(void* const lfoV, float value);
+void tEnvModule_onNoteOn(tEnvModule const env, float pitch, float velocity);
 
 // Modulatable setters
-void tLFOModule_setRate (tLFOModule const lfo, float rate);
+void tEnvModule_setRate (tEnvModule const env, float rate);
 
 // Non-modulatable setters
-void tLFOModule_setRateTableLocation (tLFOModule const lfo, float* tableAddress);
-void tLFOModule_setSampleRate (tLFOModule const lfo, float sr);
+void tEnvModule_setRateTableLocation (tEnvModule const env, float* tableAddress);
+void tEnvModule_setSampleRate (tEnvModule const env, float sr);
 
 //init processor
-void tLFOModule_processorInit(tLFOModule const lfo, tProcessor* processor);
+void tEnvModule_processorInit(tEnvModule const env, tProcessor* processor);
 
 #endif //ENVMODULE_H

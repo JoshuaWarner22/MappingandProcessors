@@ -51,7 +51,7 @@ void tLFOModule_initToPool(void** const lfo, float* const params, tMempool* cons
 void tLFOModule_free(void** const lfo);
 
 //note on action
-void tLFOModule_onNoteOn(void* const lfoV, float value);
+void tLFOModule_onNoteOn(tLFOModule const lfo, float pitch, float velocity);
 
 // Modulatable setters
 void tLFOModule_setRate (tLFOModule const lfo, float rate);
