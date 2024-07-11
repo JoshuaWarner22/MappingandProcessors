@@ -20,6 +20,7 @@ typedef enum {
     EnvLeak,
     EnvShapeAttack,
     EnvShapeRelease,
+    EnvFollowVelocity,
     EnvNumParams
 } EnvParams;
 
@@ -28,11 +29,10 @@ typedef struct _tEnvModule {
     tADSRT theEnv;
     uint32_t moduleType;
     uint32_t uniqueID;
-    tTickFuncReturningFloat tick; // The object's tick function
-    tSetter setterFunctions[EnvNumParams]; // Array containing setter functions
     float params[EnvNumParams];
     float outputs[1];
     float* expTable;
+    uint32_t followVelocity;
     uint32_t tableSize;
     tMempool mempool;
 } _tEnvModule;
@@ -48,10 +48,18 @@ void tEnvModule_free(void** const env);
 void tEnvModule_onNoteOn(tEnvModule const env, float pitch, float velocity);
 
 // Modulatable setters
-void tEnvModule_setRate (tEnvModule const env, float rate);
+void tEnvModule_setAttack (tEnvModule const env, float input);
+
+void tEnvModule_setDecay (tEnvModule const env, float input);
+
+void tEnvModule_setRelease (tEnvModule const env, float input);
+
+void tEnvModule_setSustain (tEnvModule const env, float const input);
+
+void tEnvModule_setLeak (tEnvModule const env, float const input);
 
 // Non-modulatable setters
-void tEnvModule_setRateTableLocation (tEnvModule const env, float* tableAddress);
+void tEnvModule_setExpTableLocation (tEnvModule const env, float* tableAddress);
 void tEnvModule_setSampleRate (tEnvModule const env, float sr);
 
 //init processors

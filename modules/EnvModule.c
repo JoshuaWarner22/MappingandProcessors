@@ -7,27 +7,25 @@
 
 #include <assert.h>
 
-void tEnvModule_init(void** const env, float* params, float id, LEAF* const leaf)
+void tEnvModule_init(void** const env, float* params, LEAF* const leaf)
 {
-    tEnvModule_initToPool(env, params, id, &leaf->mempool);
+    tEnvModule_initToPool(env, params, &leaf->mempool);
 }
 
 void tEnvModule_blankFunction (tEnvModule const env, float freq)
 {
     ;
 }
-void tEnvModule_initToPool(void** const env, float* const params, float id, tMempool* const mempool)
+void tEnvModule_initToPool(void** const env, float* const params, tMempool* const mempool)
 {
     _tMempool* m = *mempool;
     _tEnvModule* EnvModule = *env = (_tEnvModule*) mpool_alloc(sizeof(_tEnvModule), m);
     memcpy(EnvModule->params, params, EnvNumParams);
     EnvModule->mempool = m;
-    EnvModule->setterFunctions[EnvNoteOnWatchFlag] = &tEnvModule_onNoteOn;
-    EnvModule->uniqueID = id;
 
+    //EnvModule->setterFunctions[EnvNoteOnWatchFlag] = &tEnvModule_onNoteOn;
+    EnvModule->followVelocity = roundf(EnvModule->params[EnvFollowVelocity]);
     tADSRT_initToPool(&EnvModule->theEnv, EnvModule->params[EnvAttack],EnvModule->params[EnvDecay],EnvModule->params[EnvSustain],EnvModule->params[EnvRelease], EnvModule->expTable, EnvModule->tableSize,mempool);
-    EnvModule->tick = tADSRT_tick;
-
     EnvModule->moduleType = ModuleTypeEnvModule;
 }
 
@@ -45,35 +43,84 @@ void tEnvModule_tick (tEnvModule const env)
 }
 
 //special noteOnFunction
-void tEnvModule_onNoteOn(tEnvModule const env, float pitch, float velocity)
+void tEnvModule_onNoteOn(tEnvModule const env, float const pitch, float const velocity)
 {
-    //env->setterFunctions[LFOPhase](env->theLFO, env->params[LFOPhase]); //call actual function
+    float const velUsed = env->followVelocity?velocity:1.0f;
+    tADSRT_on(env->theEnv, velUsed);
 }
 /*
 // Modulatable setters
-void tEnvModule_setRate (tEnvModule const env, float rate)
+
+/*
+    EnvAttack,
+    EnvDecay,
+    EnvSustain,
+    EnvRelease,
+    EnvLeak,
+    EnvShapeAttack,
+    EnvShapeRelease,
+ */
+void tEnvModule_setAttack (tEnvModule const env, float input)
 {
-    rate *= 2047.0f;
-    int inputInt = (int)rate;
-    float inputFloat = (float)inputInt - rate;
-    int nextPos = LEAF_clip(0, inputInt + 1, 2047);
-    float tempRate = (env->rateTable[inputInt] * (1.0f - inputFloat)) + (env->rateTable[nextPos] * inputFloat);
-    env->setterFunctions[LFORate](env->theLFO, tempRate);
+    	//lookup table for env times
+	//input = LEAF_clip(0.0f, input, 1.0f);
+	//scale to lookup range
+	input *= 2047.0f;
+	int const inputInt = (int)input;
+	float const inputFloat = (float)inputInt - input;
+	int const nextPos = LEAF_clip(0, inputInt + 1, 2047);
+	float const attack = (env->expTable[inputInt] * (1.0f - inputFloat)) + (env->expTable[nextPos] * inputFloat)  + 0.001f;
+
+    tADSRT_setAttack(env->theEnv, attack);
 }
 
-// Non-modulatable setters
-void tEnvModule_setRateTableLocation (tEnvModule const env, float* tableAddress)
+void tEnvModule_setDecay (tEnvModule const env, float input)
 {
-    env->rateTable = tableAddress;
+    //lookup table for env times
+    //input = LEAF_clip(0.0f, input, 1.0f);
+    //scale to lookup range
+    input *= 2047.0f;
+    int const inputInt = (int)input;
+    float const inputFloat = (float)inputInt - input;
+    int const nextPos = LEAF_clip(0, inputInt + 1, 2047);
+    float const decay = (env->expTable[inputInt] * (1.0f - inputFloat)) + (env->expTable[nextPos] * inputFloat)  + 0.001f;
+    tADSRT_setDecay(env->theEnv, decay);
+}
+
+void tEnvModule_setRelease (tEnvModule const env, float input)
+{
+    //lookup table for env times
+    //input = LEAF_clip(0.0f, input, 1.0f);
+    //scale to lookup range
+    input *= 2047.0f;
+    int const inputInt = (int)input;
+    float const inputFloat = (float)inputInt - input;
+    int const nextPos = LEAF_clip(0, inputInt + 1, 2047);
+    float const release = (env->expTable[inputInt] * (1.0f - inputFloat)) + (env->expTable[nextPos] * inputFloat)  + 0.001f;
+    tADSRT_setRelease(env->theEnv, release);
+}
+
+void tEnvModule_setSustain (tEnvModule const env, float const input)
+{
+    tADSRT_setSustain(env->theEnv, LEAF_clip(0.0f, input, 1.0f));
+}
+
+void tEnvModule_setLeak (tEnvModule const env, float const input)
+{
+    tADSRT_setLeakFactor(env->theEnv, 0.99995f + 0.00005f*(1.f-input));
+}
+
+
+// Non-modulatable setters
+void tEnvModule_setExpTableLocation (tEnvModule const env, float* tableAddress)
+{
+    env->expTable = tableAddress;
 }
 void tEnvModule_setSampleRate (tEnvModule const env, float sr)
 {
     //how to handle this? if then cases for different types?
 
 }
-
-
-*/
 
 void tEnvModule_processorInit(tEnvModule const env, tProcessor* processor)
 {
@@ -85,10 +132,16 @@ void tEnvModule_processorInit(tEnvModule const env, tProcessor* processor)
     processor->object = env;
     processor->numSetterFunctions = EnvNumParams;
     processor->tick = tEnvModule_tick;
-    memcpy(processor->setterFunctions, env->setterFunctions, EnvNumParams);
-    //write over the rate setter since it has some scaling
-    //processors->setterFunctions[LFORate] = &tEnvModule_setRate;
+
+    processor->setterFunctions[EnvAttack] = &tEnvModule_setAttack;
+    processor->setterFunctions[EnvDecay] = &tEnvModule_setDecay;
+    processor->setterFunctions[EnvSustain] = &tEnvModule_setSustain;
+    processor->setterFunctions[EnvRelease] = &tEnvModule_setRelease;
+    processor->setterFunctions[EnvLeak] = &tEnvModule_setLeak;
+    processor->setterFunctions[EnvShapeAttack] = &tEnvModule_blankFunction;
+    processor->setterFunctions[EnvShapeRelease] = &tEnvModule_blankFunction;
     processor->inParameters = env->params;
     processor->outParameters = env->outputs;
     processor->processorTypeID = ModuleTypeEnvModule;
 }
+
