@@ -5,7 +5,9 @@
 
 #ifndef DEFS_HEADER
 #define DEFS_HEADER
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 // Maximum number of parameters for a processors object
 #define MAX_NUM_PARAMS 16
 
@@ -29,5 +31,7 @@ typedef enum {
     ModuleTypeVCAModule,
 
 } ModuleType;
-
+#ifdef __cplusplus
+}
+#endif
 #endif

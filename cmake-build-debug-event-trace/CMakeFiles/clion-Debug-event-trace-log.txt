@@ -1,0 +1,13 @@
+"/Applications/CLion 2.app/Contents/bin/cmake/mac/aarch64/bin/cmake" -DCMAKE_BUILD_TYPE=Debug --profiling-format=google-trace --profiling-output=CMakeFiles/clion-event-trace.json -G "CodeBlocks - Unix Makefiles" -S /Users/dp9443/Documents/Princeton/MappingandProcessors -B /Users/dp9443/Documents/Princeton/MappingandProcessors/cmake-build-debug-event-trace
+CMake Deprecation Warning:
+  Support for "Extra Generators" like
+
+    CodeBlocks
+
+  is deprecated and will be removed from a future version of CMake.  IDEs may
+  use the cmake-file-api(7) to view CMake-generated project build trees.
+
+
+-- Configuring done (0.5s)
+-- Generating done (0.1s)
+-- Build files have been written to: /Users/dp9443/Documents/Princeton/MappingandProcessors/cmake-build-debug-event-trace

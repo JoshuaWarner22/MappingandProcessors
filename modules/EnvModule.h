@@ -4,7 +4,9 @@
 
 #ifndef ENVMODULE_H
 #define ENVMODULE_H
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 #include "../LEAF/leaf/leaf.h"
 #include "../processors/defs.h"
 #include "../processors/processor.h"
@@ -57,4 +59,8 @@ void tEnvModule_setSampleRate (tEnvModule const env, float sr);
 //init processors
 void tEnvModule_processorInit(tEnvModule const env, tProcessor* processor);
 
+
+#ifdef __cplusplus
+}  // extern "C"
+#endif
 #endif //ENVMODULE_H

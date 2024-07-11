@@ -47,12 +47,12 @@ TEST_CASE("Test aa", "[pssor]") {
     tProcessor proc2;
     tProcessor proc3;
     func();
-//    createProcessor(params1, &proc1,&leaf);
-//    createProcessor(params2, &proc2, &leaf);
-//    createProcessor(params3, &proc3, &leaf);
-//    REQUIRE(proc1.processorTypeID == ModuleTypeMultiOscModule);
-//    REQUIRE(proc2.processorTypeID == ModuleTypeOscModule);
-//    REQUIRE(proc3.processorTypeID == ModuleTypeLFOModule);
+    createProcessor(params1, &proc1, &leaf);
+    createProcessor(params2, &proc2, &leaf);
+    createProcessor(params3, &proc3, &leaf);
+    REQUIRE(proc1.processorTypeID == ModuleTypeMultiOscModule);
+    REQUIRE(proc2.processorTypeID == ModuleTypeOscModule);
+    REQUIRE(proc3.processorTypeID == ModuleTypeLFOModule);
 
 }
 

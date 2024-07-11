@@ -5,7 +5,9 @@
 
 #ifndef PROCESSOR_HEADER
 #define PROCESSOR_HEADER
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 #include <stdio.h>
 #include "defs.h"
 #include "leaf.h"
@@ -34,8 +36,11 @@ typedef void (*createProcFunc)(void* const module, tProcessor* proc);
 
 typedef void (*createModuleFunc)(void** const module, float* const params, float id, LEAF* const leaf);
 
-//
-//void createProcessor(float *params, tProcessor* proc,LEAF* leaf);
+
+void createProcessor(float *params, tProcessor* proc,LEAF* leaf);
 
 int func();
+#ifdef __cplusplus
+}  // extern "C"
+#endif
 #endif

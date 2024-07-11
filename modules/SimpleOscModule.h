@@ -4,7 +4,9 @@
 
 #ifndef SIMPLEOSCMODULE_H
 #define SIMPLEOSCMODULE_H
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 #include "../LEAF/leaf/leaf.h"
 #include "../processors/defs.h"
 #include "../processors/processor.h"
@@ -83,11 +85,11 @@ void tOscModule_setMTOFTableLocation (tOscModule const osc, float* tableAddress)
 void tOscModule_setSampleRate (tOscModule const osc, float sr);
 
 //init processors
-void _tOscModule_processorInit(tOscModule const osc, tProcessor* processor);
-
-void tOscModule_processorInit(void* const osc,tProcessor* processor);
+void tOscModule_processorInit(tOscModule const osc, tProcessor* processor);
 
 
-
+#ifdef __cplusplus
+}  // extern "C"
+#endif
 
 #endif //SIMPLEOSCMODULE_H

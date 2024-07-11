@@ -4,7 +4,9 @@
 
 #ifndef LFOMODULE_H
 #define LFOMODULE_H
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 #include "../LEAF/leaf/leaf.h"
 #include "../processors/defs.h"
 #include "../processors/processor.h"
@@ -67,5 +69,7 @@ void tLFOModule_processorInit(tLFOModule const lfo, tProcessor* processor);
 
 
 
-
+#ifdef __cplusplus
+}  // extern "C"
+#endif
 #endif //LFOMODULE_H

@@ -5,6 +5,9 @@
 
 #ifndef MAPPING_HEADER
 #define MAPPING_HEADER
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <stdio.h>
 #include "processor.h"
@@ -12,21 +15,25 @@
 
 typedef struct Mapping {
     tSetter setter; // Setter function for the parameter of the mapping
-    u_int8_t  ; //ID for the mapping's parameter
+    u_int8_t; //ID for the mapping's parameter
     u_int8_t processorUniqueID; // ID for processors that param is in
     void *destObject; // OUT destination for the mapping
     int paramID;
     u_int8_t numUsedSources; // Number of active sources for the mapping
-    float* inSources[MAX_NUM_SOURCES]; // IN sources from processors
+    float *inSources[MAX_NUM_SOURCES]; // IN sources from processors
     float scalingValues[MAX_NUM_SOURCES]; // Scaling for the IN sources
     float initialVal; // The mapping's initial value
 } tMapping;
 
-void processMapping (tMapping* mapping);
+void processMapping(tMapping *mapping);
+
 void tMapping_init(tMapping *mapping);
 
 void tMappingAdd(tMapping *mapping, tProcessor *outputProcessor,
-    tProcessor *destProcessor, u_int8_t destParam, u_int8_t source,
-    float const scalingValues[MAX_NUM_SOURCES]);
+                 tProcessor *destProcessor, u_int8_t destParam, u_int8_t source,
+                 float const scalingValues[MAX_NUM_SOURCES]);
 
+#ifdef __cplusplus
+}
+#endif
 #endif

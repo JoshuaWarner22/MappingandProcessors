@@ -199,7 +199,7 @@ void tOscModule_setSampleRate (tOscModule const osc, float const sr)
     //tCycle_setSampleRate(osc->oscs[0], sr);
 }
 
-void _tOscModule_processorInit(tOscModule const osc, tProcessor* const processor)
+void tOscModule_processorInit(tOscModule const osc, tProcessor* const processor)
 {
     // Checks that arguments are valid
     assert (osc != NULL);
@@ -221,17 +221,14 @@ void _tOscModule_processorInit(tOscModule const osc, tProcessor* const processor
     processor->setterFunctions[OscSyncMode] = &tOscModule_setSyncMode;
     processor->setterFunctions[OscSyncIn] = &tOscModule_setSyncIn;
     processor->setterFunctions[OscType] = &tOscModule_blankFunction;
-    for (int i = 0; i < OscNumParams; i++)
-    {
-        processor->setterFunctions[i](osc, osc->params[i]);
-    }
+//    for (int i = 0; i < OscNumParams; i++)
+//    {
+//        processor->setterFunctions[i](osc, osc->params[i]);
+//    }
     processor->inParameters = osc->params;
     processor->outParameters = osc->outputs;
     processor->processorTypeID = ModuleTypeOscModule;
 }
 
-void tOscModule_processorInit(void* const osc, tProcessor* const processor)
-{
-    _tOscModule_processorInit(osc, processor);
-}
+
 

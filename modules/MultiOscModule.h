@@ -4,7 +4,9 @@
 
 #ifndef UNTITLED_MULTIOSCMODULE_H
 #define UNTITLED_MULTIOSCMODULE_H
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 #include "../LEAF/leaf/leaf.h"
 #include "../processors/defs.h"
 #include "../processors/processor.h"
@@ -60,6 +62,8 @@ void tMultiOscModule_processorInit(tMultiOscModule osc, tProcessor* processor);
 ///TODO
 // write setters
 // write tick()
-
+#ifdef __cplusplus
+}  // extern "C"
+#endif
 
 #endif //UNTITLED_MULTIOSCMODULE_H

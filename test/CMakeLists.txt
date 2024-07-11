@@ -7,6 +7,10 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 add_library(procUtils
         ../processors/processor.c
         ../processors/mapping.c
+        ../modules/SimpleOscModule.c
+        ../modules/MultiOscModule.c
+        ../modules/EnvModule.c
+        ../modules/LFOModule.c
 )
 
 target_link_libraries(procUtils PRIVATE LEAF)

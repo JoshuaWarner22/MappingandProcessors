@@ -4,6 +4,9 @@
 
 #ifndef UNTITLED_FUNCMAPS_H
 #define UNTITLED_FUNCMAPS_H
+#ifdef __cplusplus
+extern "C" {
+#endif
 #include "processor.h"
 #include "EnvModule.h"
 #include "LFOModule.h"
@@ -19,5 +22,7 @@ createModuleFunc module_init_map[] = {(createModuleFunc)tOscModule_init,
                         (createModuleFunc)tOscModule_init,
                         (createModuleFunc)tEnvModule_init};
 
-
+#ifdef __cplusplus
+}  // extern "C"
+#endif
 #endif //UNTITLED_FUNCMAPS_H
