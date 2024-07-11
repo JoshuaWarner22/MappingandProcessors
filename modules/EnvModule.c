@@ -52,7 +52,6 @@ void tEnvModule_onNoteOn(tEnvModule const env, float const pitch, float const ve
 // Modulatable setters
 
 /*
-*    EnvNoteOnWatchFlag,
     EnvAttack,
     EnvDecay,
     EnvSustain,
@@ -60,7 +59,6 @@ void tEnvModule_onNoteOn(tEnvModule const env, float const pitch, float const ve
     EnvLeak,
     EnvShapeAttack,
     EnvShapeRelease,
-    EnvFollowVelocity,
  */
 void tEnvModule_setAttack (tEnvModule const env, float input)
 {
@@ -111,8 +109,6 @@ void tEnvModule_setLeak (tEnvModule const env, float const input)
 {
     tADSRT_setLeakFactor(env->theEnv, 0.99995f + 0.00005f*(1.f-input));
 }
-
-
 
 
 // Non-modulatable setters
