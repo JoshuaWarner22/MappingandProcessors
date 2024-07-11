@@ -6,8 +6,8 @@
 #define LFOMODULE_H
 
 #include "../LEAF/leaf/leaf.h"
-#include "../defs.h"
-#include "../processor.h"
+#include "../processors/defs.h"
+#include "../processors/processor.h"
 #include "../LEAF/leaf/Inc/leaf-mempool.h"
 #include "../LEAF/leaf/Inc/leaf-oscillators.h"
 
@@ -46,8 +46,8 @@ typedef struct _tLFOModule {
 typedef _tLFOModule* tLFOModule;
 
 //init module
-void tLFOModule_init(void** const lfo, float* const params, LEAF* const leaf);
-void tLFOModule_initToPool(void** const lfo, float* const params, tMempool* const mempool);
+void tLFOModule_init(void** const lfo, float* const params, float id, LEAF* const leaf);
+void tLFOModule_initToPool(void** const lfo, float* const params, float id, tMempool* const mempool);
 void tLFOModule_free(void** const lfo);
 
 //note on action

@@ -6,8 +6,8 @@
 #include <stdio.h>
 #include <assert.h>
 #include "adder.h"
-#include "mapping.h"
-#include "processor.h"
+#include "procssors/mapping.h"
+#include "procssors/processor.h"
 #include "LEAF/leaf/leaf.h"
 #include "LEAF/leaf/Inc/leaf-mempool.h"
 #include "modules/MultiOscModule.h"
@@ -49,9 +49,9 @@ int main(void)
     float params2[OscNumParams] = {0.0f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
     float params3[LFONumParams] = {0.0f, 0.5f, 0.5f, 0.5f, 0.5f};
 
-    tMultiOscModule_init(&module1, params1, &leaf);
-    tOscModule_init(&module2, params2, &leaf);
-    tLFOModule_init(&module3, params3, &leaf);
+    tMultiOscModule_init(&module1, params1, 0, &leaf);
+    tOscModule_init(&module2, params2,1,  &leaf);
+    tLFOModule_init(&module3, params3, 2, &leaf);
 
     tProcessor proc1;
     tProcessor proc2;

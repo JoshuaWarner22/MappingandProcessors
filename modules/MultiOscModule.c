@@ -6,16 +6,17 @@
 
 #include <assert.h>
 
-void tMultiOscModule_init(void** const osc, float* const params, LEAF* const leaf)
+void tMultiOscModule_init(void** const osc, float* const params, float id, LEAF* const leaf)
 {
-    tMultiOscModule_iniToPool(osc, params, &leaf->mempool);
+    tMultiOscModule_iniToPool(osc, params, id, &leaf->mempool);
 
 }
 
-void tMultiOscModule_iniToPool(void** const osc, float* const params, tMempool* const mempool)
+void tMultiOscModule_iniToPool(void** const osc, float* const params, float id, tMempool* const mempool)
 {
     _tMempool* m = *mempool;
     _tMultiOscModule* multiOsc = *osc = (_tMultiOscModule*) mpool_alloc(sizeof(_tMultiOscModule), m);
+    multiOsc->uniqueID = id;
 
     multiOsc->mempool = m;
     tCycle_initToPool(&multiOsc->oscs[0], mempool);

@@ -6,8 +6,8 @@
 #define SIMPLEOSCMODULE_H
 
 #include "../LEAF/leaf/leaf.h"
-#include "../defs.h"
-#include "../processor.h"
+#include "../processors/defs.h"
+#include "../processors/processor.h"
 #include "../LEAF/leaf/Inc/leaf-mempool.h"
 #include "../LEAF/leaf/Inc/leaf-oscillators.h"
 
@@ -70,8 +70,8 @@ typedef struct _tOscModule {
 typedef _tOscModule* tOscModule;
 
 //init module
-void tOscModule_init(void** const osc, float* const params, LEAF* const leaf);
-void tOscModule_initToPool(void** const osc, float* const params, tMempool* const mempool);
+void tOscModule_init(void** const osc, float* const params, float id, LEAF* const leaf);
+void tOscModule_initToPool(void** const osc, float* const params, float id, tMempool* const mempool);
 void tOscModule_free(void** const osc);
 
 // Modulatable setters
@@ -83,9 +83,9 @@ void tOscModule_setMTOFTableLocation (tOscModule const osc, float* tableAddress)
 void tOscModule_setSampleRate (tOscModule const osc, float sr);
 
 //init processor
-void tOscModule_processorInit(tOscModule const osc, tProcessor* processor);
+void _tOscModule_processorInit(tOscModule const osc, tProcessor* processor);
 
-
+void tOscModule_processorInit(void* const osc,tProcessor* processor);
 
 
 

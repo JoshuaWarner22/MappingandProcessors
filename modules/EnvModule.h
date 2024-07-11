@@ -6,8 +6,8 @@
 #define ENVMODULE_H
 
 #include "../LEAF/leaf/leaf.h"
-#include "../defs.h"
-#include "../processor.h"
+#include "../processors/defs.h"
+#include "../processors/processor.h"
 #include "../LEAF/leaf/Inc/leaf-mempool.h"
 #include "../LEAF/leaf/Inc/leaf-envelopes.h"
 
@@ -40,8 +40,8 @@ typedef struct _tEnvModule {
 typedef _tEnvModule* tEnvModule;
 
 //init module
-void tEnvModule_init(void** const env, float* const params, LEAF* const leaf);
-void tEnvModule_initToPool(void** const env, float* const params, tMempool* const mempool);
+void tEnvModule_init(void** const env, float* const params, float id, LEAF* const leaf);
+void tEnvModule_initToPool(void** const env, float* const params, float id, tMempool* const mempool);
 void tEnvModule_free(void** const env);
 
 //note on action

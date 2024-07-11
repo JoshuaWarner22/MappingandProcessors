@@ -3,7 +3,7 @@
 /*               Authors: Davis Polito and Joshua Warner              */
 /**********************************************************************/
 
-#include "processor.h"
+#include "procssors/processor.h"
 
 #ifndef ADDER_HEADER
 #define ADDER_HEADER

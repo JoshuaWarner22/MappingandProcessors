@@ -6,8 +6,8 @@
 #define UNTITLED_MULTIOSCMODULE_H
 
 #include "../LEAF/leaf/leaf.h"
-#include "../defs.h"
-#include "../processor.h"
+#include "../processors/defs.h"
+#include "../processors/processor.h"
 #include "../LEAF/leaf/Inc/leaf-mempool.h"
 #include "../LEAF/leaf/Inc/leaf-oscillators.h"
 
@@ -32,8 +32,8 @@ typedef struct _MultiOscModule {
 
 typedef _tMultiOscModule* tMultiOscModule;
 
-void tMultiOscModule_init(void** const osc, float* const params, LEAF* const leaf);
-void tMultiOscModule_iniToPool(void** const osc, float* const params, tMempool* const mempool);
+void tMultiOscModule_init(void** const osc, float* const params, float id, LEAF* const leaf);
+void tMultiOscModule_iniToPool(void** const osc, float* const params, float id, tMempool* const mempool);
 void tMultiOscModule_free(void** const osc);
 
 // MultiOsc tick function

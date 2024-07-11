@@ -6,20 +6,21 @@
 
 #include <assert.h>
 
-void tLFOModule_init(void** const lfo, float* params, LEAF* const leaf)
+void tLFOModule_init(void** const lfo, float* params, float id, LEAF* const leaf)
 {
-    tLFOModule_initToPool(lfo, params, &leaf->mempool);
+    tLFOModule_initToPool(lfo, params, id,  &leaf->mempool);
 }
 
 void tLFOModule_blankFunction (tLFOModule const lfo, float freq)
 {
     ;
 }
-void tLFOModule_initToPool(void** const lfo, float* const params, tMempool* const mempool)
+void tLFOModule_initToPool(void** const lfo, float* const params, float id, tMempool* const mempool)
 {
     _tMempool* m = *mempool;
     _tLFOModule* LFOModule = *lfo = (_tLFOModule*) mpool_alloc(sizeof(_tLFOModule), m);
     memcpy(LFOModule->params, params, LFONumParams);
+    LFOModule->uniqueID = id;
 
     int type = roundf(LFOModule->params[LFOType]);
     LFOModule->mempool = m;

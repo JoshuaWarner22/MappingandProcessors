@@ -6,20 +6,21 @@
 
 #include <assert.h>
 
-void tOscModule_init(void** const osc, float* params, LEAF* const leaf)
+void tOscModule_init(void** const osc, float* params, float id, LEAF* const leaf)
 {
-    tOscModule_initToPool(osc, params, &leaf->mempool);
+    tOscModule_initToPool(osc, params, id, &leaf->mempool);
 }
 
 void tOscModule_blankFunction (tOscModule const osc, float freq)
 {
     ;
 }
-void tOscModule_initToPool(void** const osc, float* const params, tMempool* const mempool)
+void tOscModule_initToPool(void** const osc, float* const params, float id, tMempool* const mempool)
 {
     _tMempool* m = *mempool;
     _tOscModule* OscModule = *osc = (_tOscModule*) mpool_alloc(sizeof(_tOscModule), m);
     memcpy(OscModule->params, params, OscNumParams);
+    OscModule->uniqueID = id;
 
     int type = roundf(OscModule->params[OscType]);
     OscModule->mempool = m;
@@ -198,7 +199,7 @@ void tOscModule_setSampleRate (tOscModule const osc, float const sr)
     //tCycle_setSampleRate(osc->oscs[0], sr);
 }
 
-void tOscModule_processorInit(tOscModule const osc, tProcessor* const processor)
+void _tOscModule_processorInit(tOscModule const osc, tProcessor* const processor)
 {
     // Checks that arguments are valid
     assert (osc != NULL);
@@ -227,5 +228,10 @@ void tOscModule_processorInit(tOscModule const osc, tProcessor* const processor)
     processor->inParameters = osc->params;
     processor->outParameters = osc->outputs;
     processor->processorTypeID = ModuleTypeOscModule;
+}
+
+void tOscModule_processorInit(void* const osc, tProcessor* const processor)
+{
+    _tOscModule_processorInit(osc, processor);
 }
 
