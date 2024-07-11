@@ -82,7 +82,7 @@ void tOscModule_tick (tOscModule const osc);
 void tOscModule_setMTOFTableLocation (tOscModule const osc, float* tableAddress);
 void tOscModule_setSampleRate (tOscModule const osc, float sr);
 
-//init processor
+//init processors
 void _tOscModule_processorInit(tOscModule const osc, tProcessor* processor);
 
 void tOscModule_processorInit(void* const osc,tProcessor* processor);

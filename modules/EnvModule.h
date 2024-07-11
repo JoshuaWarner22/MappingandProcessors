@@ -54,7 +54,7 @@ void tEnvModule_setRate (tEnvModule const env, float rate);
 void tEnvModule_setRateTableLocation (tEnvModule const env, float* tableAddress);
 void tEnvModule_setSampleRate (tEnvModule const env, float sr);
 
-//init processor
+//init processors
 void tEnvModule_processorInit(tEnvModule const env, tProcessor* processor);
 
 #endif //ENVMODULE_H

@@ -60,7 +60,7 @@ void tLFOModule_setRate (tLFOModule const lfo, float rate);
 void tLFOModule_setRateTableLocation (tLFOModule const lfo, float* tableAddress);
 void tLFOModule_setSampleRate (tLFOModule const lfo, float sr);
 
-//init processor
+//init processors
 void tLFOModule_processorInit(tLFOModule const lfo, tProcessor* processor);
 
 

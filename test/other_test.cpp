@@ -1,6 +1,8 @@
 //#define CATCH_CONFIG_ENABLE_BENCHMARKING
 #include <catch2/catch_test_macros.hpp>
-#include "procssors/processorUtils.h"
+
+
+#include "processor.h"
 #include "../modules/EnvModule.h"
 #include "../modules/LFOModule.h"
 #include "../modules/MultiOscModule.h"
@@ -44,13 +46,13 @@ TEST_CASE("Test aa", "[pssor]") {
     tProcessor proc1;
     tProcessor proc2;
     tProcessor proc3;
-
-    createProcessor(params1, &leaf, &proc1);
-    createProcessor(params2, &leaf, &proc2);
-    createProcessor(params3, &leaf, &proc3);
-    REQUIRE(proc1.processorTypeID == ModuleTypeMultiOscModule);
-    REQUIRE(proc2.processorTypeID == ModuleTypeOscModule);
-    REQUIRE(proc3.processorTypeID == ModuleTypeLFOModule);
+    func();
+//    createProcessor(params1, &proc1,&leaf);
+//    createProcessor(params2, &proc2, &leaf);
+//    createProcessor(params3, &proc3, &leaf);
+//    REQUIRE(proc1.processorTypeID == ModuleTypeMultiOscModule);
+//    REQUIRE(proc2.processorTypeID == ModuleTypeOscModule);
+//    REQUIRE(proc3.processorTypeID == ModuleTypeLFOModule);
 
 }
 

@@ -87,7 +87,7 @@ void tEnvModule_processorInit(tEnvModule const env, tProcessor* processor)
     processor->tick = tEnvModule_tick;
     memcpy(processor->setterFunctions, env->setterFunctions, EnvNumParams);
     //write over the rate setter since it has some scaling
-    //processor->setterFunctions[LFORate] = &tEnvModule_setRate;
+    //processors->setterFunctions[LFORate] = &tEnvModule_setRate;
     processor->inParameters = env->params;
     processor->outParameters = env->outputs;
     processor->processorTypeID = ModuleTypeEnvModule;

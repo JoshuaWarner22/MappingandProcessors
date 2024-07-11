@@ -1,31 +1,39 @@
 cmake_minimum_required(VERSION 3.28)
 project(untitled)
 
+# Include directories for LEAF
+include_directories("${CMAKE_SOURCE_DIR}/LEAF/leaf")
+include_directories("${CMAKE_SOURCE_DIR}/LEAF/leaf/Inc")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+
+# Set C standard
 set(CMAKE_C_STANDARD 11)
-#add_library(LEAF INTERFACE)
 
+# Enable verbose output
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
+# Globbing source files
 file(GLOB SRC CONFIGURE_DEPENDS "*.h" "*.c")
-
 file(GLOB _MODULES CONFIGURE_DEPENDS "modules/*.h" "modules/*.c")
-#add_library(LEAF)
 
-
-#target_include_directories(LEAF INTERFACE LEAF/leaf/leaf.h)
-#add_executable(${PROJECT_NAME} ${SRC} ${_MODULES}
-#)
+# Add subdirectories for libraries and processors
+add_subdirectory(${CMAKE_SOURCE_DIR}/LEAF/leaf)
 add_subdirectory(processors)
-add_library(${PROJECT_NAME} ${SRC} ${_MODULES}
+
+# Create main library
+add_library(${PROJECT_NAME} ${SRC} ${_MODULES})
+
+# Include directories for the main library
+target_include_directories(${PROJECT_NAME} PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/modules
 )
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${_MODULES})
+
+# Link libraries to the main project
+target_link_libraries(${PROJECT_NAME} PUBLIC LEAF)
+
+# Enable testing
 enable_testing()
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
-
-target_link_libraries(${PROJECT_NAME} PRIVATE procUtils LEAF)
-
-add_subdirectory(${CMAKE_SOURCE_DIR}/LEAF/leaf)
-#target_link_libraries(${PROJECT_NAME} LEAF)
+# Add subdirectory for tests
 add_subdirectory("${CMAKE_SOURCE_DIR}/test")
-#add_dependencies(${PROJECT_NAME} LEAF)
-#target_link_libraries(untitled PRIVATE LEAF)
-

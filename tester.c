@@ -5,9 +5,8 @@
 
 #include <stdio.h>
 #include <assert.h>
-#include "adder.h"
-#include "procssors/mapping.h"
-#include "procssors/processor.h"
+
+
 #include "LEAF/leaf/leaf.h"
 #include "LEAF/leaf/Inc/leaf-mempool.h"
 #include "modules/MultiOscModule.h"
@@ -39,78 +38,78 @@ int main(void)
     LEAF_generate_mtof(mtofTable, -163.8375f, 163.8375f,  MTOF_TABLE_SIZE); //mtof table for fast calc
 
 
-    void* module1;
-
-    void* module2;
-
-    void* module3;
-
-    float params1[5] = {10.0f, 440.0f, 44100.0f, 0.5f, 1.0f};
-    float params2[OscNumParams] = {0.0f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
-    float params3[LFONumParams] = {0.0f, 0.5f, 0.5f, 0.5f, 0.5f};
-
-    tMultiOscModule_init(&module1, params1, 0, &leaf);
-    tOscModule_init(&module2, params2,1,  &leaf);
-    tLFOModule_init(&module3, params3, 2, &leaf);
-
-    tProcessor proc1;
-    tProcessor proc2;
-    tProcessor proc3;
-
-    tMultiOscModule_setPhase(module1, 10.0f);
-    tMultiOscModule_setFreq(module1, 440.f);
-    tMultiOscModule_setSampleRate(module1, 44100.f);
-    tMultiOscModule_setAmp(module1, 0.5f);
-    tMultiOscModule_setHarmonic(module1, 1.f);
-
-
-    tMultiOscModule_processorInit(module1, &proc1);
-    tOscModule_processorInit(module2, &proc2);
-    tLFOModule_processorInit(module3, &proc3);
-
-
-    tLFOModule_setRateTableLocation(module3, lfoRateTable);
-    tOscModule_setMTOFTableLocation(module2, mtofTable);
-/*
-    tAdder adder1;
-    tAdder_setA (&adder1, 10);
-    tAdder_setB (&adder1, 20);
-
-    tProcessor proc2;
-
-
-    tAddInitializer(&proc2, &adder1, 2);
-
-*/
-    // Constructs and initialized _tMapping object from the output of
-    // `_adder2` to the field `a` of `_adder1`
-
-    tMapping mapping;
-    tMapping_init(&mapping);
-    float scalingValues[] = {1.0, 1.0, 1.0};
-
-    tMappingAdd(&mapping, &proc2, &proc1, MultiOscFreq, 0,
-    scalingValues);
-
-
-    // Run the process without a mapping
-    proc2.tick(proc2.object);
-    proc1.tick(proc1.object);
-    proc3.tick(proc3.object);
-    for(int i = 0; i < 1000; i++) {
-        processMapping(&mapping);
-
-        proc2.tick(proc2.object);
-        proc1.tick(proc1.object);
-        proc3.tick(proc3.object);
-    }
-
-
-    processMapping(&mapping);
-
-    proc2.tick(proc2.object);
-    proc1.tick(proc1.object);
-    proc3.tick(proc3.object);
+//    void* module1;
+//
+//    void* module2;
+//
+//    void* module3;
+//
+//    float params1[5] = {10.0f, 440.0f, 44100.0f, 0.5f, 1.0f};
+//    float params2[OscNumParams] = {0.0f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+//    float params3[LFONumParams] = {0.0f, 0.5f, 0.5f, 0.5f, 0.5f};
+//
+//    tMultiOscModule_init(&module1, params1, 0, &leaf);
+//    tOscModule_init(&module2, params2,1,  &leaf);
+//    tLFOModule_init(&module3, params3, 2, &leaf);
+//
+//    tProcessor proc1;
+//    tProcessor proc2;
+//    tProcessor proc3;
+//
+//    tMultiOscModule_setPhase(module1, 10.0f);
+//    tMultiOscModule_setFreq(module1, 440.f);
+//    tMultiOscModule_setSampleRate(module1, 44100.f);
+//    tMultiOscModule_setAmp(module1, 0.5f);
+//    tMultiOscModule_setHarmonic(module1, 1.f);
+//
+//
+//    tMultiOscModule_processorInit(module1, &proc1);
+//    tOscModule_processorInit(module2, &proc2);
+//    tLFOModule_processorInit(module3, &proc3);
+//
+//
+//    tLFOModule_setRateTableLocation(module3, lfoRateTable);
+//    tOscModule_setMTOFTableLocation(module2, mtofTable);
+///*
+//    tAdder adder1;
+//    tAdder_setA (&adder1, 10);
+//    tAdder_setB (&adder1, 20);
+//
+//    tProcessor proc2;
+//
+//
+//    tAddInitializer(&proc2, &adder1, 2);
+//
+//*/
+//    // Constructs and initialized _tMapping object from the output of
+//    // `_adder2` to the field `a` of `_adder1`
+//
+//    tMapping mapping;
+//    tMapping_init(&mapping);
+//    float scalingValues[] = {1.0, 1.0, 1.0};
+//
+//    tMappingAdd(&mapping, &proc2, &proc1, MultiOscFreq, 0,
+//    scalingValues);
+//
+//
+//    // Run the process without a mapping
+//    proc2.tick(proc2.object);
+//    proc1.tick(proc1.object);
+//    proc3.tick(proc3.object);
+//    for(int i = 0; i < 1000; i++) {
+//        processMapping(&mapping);
+//
+//        proc2.tick(proc2.object);
+//        proc1.tick(proc1.object);
+//        proc3.tick(proc3.object);
+//    }
+//
+//
+//    processMapping(&mapping);
+//
+//    proc2.tick(proc2.object);
+//    proc1.tick(proc1.object);
+//    proc3.tick(proc3.object);
 
 //
 //    // Run the process with the mapping
