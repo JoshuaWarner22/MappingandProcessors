@@ -14,9 +14,9 @@
 
 typedef enum {
     LFONoteOnWatchFlag,
-    LFORate,
-    LFOShape,
-    LFOPhase,
+    LFORateParam,
+    LFOShapeParam,
+    LFOPhaseParam,
     LFOType,//non modulatable
     LFONumParams
 } LFOParams;

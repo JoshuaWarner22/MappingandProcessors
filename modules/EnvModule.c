@@ -7,22 +7,22 @@
 
 #include <assert.h>
 
-void tEnvModule_init(void** const env, float* params, LEAF* const leaf)
+void tEnvModule_init(void** const env, float* params, float id, LEAF* const leaf)
 {
-    tEnvModule_initToPool(env, params, &leaf->mempool);
+    tEnvModule_initToPool(env, params, id, &leaf->mempool);
 }
 
 void tEnvModule_blankFunction (tEnvModule const env, float freq)
 {
     ;
 }
-void tEnvModule_initToPool(void** const env, float* const params, tMempool* const mempool)
+void tEnvModule_initToPool(void** const env, float* const params, float id, tMempool* const mempool)
 {
     _tMempool* m = *mempool;
     _tEnvModule* EnvModule = *env = (_tEnvModule*) mpool_alloc(sizeof(_tEnvModule), m);
     memcpy(EnvModule->params, params, EnvNumParams);
     EnvModule->mempool = m;
-
+    EnvModule->uniqueID = id;
     //EnvModule->setterFunctions[EnvNoteOnWatchFlag] = &tEnvModule_onNoteOn;
     EnvModule->followVelocity = roundf(EnvModule->params[EnvFollowVelocity]);
     tADSRT_initToPool(&EnvModule->theEnv, EnvModule->params[EnvAttack],EnvModule->params[EnvDecay],EnvModule->params[EnvSustain],EnvModule->params[EnvRelease], EnvModule->expTable, EnvModule->tableSize,mempool);

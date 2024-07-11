@@ -30,37 +30,37 @@ void tOscModule_initToPool(void** const osc, float* const params, float id, tMem
     if (type == OscTypeSawSquare) {
         tPBSawSquare_initToPool((tPBSawSquare*)&OscModule->theOsc, mempool);
         OscModule->freq_set_func = tPBSawSquare_setFreq;
-        OscModule->setterFunctions[OscShape] = tPBSawSquare_setShape;
+        OscModule->setterFunctions[OscShapeParam] = tPBSawSquare_setShape;
         OscModule->tick = tPBSawSquare_tick;
     }
     else if (type == OscTypeSineTri) {
         tPBSineTriangle_initToPool((tPBSineTriangle*)&OscModule->theOsc, mempool);
         OscModule->freq_set_func = tPBSineTriangle_setFreq;
-        OscModule->setterFunctions[OscShape] = tPBSineTriangle_setShape;
+        OscModule->setterFunctions[OscShapeParam] = tPBSineTriangle_setShape;
         OscModule->tick = tPBSineTriangle_tick;
     }
     else if (type == OscTypeSaw) {
         tPBSaw_initToPool((tPBSaw*)&OscModule->theOsc, mempool);
         OscModule->freq_set_func = tPBSaw_setFreq;
-        OscModule->setterFunctions[OscShape] = tOscModule_blankFunction;
+        OscModule->setterFunctions[OscShapeParam] = tOscModule_blankFunction;
         OscModule->tick = tPBSaw_tick;
     }
     else if (type == OscTypePulse) {
         tPBPulse_initToPool((tPBPulse*)&OscModule->theOsc, mempool);
         OscModule->freq_set_func = tPBPulse_setFreq;
-        OscModule->setterFunctions[OscShape] = tPBPulse_setWidth;
+        OscModule->setterFunctions[OscShapeParam] = tPBPulse_setWidth;
         OscModule->tick = tPBPulse_tick;
     }
     else if (type == OscTypeSine) {
         tCycle_initToPool((tCycle*)&OscModule->theOsc, mempool);
         OscModule->freq_set_func = tCycle_setFreq;
-        OscModule->setterFunctions[OscShape] = tOscModule_blankFunction;
+        OscModule->setterFunctions[OscShapeParam] = tOscModule_blankFunction;
         OscModule->tick = tCycle_tick;
     }
     else if (type == OscTypeTri) {
         tPBTriangle_initToPool((tPBTriangle*)&OscModule->theOsc, mempool);
         OscModule->freq_set_func = tPBTriangle_setFreq;
-        OscModule->setterFunctions[OscShape] = tPBTriangle_setSkew;
+        OscModule->setterFunctions[OscShapeParam] = tPBTriangle_setSkew;
         OscModule->tick = tPBTriangle_tick;
     }
     OscModule->moduleType = ModuleTypeOscModule;
@@ -199,7 +199,7 @@ void tOscModule_setSampleRate (tOscModule const osc, float const sr)
     //tCycle_setSampleRate(osc->oscs[0], sr);
 }
 
-void _tOscModule_processorInit(tOscModule const osc, tProcessor* const processor)
+void tOscModule_processorInit(tOscModule const osc, tProcessor* const processor)
 {
     // Checks that arguments are valid
     assert (osc != NULL);
@@ -212,10 +212,10 @@ void _tOscModule_processorInit(tOscModule const osc, tProcessor* const processor
     processor->setterFunctions[OscHarmonic] = &tOscModule_setMIDIPitch;
     processor->setterFunctions[OscHarmonic] = &tOscModule_setHarmonic;
     processor->setterFunctions[OscPitchOffset] = &tOscModule_setPitchOffset;
-    processor->setterFunctions[OscFine] = &tOscModule_setFine;
-    processor->setterFunctions[OscFreq] = &tOscModule_setFreq;
-    processor->setterFunctions[OscShape] = osc->setterFunctions[OscShape];
-    processor->setterFunctions[OscAmp] = &tOscModule_setAmp;
+    processor->setterFunctions[OscPitchFine] = &tOscModule_setFine;
+    processor->setterFunctions[OscFreqOffset] = &tOscModule_setFreq;
+    processor->setterFunctions[OscShapeParam] = osc->setterFunctions[OscShapeParam];
+    processor->setterFunctions[OscAmpParam] = &tOscModule_setAmp;
     processor->setterFunctions[OscGlide] = &tOscModule_setGlide;
     processor->setterFunctions[OscStepped] = &tOscModule_setStepped;
     processor->setterFunctions[OscSyncMode] = &tOscModule_setSyncMode;
@@ -230,8 +230,4 @@ void _tOscModule_processorInit(tOscModule const osc, tProcessor* const processor
     processor->processorTypeID = ModuleTypeOscModule;
 }
 
-void tOscModule_processorInit(void* const osc, tProcessor* const processor)
-{
-    _tOscModule_processorInit(osc, processor);
-}
 
