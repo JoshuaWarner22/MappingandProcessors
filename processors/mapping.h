@@ -15,11 +15,11 @@ extern "C" {
 
 typedef struct Mapping {
     tSetter setter; // Setter function for the parameter of the mapping
-    u_int8_t; //ID for the mapping's parameter
-    u_int8_t processorUniqueID; // ID for processors that param is in
+    uint8_t; //ID for the mapping's parameter
+    uint8_t processorUniqueID; // ID for processors that param is in
     void *destObject; // OUT destination for the mapping
     int paramID;
-    u_int8_t numUsedSources; // Number of active sources for the mapping
+    uint8_t numUsedSources; // Number of active sources for the mapping
     float *inSources[MAX_NUM_SOURCES]; // IN sources from processors
     float scalingValues[MAX_NUM_SOURCES]; // Scaling for the IN sources
     float initialVal; // The mapping's initial value
@@ -30,7 +30,7 @@ void processMapping(tMapping *mapping);
 void tMapping_init(tMapping *mapping);
 
 void tMappingAdd(tMapping *mapping, tProcessor *outputProcessor,
-                 tProcessor *destProcessor, u_int8_t destParam, u_int8_t source,
+                 tProcessor *destProcessor, uint8_t destParam, uint8_t source,
                  float const scalingValues[MAX_NUM_SOURCES]);
 
 #ifdef __cplusplus

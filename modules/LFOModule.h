@@ -16,9 +16,9 @@ extern "C" {
 
 typedef enum {
     LFONoteOnWatchFlag,
-    LFORate,
-    LFOShape,
-    LFOPhase,
+    LFORateParam,
+    LFOShapeParam,
+    LFOPhaseParam,
     LFOType,//non modulatable
     LFONumParams
 } LFOParams;
@@ -42,6 +42,7 @@ typedef struct _tLFOModule {
    float params[LFONumParams];
    float outputs[1];
     float* rateTable;
+    uint32_t rateTableSize;
    tMempool mempool;
 } _tLFOModule;
 
@@ -59,7 +60,7 @@ void tLFOModule_onNoteOn(tLFOModule const lfo, float pitch, float velocity);
 void tLFOModule_setRate (tLFOModule const lfo, float rate);
 
 // Non-modulatable setters
-void tLFOModule_setRateTableLocation (tLFOModule const lfo, float* tableAddress);
+void tLFOModule_setRateTableLocationAndSize (tLFOModule const lfo, float* tableAddress, uint32_t size);
 void tLFOModule_setSampleRate (tLFOModule const lfo, float sr);
 
 //init processors

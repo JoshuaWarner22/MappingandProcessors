@@ -29,16 +29,31 @@ void tMapping_init(tMapping *mapping)
 // `destParam`.  The mapping scales this value by the factors in
 // `scalingValues`.
 void tMappingAdd(tMapping *mapping, tProcessor *outputProcessor,
-    tProcessor *destProcessor, u_int8_t destParam, u_int8_t source,
+    tProcessor *destProcessor, uint8_t destParam, uint8_t source,
     float const scalingValues[MAX_NUM_SOURCES])
 {
 
     // Checks that arguments are valid
-    assert (mapping != NULL);
-    assert (outputProcessor != NULL);
-    assert (destProcessor != NULL);
-    assert (destParam >= 0 && destParam <= MAX_NUM_PARAMS);
-    assert (scalingValues != NULL);
+    if (mapping == NULL)
+    {
+    	return;
+    }
+    if  (outputProcessor == NULL)
+    {
+    	return;
+    }
+    if  (destProcessor == NULL)
+    {
+    	return;
+    }
+    if  (destParam < 0 || destParam > MAX_NUM_PARAMS)
+    {
+    	return;
+    }
+    if (scalingValues == NULL)
+    {
+    	return;
+    }
 
     // Updates the _tMapping struct with the given arguments
     mapping->inSources[source] = &outputProcessor->outParameters[0];
