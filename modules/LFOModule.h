@@ -37,8 +37,12 @@ typedef struct _tLFOModule {
    void* theLFO;
    uint32_t moduleType;
    uint32_t uniqueID;
-    tTickFuncReturningFloat tick; // The object's tick function
+    tTickFuncReturningFloat intTick; // The object's tick function
+    tTickFuncReturningVoid extTick; // The object's tick function
     tSetter setterFunctions[LFONumParams]; // Array containing setter functions
+    tSetter intRateSetter; // rate setter internal
+    tSetter intShapeSetter; // shape setter internal
+    tSetter intPhaseSetter; // phase setter internal
    float params[LFONumParams];
    float outputs[1];
     float* rateTable;
@@ -62,7 +66,7 @@ void tLFOModule_setRate (tLFOModule const lfo, float rate);
 // Non-modulatable setters
 void tLFOModule_setRateTableLocationAndSize (tLFOModule const lfo, float* tableAddress, uint32_t size);
 void tLFOModule_setSampleRate (tLFOModule const lfo, float sr);
-
+void tLFOModule_setAllParams (tLFOModule const lfo);
 //init processors
 void tLFOModule_processorInit(tLFOModule const lfo, tProcessor* processor);
 

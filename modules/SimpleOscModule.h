@@ -47,7 +47,8 @@ typedef struct _tOscModule {
     void* theOsc;
     uint32_t moduleType;
     uint32_t uniqueID;
-    tTickFuncReturningFloat tick; // The object's tick function
+    tTickFuncReturningFloat intTick; // The object's tick function
+    tTickFuncReturningVoid extTick;
     tFreqSetFunc freq_set_func;
     tSetter setterFunctions[OscNumParams]; // Array containing setter functions
     float params[OscNumParams];
@@ -84,6 +85,7 @@ void tOscModule_tick (tOscModule const osc);
 void tOscModule_setMTOFTableLocation (tOscModule const osc, float* tableAddress);
 void tOscModule_setSampleRate (tOscModule const osc, float sr);
 
+void tOscModule_setAllParams(tOscModule const osc);
 //init processors
 void tOscModule_processorInit(tOscModule const osc, tProcessor* processor);
 
