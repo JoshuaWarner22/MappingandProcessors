@@ -1,3 +1,5 @@
 [submodule "LEAF"]
 	path = LEAF
 	url = git@github.com:spiricom/LEAF.git
+	branch = cmake_testing
+
