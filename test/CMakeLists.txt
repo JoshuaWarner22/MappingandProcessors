@@ -8,9 +8,10 @@ add_library(procUtils
         ../processors/processor.c
         ../processors/mapping.c
         ../modules/SimpleOscModule.c
-        ../modules/MultiOscModule.c
         ../modules/EnvModule.c
         ../modules/LFOModule.c
+        ../modules/FilterModule.c
+        ../modules/FilterModule.h
 )
 
 target_link_libraries(procUtils PRIVATE LEAF)

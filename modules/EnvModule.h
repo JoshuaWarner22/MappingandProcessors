@@ -22,6 +22,7 @@ typedef enum {
     EnvLeak,
     EnvShapeAttack,
     EnvShapeRelease,
+    EnvUseVelocity,
     EnvNumParams
 } EnvParams;
 
@@ -31,10 +32,10 @@ typedef struct _tEnvModule {
     uint32_t moduleType;
     uint32_t uniqueID;
     tTickFuncReturningFloat tick; // The object's tick function
-    tSetter setterFunctions[EnvNumParams]; // Array containing setter functions
     float params[EnvNumParams];
     float outputs[1];
-    float* expTable;
+    float* envTimeTableAddress;
+    float envTimeTableSizeMinusOne;
     uint32_t tableSize;
     tMempool mempool;
 } _tEnvModule;
