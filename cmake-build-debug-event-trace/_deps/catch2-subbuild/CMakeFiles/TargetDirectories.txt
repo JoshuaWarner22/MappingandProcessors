@@ -1,3 +1,0 @@
-/Users/dp9443/Documents/Princeton/MappingandProcessors/cmake-build-debug-event-trace/_deps/catch2-subbuild/CMakeFiles/catch2-populate.dir
-/Users/dp9443/Documents/Princeton/MappingandProcessors/cmake-build-debug-event-trace/_deps/catch2-subbuild/CMakeFiles/edit_cache.dir
-/Users/dp9443/Documents/Princeton/MappingandProcessors/cmake-build-debug-event-trace/_deps/catch2-subbuild/CMakeFiles/rebuild_cache.dir
