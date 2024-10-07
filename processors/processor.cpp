@@ -5,10 +5,7 @@
 #include "processor.h"
 #include "funcmaps.h"
 
-int func()
-{
-    return 0;
-}
+
 void createProcessor(float *params, tProcessor* proc,LEAF* leaf)
 {
     float type = params[0];

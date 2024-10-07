@@ -5,13 +5,13 @@
 
 #ifndef PROCESSOR_HEADER
 #define PROCESSOR_HEADER
-#ifdef __cplusplus
-extern "C" {
-#endif
+//#ifdef __cplusplus
+//extern "C" {
+//#endif
 #include <stdio.h>
 #include "defs.h"
 #include "leaf.h"
-
+#include <atomic>
 // Defines a struct Processor as a _tProcessor object
 typedef struct Processor
 {
@@ -26,7 +26,7 @@ typedef struct Processor
     // pointers to the setter functions for the processors's object
 
 
-    float* inParameters; //  points to parameter array of the actual object
+    std::atomic<float>* inParameters; //  points to parameter array of the actual object
     float* outParameters; // OUT sources for the processors
 
 } tProcessor;
@@ -39,8 +39,8 @@ typedef void (*createModuleFunc)(void** const module, float* const params, float
 
 void createProcessor(float *params, tProcessor* proc,LEAF* leaf);
 
-int func();
-#ifdef __cplusplus
-}  // extern "C"
-#endif
+//int func();
+//#ifdef __cplusplus
+//}  // extern "C"
+//#endif
 #endif

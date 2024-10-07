@@ -4,15 +4,12 @@
 
 #ifndef SIMPLEOSCMODULE_H
 #define SIMPLEOSCMODULE_H
-#ifdef __cplusplus
-extern "C" {
-#endif
 #include "../LEAF/leaf/leaf.h"
 #include "../processors/defs.h"
 #include "../processors/processor.h"
 #include "../LEAF/leaf/Inc/leaf-mempool.h"
 #include "../LEAF/leaf/Inc/leaf-oscillators.h"
-
+#include <atomic>
 
 typedef enum {
     OscMidiPitch,
@@ -50,7 +47,7 @@ typedef struct _tOscModule {
     tTickFuncReturningFloat tick; // The object's tick function
     tFreqSetFunc freq_set_func;
     tSetter setterFunctions[OscNumParams]; // Array containing setter functions
-    float params[OscNumParams];
+    std::atomic<float> params[OscNumParams];
     float outputs[1];
     float fine;
     float harmonicMultiplier;
@@ -86,10 +83,5 @@ void tOscModule_setSampleRate (tOscModule const osc, float sr);
 
 //init processors
 void tOscModule_processorInit(tOscModule const osc, tProcessor* processor);
-
-
-#ifdef __cplusplus
-}  // extern "C"
-#endif
 
 #endif //SIMPLEOSCMODULE_H

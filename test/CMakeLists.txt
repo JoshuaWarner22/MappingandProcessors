@@ -5,9 +5,9 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # Add library procUtils with processor.c and mapping.c
 add_library(procUtils
-        ../processors/processor.c
+        ../processors/processor.cpp
         ../processors/mapping.c
-        ../modules/SimpleOscModule.c
+        ../modules/SimpleOscModule.cpp
         ../modules/EnvModule.c
         ../modules/LFOModule.c
         ../modules/FilterModule.c
