@@ -29,7 +29,7 @@ void tEnvModule_initToPool(void** const env, float* const params, float id, tMem
     EnvModule->uniqueID = id;
     tADSRT_initToPool(&EnvModule->theEnv, 1.0f,1000.0f,1.0f,1000.0f, NULL, 2048,mempool);
     EnvModule->tick = tADSRT_tick;
-
+    EnvModule->note_on_function = tEnvModule_onNoteOn;
     EnvModule->moduleType = ModuleTypeEnvModule;
 }
 

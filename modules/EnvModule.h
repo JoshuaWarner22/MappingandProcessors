@@ -36,6 +36,7 @@ typedef struct _tEnvModule {
     float outputs[1];
     float* envTimeTableAddress;
     float envTimeTableSizeMinusOne;
+    tNoteOnFunction note_on_function;
     uint32_t tableSize;
     tMempool mempool;
 } _tEnvModule;
