@@ -29,8 +29,8 @@ void processMapping(tMapping *mapping);
 
 void tMapping_init(tMapping *mapping);
 
-void tMappingAdd(tMapping *mapping, tProcessor *outputProcessor,
-                 tProcessor *destProcessor, uint8_t destParam, uint8_t source,
+void tMappingAdd(tMapping *mapping, leaf::tProcessor *outputProcessor,
+                 leaf::tProcessor *destProcessor, uint8_t destParam, uint8_t source,
                  float const scalingValues[MAX_NUM_SOURCES]);
 
 #ifdef __cplusplus

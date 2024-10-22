@@ -82,6 +82,6 @@ void tOscModule_setMTOFTableLocation (tOscModule const osc, float* tableAddress)
 void tOscModule_setSampleRate (tOscModule const osc, float sr);
 
 //init processors
-void tOscModule_processorInit(tOscModule const osc, tProcessor* processor);
+void tOscModule_processorInit(tOscModule const osc, leaf::tProcessor* processor);
 
 #endif //SIMPLEOSCMODULE_H

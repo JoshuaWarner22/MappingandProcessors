@@ -2,11 +2,7 @@
 // Created by Jeffrey Snyder on 7/9/24.
 //
 
-#ifndef ENVMODULE_H
-#define ENVMODULE_H
-#ifdef __cplusplus
-extern "C" {
-#endif
+#pragma once
 #include "../LEAF/leaf/leaf.h"
 #include "../processors/defs.h"
 #include "../processors/processor.h"
@@ -32,7 +28,7 @@ typedef struct _tEnvModule {
     uint32_t moduleType;
     uint32_t uniqueID;
     tTickFuncReturningFloat tick; // The object's tick function
-    float params[EnvNumParams];
+    std::atomic<float> params[EnvNumParams];
     float outputs[1];
     float* envTimeTableAddress;
     float envTimeTableSizeMinusOne;
@@ -58,10 +54,6 @@ void tEnvModule_setRateTableLocation (tEnvModule const env, float* tableAddress)
 void tEnvModule_setSampleRate (tEnvModule const env, float sr);
 
 //init processors
-void tEnvModule_processorInit(tEnvModule const env, tProcessor* processor);
+void tEnvModule_processorInit(tEnvModule const env, leaf::tProcessor* processor);
 
 
-#ifdef __cplusplus
-}  // extern "C"
-#endif
-#endif //ENVMODULE_H

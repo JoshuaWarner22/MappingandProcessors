@@ -257,7 +257,7 @@ void tFiltModule_setSampleRate (tFiltModule const filt, float const sr)
 }
 
 //be sure to set the tables before initing the processor
-void tFiltModule_processorInit(tFiltModule const filt, tProcessor* const processor)
+void tFiltModule_processorInit(tFiltModule const filt, leaf::tProcessor* const processor)
 {
     // Checks that arguments are valid
 	if (filt == NULL)

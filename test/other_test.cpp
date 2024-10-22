@@ -43,9 +43,9 @@ TEST_CASE("Test aa", "[pssor]") {
 //    tOscModule_init(&module2, params2,1,  &leaf);
 //    tLFOModule_init(&module3, params3, 2, &leaf);
 
-    tProcessor proc1;
-    tProcessor proc2;
-    tProcessor proc3;
+    leaf::tProcessor proc1;
+    leaf::tProcessor proc2;
+    leaf::tProcessor proc3;
     func();
     createProcessor(params1, &proc1, &leaf);
     createProcessor(params2, &proc2, &leaf);

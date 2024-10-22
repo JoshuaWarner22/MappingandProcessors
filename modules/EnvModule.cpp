@@ -22,13 +22,13 @@ void tEnvModule_blankFunction (tEnvModule const env, float freq)
 void tEnvModule_initToPool(void** const env, float* const params, float id, tMempool* const mempool)
 {
     _tMempool* m = *mempool;
-    _tEnvModule* EnvModule = *env = (_tEnvModule*) mpool_alloc(sizeof(_tEnvModule), m);
+    _tEnvModule* EnvModule = static_cast<_tEnvModule *>(*env = (_tEnvModule*) mpool_alloc(sizeof(_tEnvModule), m));
     memcpy(EnvModule->params, params, EnvNumParams);
     EnvModule->mempool = m;
 
     EnvModule->uniqueID = id;
     tADSRT_initToPool(&EnvModule->theEnv, 1.0f,1000.0f,1.0f,1000.0f, NULL, 2048,mempool);
-    EnvModule->tick = tADSRT_tick;
+    EnvModule->tick = reinterpret_cast<tTickFuncReturningFloat>(tADSRT_tick);
 
     EnvModule->moduleType = ModuleTypeEnvModule;
 }
@@ -36,7 +36,7 @@ void tEnvModule_initToPool(void** const env, float* const params, float id, tMem
 
 void tEnvModule_free(void** const env)
 {
-    _tEnvModule* EnvModule = *env;
+    _tEnvModule* EnvModule =static_cast<_tEnvModule *>(*env);
     tADSRT_free(&EnvModule->theEnv);
     mpool_free((char*)EnvModule, EnvModule->mempool);
 }
@@ -120,7 +120,7 @@ void tEnvModule_setSampleRate (tEnvModule const env, float sr)
 
 }
 
-void tEnvModule_processorInit(tEnvModule const env, tProcessor* processor)
+void tEnvModule_processorInit(tEnvModule const env, leaf::tProcessor* processor)
 {
     // Checks that arguments are valid
     assert (env != NULL);
@@ -129,16 +129,16 @@ void tEnvModule_processorInit(tEnvModule const env, tProcessor* processor)
     processor->processorUniqueID = env->uniqueID;
     processor->object = env;
     processor->numSetterFunctions = EnvNumParams;
-    processor->tick = tEnvModule_tick;
-    processor->setterFunctions[EnvNoteOnWatchFlag] = &tEnvModule_blankFunction;
-    processor->setterFunctions[EnvAttack] = &tEnvModule_setAttack;
-    processor->setterFunctions[EnvDecay] = &tEnvModule_setDecay;
-    processor->setterFunctions[EnvSustain] = &tEnvModule_setSustain;
-    processor->setterFunctions[EnvRelease] = &tEnvModule_setRelease;
-    processor->setterFunctions[EnvLeak] = &tEnvModule_setLeak;
-    processor->setterFunctions[EnvShapeAttack] = &tEnvModule_blankFunction;//TODO: make shape changeable
-    processor->setterFunctions[EnvShapeRelease] = &tEnvModule_blankFunction;//TODO: make shape changeable
-    processor->setterFunctions[EnvUseVelocity] = &tEnvModule_blankFunction;
+    processor->tick = reinterpret_cast<tTickFuncReturningVoid>(tEnvModule_tick);
+    processor->setterFunctions[EnvNoteOnWatchFlag] =(tSetter) &tEnvModule_blankFunction;
+    processor->setterFunctions[EnvAttack] =(tSetter) &tEnvModule_setAttack;
+    processor->setterFunctions[EnvDecay] = (tSetter)&tEnvModule_setDecay;
+    processor->setterFunctions[EnvSustain] = (tSetter)&tEnvModule_setSustain;
+    processor->setterFunctions[EnvRelease] = (tSetter)&tEnvModule_setRelease;
+    processor->setterFunctions[EnvLeak] = (tSetter)&tEnvModule_setLeak;
+    processor->setterFunctions[EnvShapeAttack] = (tSetter)&tEnvModule_blankFunction;//TODO: make shape changeable
+    processor->setterFunctions[EnvShapeRelease] = (tSetter)&tEnvModule_blankFunction;//TODO: make shape changeable
+    processor->setterFunctions[EnvUseVelocity] = (tSetter)&tEnvModule_blankFunction;
     processor->inParameters = env->params;
     processor->outParameters = env->outputs;
     processor->processorTypeID = ModuleTypeEnvModule;

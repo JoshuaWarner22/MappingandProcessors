@@ -12,6 +12,7 @@
 #include "defs.h"
 #include "leaf.h"
 #include <atomic>
+namespace leaf{
 // Defines a struct Processor as a _tProcessor object
 typedef struct Processor
 {
@@ -31,16 +32,17 @@ typedef struct Processor
 
 } tProcessor;
 
-typedef void (*createProcFunc)(void* const module, tProcessor* proc);
+typedef void (*createProcFunc)(void* const module, leaf::tProcessor* proc);
 
 
 typedef void (*createModuleFunc)(void** const module, float* const params, float id, LEAF* const leaf);
 
 
-void createProcessor(float *params, tProcessor* proc,LEAF* leaf);
+void createProcessor(float *params, leaf::tProcessor* proc,LEAF* leaf);
 
 //int func();
 //#ifdef __cplusplus
 //}  // extern "C"
 //#endif
+}
 #endif

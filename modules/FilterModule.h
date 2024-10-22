@@ -88,7 +88,7 @@ void tFiltModule_setResTableLocation (tFiltModule const filt, float* tableAddres
 void tFiltModule_setSampleRate (tFiltModule const filt, float sr);
 
 //init processors
-void tFiltModule_processorInit(tFiltModule const filt, tProcessor* processor);
+void tFiltModule_processorInit(tFiltModule const filt, leaf::tProcessor* processor);
 
 
 #ifdef __cplusplus

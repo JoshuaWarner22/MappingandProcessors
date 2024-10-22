@@ -202,7 +202,7 @@ void tOscModule_setSampleRate (tOscModule const osc, float const sr)
     //tCycle_setSampleRate(osc->oscs[0], sr);
 }
 
-void tOscModule_processorInit(tOscModule const osc, tProcessor* const processor)
+void tOscModule_processorInit(tOscModule const osc, leaf::tProcessor* const processor)
 {
     // Checks that arguments are valid
 	if (osc == NULL)

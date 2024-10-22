@@ -4,9 +4,7 @@
 
 #ifndef LFOMODULE_H
 #define LFOMODULE_H
-#ifdef __cplusplus
-extern "C" {
-#endif
+
 #include "../LEAF/leaf/leaf.h"
 #include "../processors/defs.h"
 #include "../processors/processor.h"
@@ -39,7 +37,7 @@ typedef struct _tLFOModule {
    uint32_t uniqueID;
     tTickFuncReturningFloat tick; // The object's tick function
     tSetter setterFunctions[LFONumParams]; // Array containing setter functions
-   float params[LFONumParams];
+    std::atomic<float> params[LFONumParams];
    float outputs[1];
     float* rateTable;
     uint32_t rateTableSize;
@@ -64,13 +62,8 @@ void tLFOModule_setRateTableLocationAndSize (tLFOModule const lfo, float* tableA
 void tLFOModule_setSampleRate (tLFOModule const lfo, float sr);
 
 //init processors
-void tLFOModule_processorInit(tLFOModule const lfo, tProcessor* processor);
+void tLFOModule_processorInit(tLFOModule const lfo, leaf::tProcessor* processor);
 
 
 
-
-
-#ifdef __cplusplus
-}  // extern "C"
-#endif
 #endif //LFOMODULE_H

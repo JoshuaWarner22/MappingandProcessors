@@ -8,8 +8,8 @@ add_library(procUtils
         ../processors/processor.cpp
         ../processors/mapping.c
         ../modules/SimpleOscModule.cpp
-        ../modules/EnvModule.c
-        ../modules/LFOModule.c
+        ../modules/EnvModule.cpp
+        ../modules/LFOModule.cpp
         ../modules/FilterModule.c
         ../modules/FilterModule.h
 )

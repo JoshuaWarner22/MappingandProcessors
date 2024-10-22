@@ -28,8 +28,8 @@ void tMapping_init(tMapping *mapping)
 // `outputProcessor` to the input of `destProcessor` on the parameter 
 // `destParam`.  The mapping scales this value by the factors in
 // `scalingValues`.
-void tMappingAdd(tMapping *mapping, tProcessor *outputProcessor,
-    tProcessor *destProcessor, uint8_t destParam, uint8_t source,
+void tMappingAdd(tMapping *mapping, leaf::tProcessor *outputProcessor,
+    leaf::tProcessor *destProcessor, uint8_t destParam, uint8_t source,
     float const scalingValues[MAX_NUM_SOURCES])
 {
 
