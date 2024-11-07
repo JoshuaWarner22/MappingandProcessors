@@ -102,16 +102,16 @@ void tOscModule_tick (tOscModule const osc)
 {
     float freqToSmooth = (osc->inputNote + (osc->fine));
     tExpSmooth_setDest(osc->pitchSmoother, freqToSmooth);
-    float tempMIDI = tExpSmooth_tick(osc->pitchSmoother) + osc->pitchOffset + osc->octaveOffset;
+    float tempMIDI =  tExpSmooth_tick(osc->pitchSmoother) + osc->pitchOffset + osc->octaveOffset;
 
-    float tempIndexF = ((LEAF_clip(-163.0f, tempMIDI, 163.0f) * 100.0f) + 16384.0f);
-    int tempIndexI = (int)tempIndexF;
-    tempIndexF = tempIndexF -tempIndexI;
-    float freqToSmooth1 = osc->mtofTable[tempIndexI & 32767];
-    float freqToSmooth2 = osc->mtofTable[(tempIndexI + 1) & 32767];
-    float nowFreq =  ((freqToSmooth1 * (1.0f - tempIndexF)) + (freqToSmooth2 * tempIndexF));
+//    float tempIndexF = ((LEAF_clip(-163.0f, tempMIDI, 163.0f) * 100.0f) + 16384.0f);
+//    int tempIndexI = (int)tempIndexF;
+//    tempIndexF = tempIndexF -tempIndexI;
+//    float freqToSmooth1 = osc->mtofTable[tempIndexI & 32767];
+//    float freqToSmooth2 = osc->mtofTable[(tempIndexI + 1) & 32767];
+    float nowFreq = mtof(tempMIDI);// ((freqToSmooth1 * (1.0f - tempIndexF)) + (freqToSmooth2 * tempIndexF));
 
-    float finalFreq = (nowFreq * osc->harmonicMultiplier) + osc->freqOffset;
+    float finalFreq = (nowFreq * osc->harmonicMultiplier ) + osc->freqOffset;
     osc->freq_set_func(osc->theOsc, finalFreq);
     osc->outputs[0] = osc->tick(osc->theOsc) * osc->amp;
 }
@@ -126,6 +126,7 @@ void tOscModule_setMIDIPitch (tOscModule const osc, float const input)
 }
 void tOscModule_setHarmonic (tOscModule const osc, float harm)
 {
+    harm -= 0.5f;
     harm *= 15.0f;
     if (osc->stepped)
     {
@@ -231,10 +232,22 @@ void tOscModule_processorInit(tOscModule const osc, leaf::tProcessor* const proc
     processor->setterFunctions[OscSyncMode] = (tSetter)&tOscModule_setSyncMode;
     processor->setterFunctions[OscSyncIn] = (tSetter)&tOscModule_setSyncIn;
     processor->setterFunctions[OscType] = (tSetter)&tOscModule_blankFunction;
-    for (int i = 0; i < OscNumParams; i++)
-    {
-        processor->setterFunctions[i](osc, osc->params[i]);
-    }
+    osc->setterFunctions[OscMidiPitch] =(tSetter) &tOscModule_setMIDIPitch;
+    osc->setterFunctions[OscHarmonic] = (tSetter)&tOscModule_setHarmonic;
+    osc->setterFunctions[OscPitchOffset] = (tSetter)&tOscModule_setPitchOffset;
+    osc->setterFunctions[OscPitchFine] = (tSetter)&tOscModule_setFine;
+    osc->setterFunctions[OscFreqOffset] =(tSetter) &tOscModule_setFreq;
+    //osc->setterFunctions[OscShapeParam] = osc->setterFunctions[OscShapeParam];
+    osc->setterFunctions[OscAmpParam] = (tSetter)&tOscModule_setAmp;
+    osc->setterFunctions[OscGlide] = (tSetter)&tOscModule_setGlide;
+    osc->setterFunctions[OscStepped] = (tSetter)&tOscModule_setStepped;
+    osc->setterFunctions[OscSyncMode] = (tSetter)&tOscModule_setSyncMode;
+    osc->setterFunctions[OscSyncIn] = (tSetter)&tOscModule_setSyncIn;
+    osc->setterFunctions[OscType] = (tSetter)&tOscModule_blankFunction;
+//    for (int i = 0; i < OscNumParams; i++)
+//    {
+//        processor->setterFunctions[i](osc, osc->params[i]);
+//    }
     processor->inParameters = osc->params;
     processor->outParameters = osc->outputs;
     processor->processorTypeID = ModuleTypeOscModule;
