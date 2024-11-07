@@ -20,7 +20,8 @@ typedef enum {
     OscShapeParam,
     OscAmpParam,
     OscGlide,
-    OscStepped,
+    OscSteppedHarmonic,
+    OscSteppedPitch,
     OscSyncMode,
     OscSyncIn,
     OscType,
@@ -61,7 +62,8 @@ typedef struct _tOscModule {
     float* mtofTable;
     float sr;
     float invSr;
-    int stepped;
+    int hStepped;
+    int pStepped;
     int syncMode;
     tMempool mempool;
 } _tOscModule;
