@@ -100,7 +100,7 @@ void tOscModule_free(void** const osc)
 // tick function
 void tOscModule_tick (tOscModule const osc)
 {
-    float freqToSmooth = (osc->inputNote + (osc->fine));
+    float freqToSmooth = (60 + (osc->fine));
     tExpSmooth_setDest(osc->pitchSmoother, freqToSmooth);
     float tempMIDI =  tExpSmooth_tick(osc->pitchSmoother) + osc->pitchOffset + osc->octaveOffset;
 
@@ -127,8 +127,9 @@ void tOscModule_setMIDIPitch (tOscModule const osc, float const input)
 void tOscModule_setHarmonic (tOscModule const osc, float harm)
 {
     harm -= 0.5f;
+    harm *= 2.f;
     harm *= 15.0f;
-    if (osc->stepped)
+    if (1)
     {
         harm = roundf(harm);
     }
@@ -145,6 +146,7 @@ void tOscModule_setHarmonic (tOscModule const osc, float harm)
 
 void tOscModule_setPitchOffset (tOscModule const osc, float pitch)
 {
+    pitch -=0.5f;
     pitch *= 24.0f;
     if (osc->stepped)
     {
@@ -155,16 +157,17 @@ void tOscModule_setPitchOffset (tOscModule const osc, float pitch)
 
 void tOscModule_setFine (tOscModule const osc, float const fine)
 {
-    osc->fine = fine;
+    osc->fine = (fine  -0.5f) * 2.f;
 }
 
 void tOscModule_setFreq (tOscModule const osc, float const freq)
 {
-    osc->freqOffset = freq * 2000.0f;
+
+    osc->freqOffset = (freq * 4000.0f) - 2000.f;
 }
 void tOscModule_setOctave (tOscModule const osc, float const oct)
 {
-    osc->octaveOffset = (roundf((oct * 3.0f))) * 12.0f;
+    osc->octaveOffset = (roundf(((oct - 0.5f) * 6.0f))) * 12.0f;
 }
 void tOscModule_setAmp (tOscModule const osc, float const amp)
 {
