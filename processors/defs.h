@@ -15,7 +15,7 @@ extern "C" {
 #define MAX_NUM_SOURCES 3
 
 // Defines 'pTickFunction' to be the name of a new function pointer type
-typedef void (*tTickFuncReturningVoid)(void*); // used for processors (don't return audio because that will be stored in the modules' output array
+typedef void (*tTickFuncReturningVoid)(void*, float*); // used for processors (don't return audio because that will be stored in the modules' output array
 
 typedef float (*tTickFuncReturningFloat)(void*); //used inside modules to wrap internal tick functions as function pointers
 

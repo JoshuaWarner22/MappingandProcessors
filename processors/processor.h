@@ -28,7 +28,7 @@ typedef struct Processor
 
 
     std::atomic<float>* inParameters; //  points to parameter array of the actual object
-    float* outParameters; // OUT sources for the processors
+    std::atomic<float>* outParameters; // OUT sources for the processors
 
 } tProcessor;
 

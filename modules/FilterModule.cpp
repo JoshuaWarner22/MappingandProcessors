@@ -34,25 +34,25 @@ float dbToATableLookupFunction(float const in, float const sizeMinusOne, float* 
 void tFiltModule_defaultGainSet (tFiltModule const filt, float gain)
 {
     float floatIndex = LEAF_clip (0, ((gain * 24.0f) - 12.0f * filt->dbTableScalar) -  filt->dbTableOffset, filt->dbTableSizeMinusOne);
-    filt->amp = dbToATableLookupFunction(floatIndex, filt->dbTableSizeMinusOne, filt->dbTableAddress);
+    filt->amp = gain;//dbToATableLookupFunction(floatIndex, filt->dbTableSizeMinusOne, filt->dbTableAddress);
 }
 
 void tFiltModule_PeakGainSet (tFiltModule const filt, float gain)
 {
     float floatIndex = LEAF_clip (0, ((gain * 50.f) - 25.f * filt->dbTableScalar) -  filt->dbTableOffset, filt->dbTableSizeMinusOne);
-    tVZFilterBell_setGain(filt->theFilt, dbToATableLookupFunction(floatIndex, filt->dbTableSizeMinusOne, filt->dbTableAddress));
+    tVZFilterBell_setGain((tVZFilterBell)filt->theFilt, dbToATableLookupFunction(floatIndex, filt->dbTableSizeMinusOne, filt->dbTableAddress));
 }
 
 void tFiltModule_LSGainSet (tFiltModule const filt, float gain)
 {
     float floatIndex = LEAF_clip (0, ((gain * 50.f) - 25.f  * filt->dbTableScalar) -  filt->dbTableOffset, filt->dbTableSizeMinusOne);
-    tVZFilterLS_setGain(filt->theFilt, dbToATableLookupFunction(floatIndex, filt->dbTableSizeMinusOne, filt->dbTableAddress));
+    tVZFilterLS_setGain((tVZFilterLS)filt->theFilt, dbToATableLookupFunction(floatIndex, filt->dbTableSizeMinusOne, filt->dbTableAddress));
 }
 
 void tFiltModule_HSGainSet (tFiltModule const filt, float gain)
 {
     float floatIndex = LEAF_clip (0, ((gain * 50.f) - 25.f  * filt->dbTableScalar) -  filt->dbTableOffset, filt->dbTableSizeMinusOne);
-    tVZFilterHS_setGain(filt->theFilt, dbToATableLookupFunction(floatIndex, filt->dbTableSizeMinusOne, filt->dbTableAddress));
+    tVZFilterHS_setGain((tVZFilterHS)filt->theFilt, dbToATableLookupFunction(floatIndex, filt->dbTableSizeMinusOne, filt->dbTableAddress));
 }
 
 
@@ -67,158 +67,160 @@ float resTableLookupFunction (float input, float* resTableAddress, float resTabl
 
 void tFiltModule_ResSetSVF (tFiltModule const filt, float const res)
 {
-    tSVF_setQ(filt->theFilt, resTableLookupFunction(res, filt->resTableAddress, filt->resTableSizeMinusOne));
+    tSVF_setQ((tSVF)filt->theFilt,res /*resTableLookupFunction(res, filt->resTableAddress, filt->resTableSizeMinusOne)*/);
 }
 
 void tFiltModule_ResSetDiode (tFiltModule const filt, float const res)
 {
-    tDiodeFilter_setQ(filt->theFilt, resTableLookupFunction(res, filt->resTableAddress, filt->resTableSizeMinusOne));
+    tDiodeFilter_setQ((tDiodeFilter)filt->theFilt, resTableLookupFunction(res, filt->resTableAddress, filt->resTableSizeMinusOne));
 }
 
 void tFiltModule_ResSetPeak (tFiltModule const filt, float const res)
 {
-    tVZFilterBell_setBandwidth(filt->theFilt, resTableLookupFunction(res*20.0f, filt->resTableAddress, filt->resTableSizeMinusOne));
+    tVZFilterBell_setBandwidth((tVZFilterBell)filt->theFilt, resTableLookupFunction(res*20.0f, filt->resTableAddress, filt->resTableSizeMinusOne));
 }
 
 void tFiltModule_ResSetLS (tFiltModule const filt, float const res)
 {
-    tVZFilterLS_setResonance(filt->theFilt, resTableLookupFunction(res, filt->resTableAddress, filt->resTableSizeMinusOne));
+    tVZFilterLS_setResonance((tVZFilterLS)filt->theFilt, resTableLookupFunction(res, filt->resTableAddress, filt->resTableSizeMinusOne));
 }
 
 void tFiltModule_ResSetHS (tFiltModule const filt, float const res)
 {
-    tVZFilterHS_setResonance(filt->theFilt, resTableLookupFunction(res, filt->resTableAddress, filt->resTableSizeMinusOne));
+    tVZFilterHS_setResonance((tVZFilterHS)filt->theFilt, resTableLookupFunction(res, filt->resTableAddress, filt->resTableSizeMinusOne));
 }
 
 void tFiltModule_ResSetBR (tFiltModule const filt, float const res)
 {
-    tVZFilterBR_setResonance(filt->theFilt, resTableLookupFunction(res, filt->resTableAddress, filt->resTableSizeMinusOne));
+    tVZFilterBR_setResonance((tVZFilterBR)filt->theFilt, resTableLookupFunction(res, filt->resTableAddress, filt->resTableSizeMinusOne));
 }
 
 void tFiltModule_ResSetLadder (tFiltModule const filt, float const res)
 {
-    tLadderFilter_setQ(filt->theFilt, resTableLookupFunction(res, filt->resTableAddress, filt->resTableSizeMinusOne));
+    tLadderFilter_setQ((tLadderFilter)filt->theFilt, resTableLookupFunction(res, filt->resTableAddress, filt->resTableSizeMinusOne));
 }
 
 
 void tFiltModule_initToPool(void** const filt, float* const params, float id, tMempool* const mempool)
 {
     _tMempool* m = *mempool;
-    _tFiltModule* FiltModule = *filt = (_tFiltModule*) mpool_alloc(sizeof(_tFiltModule), m);
+    _tFiltModule* FiltModule =static_cast<_tFiltModule *> ( *filt = (_tFiltModule*) mpool_alloc(sizeof(_tFiltModule), m));
     memcpy(FiltModule->params, params, FiltNumParams*sizeof(float));
     FiltModule->uniqueID = id;
 
-    int type = roundf(FiltModule->params[FiltType]);
+    int type = 0.0f;//roundf(FiltModule->params[FiltType]);
     FiltModule->mempool = m;
     FiltModule->amp = 1.0f;
     if (type == FiltTypeLowpass) {
         tSVF_initToPool((tSVF*)&FiltModule->theFilt, SVFTypeLowpass,10000.0f, 0.5f, mempool);
-        FiltModule->freq_set_func = tSVF_setFreqFast;
-        FiltModule->gain_set_func = tFiltModule_defaultGainSet;
-        FiltModule->Q_set_func = tFiltModule_ResSetSVF;
-        FiltModule->tick = tSVF_tickLP;
+        FiltModule->freq_set_func = (tFiltInternalParamSetFunc)tSVF_setFreqFast;
+        FiltModule->gain_set_func = (tFiltInternalParamSetFunc)tFiltModule_defaultGainSet;
+        FiltModule->Q_set_func =(tFiltInternalParamSetFunc) tFiltModule_ResSetSVF;
+        FiltModule->tick =(tTickFuncFloatInReturningFloat) tSVF_tickLP;
     }
     else if (type == FiltTypeHighpass) {
         tSVF_initToPool((tSVF*)&FiltModule->theFilt, SVFTypeHighpass,100.0f, 0.5f, mempool);
-        FiltModule->freq_set_func = tSVF_setFreqFast;
-        FiltModule->gain_set_func = tFiltModule_defaultGainSet;
-        FiltModule->Q_set_func = tFiltModule_ResSetSVF;
-        FiltModule->tick = tSVF_tickHP;
+        FiltModule->freq_set_func =(tFiltInternalParamSetFunc) tSVF_setFreqFast;
+        FiltModule->gain_set_func =(tFiltInternalParamSetFunc) tFiltModule_defaultGainSet;
+        FiltModule->Q_set_func =(tFiltInternalParamSetFunc) tFiltModule_ResSetSVF;
+        FiltModule->tick = (tTickFuncFloatInReturningFloat)tSVF_tickHP;
     }
     else if (type == FiltTypeBandpass) {
         tSVF_initToPool((tSVF*)&FiltModule->theFilt, SVFTypeBandpass,100.0f, 0.5f, mempool);
-        FiltModule->freq_set_func = tSVF_setFreqFast;
-        FiltModule->gain_set_func = tFiltModule_defaultGainSet;
-        FiltModule->Q_set_func = tFiltModule_ResSetSVF;
-        FiltModule->tick = tSVF_tickBP;
+        FiltModule->freq_set_func =(tFiltInternalParamSetFunc) tSVF_setFreqFast;
+        FiltModule->gain_set_func =(tFiltInternalParamSetFunc) tFiltModule_defaultGainSet;
+        FiltModule->Q_set_func =(tFiltInternalParamSetFunc) tFiltModule_ResSetSVF;
+        FiltModule->tick = (tTickFuncFloatInReturningFloat)tSVF_tickBP;
     }
     else if (type == FiltTypeDiodeLowpass) {
         tDiodeFilter_initToPool((tDiodeFilter*)&FiltModule->theFilt, 10000.0f, 0.5f, mempool);
-        FiltModule->freq_set_func = tDiodeFilter_setFreqFast;
-        FiltModule->gain_set_func = tFiltModule_defaultGainSet;
-        FiltModule->Q_set_func = tFiltModule_ResSetDiode;
-        FiltModule->tick = tDiodeFilter_tickEfficient;
+        FiltModule->freq_set_func =(tFiltInternalParamSetFunc) tDiodeFilter_setFreqFast;
+        FiltModule->gain_set_func =(tFiltInternalParamSetFunc) tFiltModule_defaultGainSet;
+        FiltModule->Q_set_func =(tFiltInternalParamSetFunc) tFiltModule_ResSetDiode;
+        FiltModule->tick = (tTickFuncFloatInReturningFloat)tDiodeFilter_tickEfficient;
     }
     else if (type == FiltTypePeak) {
         tVZFilterBell_initToPool((tVZFilterBell*)&FiltModule->theFilt, 100.0f, 0.5f, 1.0f, mempool);
-        FiltModule->freq_set_func = tVZFilterBell_setFreqFast;
-        FiltModule->gain_set_func = tFiltModule_PeakGainSet;
-        FiltModule->Q_set_func = tFiltModule_ResSetPeak;
-        FiltModule->tick = tVZFilterBell_tick;
+        FiltModule->freq_set_func =(tFiltInternalParamSetFunc) tVZFilterBell_setFreqFast;
+        FiltModule->gain_set_func =(tFiltInternalParamSetFunc) tFiltModule_PeakGainSet;
+        FiltModule->Q_set_func =(tFiltInternalParamSetFunc) tFiltModule_ResSetPeak;
+        FiltModule->tick = (tTickFuncFloatInReturningFloat)tVZFilterBell_tick;
     }
     else if (type == FiltTypeLowShelf) {
         tVZFilterLS_initToPool((tVZFilterLS*)&FiltModule->theFilt, 100.0f, 0.5f, 1.0f, mempool);
-        FiltModule->freq_set_func = tVZFilterLS_setFreqFast;
-        FiltModule->gain_set_func = tFiltModule_LSGainSet;
-        FiltModule->Q_set_func = tFiltModule_ResSetLS;
-        FiltModule->tick = tVZFilterLS_tick;
+        FiltModule->freq_set_func =(tFiltInternalParamSetFunc) tVZFilterLS_setFreqFast;
+        FiltModule->gain_set_func =(tFiltInternalParamSetFunc) tFiltModule_LSGainSet;
+        FiltModule->Q_set_func =(tFiltInternalParamSetFunc) tFiltModule_ResSetLS;
+        FiltModule->tick = (tTickFuncFloatInReturningFloat)tVZFilterLS_tick;
     }
     else if (type == FiltTypeHighShelf) {
         tVZFilterHS_initToPool((tVZFilterHS*)&FiltModule->theFilt, 100.0f, 0.5f, 1.0f, mempool);
-        FiltModule->freq_set_func = tVZFilterHS_setFreqFast;
-        FiltModule->gain_set_func = tFiltModule_HSGainSet;
-        FiltModule->Q_set_func = tFiltModule_ResSetHS;
-        FiltModule->tick = tVZFilterHS_tick;
+        FiltModule->freq_set_func =(tFiltInternalParamSetFunc) tVZFilterHS_setFreqFast;
+        FiltModule->gain_set_func =(tFiltInternalParamSetFunc) tFiltModule_HSGainSet;
+        FiltModule->Q_set_func =(tFiltInternalParamSetFunc) tFiltModule_ResSetHS;
+        FiltModule->tick = (tTickFuncFloatInReturningFloat)tVZFilterHS_tick;
     }
     else if (type == FiltTypeNotch) {
         tVZFilterBR_initToPool((tVZFilterBR*)&FiltModule->theFilt, 100.0f, 0.5f, mempool);
-        FiltModule->freq_set_func = tVZFilterBR_setFreqFast;
-        FiltModule->gain_set_func = tFiltModule_defaultGainSet;
-        FiltModule->Q_set_func = tFiltModule_ResSetBR;
-        FiltModule->tick = tVZFilterBR_tick;
+        FiltModule->freq_set_func =(tFiltInternalParamSetFunc) tVZFilterBR_setFreqFast;
+        FiltModule->gain_set_func =(tFiltInternalParamSetFunc) tFiltModule_defaultGainSet;
+        FiltModule->Q_set_func =(tFiltInternalParamSetFunc) tFiltModule_ResSetBR;
+        FiltModule->tick = (tTickFuncFloatInReturningFloat)tVZFilterBR_tick;
     }
     else if (type == FiltTypeLadderLowpass) {
         tLadderFilter_initToPool((tLadderFilter*)&FiltModule->theFilt, 100.0f, 0.5f, mempool);
-        FiltModule->freq_set_func = tLadderFilter_setFreqFast;
-        FiltModule->gain_set_func = tFiltModule_defaultGainSet;
-        FiltModule->Q_set_func = tFiltModule_ResSetLadder;
-        FiltModule->tick = tLadderFilter_tick;
+        FiltModule->freq_set_func =(tFiltInternalParamSetFunc) tLadderFilter_setFreqFast;
+        FiltModule->gain_set_func =(tFiltInternalParamSetFunc) tFiltModule_defaultGainSet;
+        FiltModule->Q_set_func =(tFiltInternalParamSetFunc) tFiltModule_ResSetLadder;
+        FiltModule->tick = (tTickFuncFloatInReturningFloat)tLadderFilter_tick;
     }
     FiltModule->moduleType = ModuleTypeFilterModule;
+    FiltModule->params[FiltAudioInput] = 0.0f;
 }
 
 
 void tFiltModule_free(void** const filt)
 {
-    _tFiltModule* FiltModule = *filt;
+    _tFiltModule* FiltModule =(_tFiltModule*) *filt;
     int type = roundf(FiltModule->params[FiltType]);
     if (type == FiltTypeLowpass) {
-        tSVF_free(FiltModule->theFilt);
+        tSVF_free((tSVF*)FiltModule->theFilt);
     }
     else if (type == FiltTypeHighpass) {
-        tSVF_free(FiltModule->theFilt);
+        tSVF_free((tSVF*)FiltModule->theFilt);
     }
     else if (type == FiltTypeBandpass) {
-        tSVF_free(FiltModule->theFilt);
+        tSVF_free((tSVF*)FiltModule->theFilt);
     }
     else if (type == FiltTypeDiodeLowpass) {
-        tDiodeFilter_free(FiltModule->theFilt);
+        tDiodeFilter_free((tDiodeFilter*)FiltModule->theFilt);
     }
     else if (type == FiltTypePeak) {
-        tVZFilterBell_free(FiltModule->theFilt);
+        tVZFilterBell_free((tVZFilterBell*)FiltModule->theFilt);
     }
     else if (type == FiltTypeLowShelf) {
-        tVZFilterLS_free(FiltModule->theFilt);
+        tVZFilterLS_free((tVZFilterLS*)FiltModule->theFilt);
     }
     else if (type == FiltTypeHighShelf) {
-        tVZFilterHS_free(FiltModule->theFilt);
+        tVZFilterHS_free((tVZFilterHS*)FiltModule->theFilt);
     }
     else if (type == FiltTypeNotch) {
-        tVZFilterBR_free(FiltModule->theFilt);
+        tVZFilterBR_free((tVZFilterBR*)FiltModule->theFilt);
     }
     else if (type == FiltTypeLadderLowpass) {
-        tLadderFilter_free(FiltModule->theFilt);
+        tLadderFilter_free((tLadderFilter*)FiltModule->theFilt);
     }
     mpool_free((char*)FiltModule, FiltModule->mempool);
 }
 
 
 // tick function
-void tFiltModule_tick (tFiltModule const filt)
+void tFiltModule_tick (tFiltModule const filt, float* buffer)
 {
     float const cutoff  = filt->cutoffKnob + (filt->inputNote  * filt->params[FiltKeyfollow]); // TODO: should this be cutoffKnob * 137 to allow full range of knob turn to map to maxium freq?)
     filt->freq_set_func(filt->theFilt, cutoff);
-    filt->outputs[0] = filt->tick(filt->theFilt, filt->params[FiltAudioInput]) * filt->amp;
+    buffer[0] += filt->params[FiltAudioInput];
+    buffer[0] = filt->outputs[0] = filt->tick(filt->theFilt,  buffer[0]) * filt->amp;
 }
 
 // Modulatable setters
@@ -272,18 +274,18 @@ void tFiltModule_processorInit(tFiltModule const filt, leaf::tProcessor* const p
     processor->processorUniqueID = filt->uniqueID;
     processor->object = filt;
     processor->numSetterFunctions = FiltNumParams;
-    processor->tick = &tFiltModule_tick;
-    processor->setterFunctions[FiltMidiPitch] = &tFiltModule_setMIDIPitch;
-    processor->setterFunctions[FiltCutoff] = &tFiltModule_setCutoff;
-    processor->setterFunctions[FiltGain] = &filt->gain_set_func;
-    processor->setterFunctions[FiltResonance] = &filt->Q_set_func;
-    processor->setterFunctions[FiltKeyfollow] = &tFiltModule_blankFunction;
-    processor->setterFunctions[FiltType] = &tFiltModule_blankFunction;
-    processor->setterFunctions[FiltAudioInput] = &tFiltModule_blankFunction;
-    for (int i = 0; i < FiltNumParams; i++)
-    {
-        processor->setterFunctions[i](filt, filt->params[i]);
-    }
+    processor->tick = (tTickFuncReturningVoid ) &tFiltModule_tick;
+    processor->setterFunctions[FiltMidiPitch] = (tSetter)&tFiltModule_setMIDIPitch;
+    processor->setterFunctions[FiltCutoff] = (tSetter)&tFiltModule_setCutoff;
+    processor->setterFunctions[FiltGain] = (tSetter)&(*filt->gain_set_func);
+    processor->setterFunctions[FiltResonance] = (tSetter)&(*filt->Q_set_func);
+    processor->setterFunctions[FiltKeyfollow] = (tSetter)&tFiltModule_blankFunction;
+    processor->setterFunctions[FiltType] = (tSetter)&tFiltModule_blankFunction;
+    processor->setterFunctions[FiltAudioInput] = (tSetter)&tFiltModule_blankFunction;
+//    for (int i = 0; i < FiltNumParams; i++)
+//    {
+//        processor->setterFunctions[i](filt, filt->params[i]);
+//    }
     processor->inParameters = filt->params;
     processor->outParameters = filt->outputs;
     processor->processorTypeID = ModuleTypeFilterModule;

@@ -98,13 +98,13 @@ void tOscModule_free(void** const osc)
 
 
 // tick function
-void tOscModule_tick (tOscModule const osc)
+void tOscModule_tick (tOscModule const osc,float* buffer)
 {
     float freqToSmooth = (60 + (osc->fine));
     tExpSmooth_setDest(osc->pitchSmoother, freqToSmooth);
     float tempMIDI =  tExpSmooth_tick(osc->pitchSmoother) + osc->pitchOffset + osc->octaveOffset;
 
-//    float tempIndexF = ((LEAF_clip(-163.0f, tempMIDI, 163.0f) * 100.0f) + 16384.0f);
+//    float tempIndexgit F = ((LEAF_clip(-163.0f, tempMIDI, 163.0f) * 100.0f) + 16384.0f);
 //    int tempIndexI = (int)tempIndexF;
 //    tempIndexF = tempIndexF -tempIndexI;
 //    float freqToSmooth1 = osc->mtofTable[tempIndexI & 32767];

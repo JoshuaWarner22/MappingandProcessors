@@ -38,7 +38,7 @@ typedef struct _tLFOModule {
     tTickFuncReturningFloat tick; // The object's tick function
     tSetter setterFunctions[LFONumParams]; // Array containing setter functions
     std::atomic<float> params[LFONumParams];
-   float outputs[1];
+    std::atomic<float> outputs[1];
     float* rateTable;
     uint32_t rateTableSize;
    tMempool mempool;

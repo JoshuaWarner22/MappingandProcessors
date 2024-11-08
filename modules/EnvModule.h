@@ -29,7 +29,7 @@ typedef struct _tEnvModule {
     uint32_t uniqueID;
     tTickFuncReturningFloat tick; // The object's tick function
     std::atomic<float> params[EnvNumParams];
-    float outputs[1];
+    std::atomic<float> outputs[1];
     float* envTimeTableAddress;
     float envTimeTableSizeMinusOne;
     uint32_t tableSize;

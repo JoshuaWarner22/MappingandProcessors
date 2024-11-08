@@ -5,9 +5,7 @@
 
 #ifndef MAPPING_HEADER
 #define MAPPING_HEADER
-#ifdef __cplusplus
-extern "C" {
-#endif
+
 
 #include <stdio.h>
 #include "processor.h"
@@ -20,7 +18,7 @@ typedef struct Mapping {
     void *destObject; // OUT destination for the mapping
     int paramID;
     uint8_t numUsedSources; // Number of active sources for the mapping
-    float *inSources[MAX_NUM_SOURCES]; // IN sources from processors
+    std::atomic<float> *inSources[MAX_NUM_SOURCES]; // IN sources from processors
     float scalingValues[MAX_NUM_SOURCES]; // Scaling for the IN sources
     float initialVal; // The mapping's initial value
 } tMapping;
@@ -33,7 +31,5 @@ void tMappingAdd(tMapping *mapping, leaf::tProcessor *outputProcessor,
                  leaf::tProcessor *destProcessor, uint8_t destParam, uint8_t source,
                  float const scalingValues[MAX_NUM_SOURCES]);
 
-#ifdef __cplusplus
-}
-#endif
+
 #endif

@@ -49,7 +49,7 @@ typedef struct _tOscModule {
     tFreqSetFunc freq_set_func;
     tSetter setterFunctions[OscNumParams]; // Array containing setter functions
     std::atomic<float> params[OscNumParams];
-    float outputs[1];
+    std::atomic<float> outputs[1];
     float fine;
     float harmonicMultiplier;
     float pitchOffset;
@@ -76,7 +76,7 @@ void tOscModule_initToPool(void** const osc, float* const params, float id, tMem
 void tOscModule_free(void** const osc);
 
 // Modulatable setters
-void tOscModule_tick (tOscModule const osc);
+void tOscModule_tick (tOscModule const osc, float*);
 
 
 // Non-modulatable setters

@@ -1,12 +1,9 @@
 //
 // Created by Joshua Warner on 6/13/24.
 //
+#ifndef FILTERMODULE_H
+#define FILTERMODULE_H
 
-#ifndef SIMPLEOSCMODULE_H
-#define SIMPLEOSCMODULE_H
-#ifdef __cplusplus
-extern "C" {
-#endif
 #include "../LEAF/leaf/leaf.h"
 #include "../processors/defs.h"
 #include "../processors/processor.h"
@@ -56,8 +53,8 @@ typedef struct _tFiltModule {
     float dbTableSizeMinusOne;
     float* resTableAddress;
     float resTableSizeMinusOne;
-    float params[FiltNumParams];
-    float outputs[1];
+    std::atomic<float> params[FiltNumParams];
+    std::atomic<float> outputs[1];
     float amp;
     float cutoffKnob;
     float keyFollow;
@@ -75,7 +72,7 @@ void tFiltModule_initToPool(void** const filt, float* const params, float id, tM
 void tFiltModule_free(void** const filt);
 
 // tick
-void tFiltModule_tick (tFiltModule const filt);
+void tFiltModule_tick (tFiltModule const filt, float*);
 
 //Modulatable setters
 void tFiltModule_setMIDIPitch (tFiltModule const filt, float const input);
@@ -91,16 +88,5 @@ void tFiltModule_setSampleRate (tFiltModule const filt, float sr);
 void tFiltModule_processorInit(tFiltModule const filt, leaf::tProcessor* processor);
 
 
-#ifdef __cplusplus
-}  // extern "C"
-#endif
-
-#endif //SIMPLEOSCMODULE_H
-//
-// Created by Jeffrey Snyder on 7/31/24.
-//
-
-#ifndef FILTERMODULE_H
-#define FILTERMODULE_H
 
 #endif //FILTERMODULE_H
