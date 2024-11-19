@@ -65,6 +65,7 @@ typedef struct _tOscModule {
     int hStepped;
     int pStepped;
     int syncMode;
+    int osctype;
     tMempool mempool;
 } _tOscModule;
 
