@@ -19,21 +19,6 @@ void tEnvModule_blankFunction (tEnvModule const env, float freq)
 
 
 
-void tEnvModule_initToPool(void** const env, float* const params, float id, tMempool* const mempool)
-{
-    _tMempool* m = *mempool;
-    _tEnvModule* EnvModule = static_cast<_tEnvModule *>(*env = (_tEnvModule*) mpool_alloc(sizeof(_tEnvModule), m));
-    memcpy(EnvModule->params, params, EnvNumParams);
-    EnvModule->mempool = m;
-
-    EnvModule->uniqueID = id;
-    tADSRT_initToPool(&EnvModule->theEnv, 1.0f,1000.0f,1.0f,1000.0f, NULL, 2048,mempool);
-    EnvModule->tick = reinterpret_cast<tTickFuncReturningFloat>(tADSRT_tick);
-
-    EnvModule->moduleType = ModuleTypeEnvModule;
-}
-
-
 void tEnvModule_free(void** const env)
 {
     _tEnvModule* EnvModule =static_cast<_tEnvModule *>(*env);
@@ -100,7 +85,7 @@ void tEnvModule_setLeak (tEnvModule const env, float const input)
 }
 
 // Non-modulatable setters
-void tEnvModule_setExpTableLocation (tEnvModule const env, float* tableAddress, uint32_t const tableSize)
+void tEnvModule_setExpTableLocation (tEnvModule const env, const float* tableAddress, uint32_t const tableSize)
 {
     env->theEnv->exp_buff = tableAddress;
     env->theEnv->buff_size = tableSize;
@@ -108,7 +93,7 @@ void tEnvModule_setExpTableLocation (tEnvModule const env, float* tableAddress, 
     env->theEnv->bufferSizeDividedBySampleRateInMs = env->theEnv->buff_size / (env->theEnv->sampleRate * 0.001f);
 }
 
-void tEnvModule_setTimeScalingTableLocation (tEnvModule const env, float* tableAddress, uint32_t const tableSize)
+void tEnvModule_setTimeScalingTableLocation (tEnvModule const env, const float* tableAddress, uint32_t const tableSize)
 {
     env->envTimeTableAddress = tableAddress;
     env->envTimeTableSizeMinusOne = (float) (tableSize - 1);
@@ -119,6 +104,32 @@ void tEnvModule_setSampleRate (tEnvModule const env, float sr)
     //how to handle this? if then cases for different types?
 
 }
+
+void tEnvModule_initToPool(void** const env, float* const params, float id, tMempool* const mempool)
+{
+    _tMempool* m = *mempool;
+    _tEnvModule* EnvModule = static_cast<_tEnvModule *>(*env = (_tEnvModule*) mpool_alloc(sizeof(_tEnvModule), m));
+    memcpy(EnvModule->params, params, EnvNumParams);
+    EnvModule->mempool = m;
+
+    EnvModule->uniqueID = id;
+    tADSRT_initToPool(&EnvModule->theEnv, 1.0f,1000.0f,1.0f,1000.0f, NULL, 2048,mempool);
+    EnvModule->tick = reinterpret_cast<tTickFuncReturningFloat>(tADSRT_tick);
+    EnvModule->setterFunctions[EnvNoteOnWatchFlag] =(tSetter) &tEnvModule_blankFunction;
+    EnvModule->setterFunctions[EnvAttack] =(tSetter) &tEnvModule_setAttack;
+    EnvModule->setterFunctions[EnvDecay] = (tSetter)&tEnvModule_setDecay;
+    EnvModule->setterFunctions[EnvSustain] = (tSetter)&tEnvModule_setSustain;
+    EnvModule->setterFunctions[EnvRelease] = (tSetter)&tEnvModule_setRelease;
+    EnvModule->setterFunctions[EnvLeak] = (tSetter)&tEnvModule_setLeak;
+    EnvModule->setterFunctions[EnvShapeAttack] = (tSetter)&tEnvModule_blankFunction;//TODO: make shape changeable
+    EnvModule->setterFunctions[EnvShapeRelease] = (tSetter)&tEnvModule_blankFunction;//TODO: make shape changeable
+    EnvModule->setterFunctions[EnvUseVelocity] = (tSetter)&tEnvModule_blankFunction;
+    tEnvModule_setExpTableLocation ( EnvModule, &__leaf_table_exp_decay[0], EXP_DECAY_TABLE_SIZE);
+    tEnvModule_setTimeScalingTableLocation( EnvModule,&__leaf_table_attack_decay_inc[0], ATTACK_DECAY_INC_TABLE_SIZE);
+    EnvModule->moduleType = ModuleTypeEnvModule;
+}
+
+
 
 void tEnvModule_processorInit(tEnvModule const env, leaf::tProcessor* processor)
 {

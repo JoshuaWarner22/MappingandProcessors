@@ -7,7 +7,7 @@
 #include "mapping.h"
 
 // Process mapping function
-void processMapping (tMapping* mapping)
+void processMapping (leaf::tMapping* mapping)
 {
     float sum = mapping->initialVal; 
 
@@ -20,15 +20,16 @@ void processMapping (tMapping* mapping)
 }
 
 //clears out a new mapping
-void tMapping_init(tMapping *mapping)
+void tMapping_init(leaf::tMapping *mapping, LEAF& leaf)
 {
     mapping-> numUsedSources= 0;
+    mapping->uuid = getNextUuid(&leaf);
 }
 // Initializes the mapping `mapping` to map from the output of 
 // `outputProcessor` to the input of `destProcessor` on the parameter 
 // `destParam`.  The mapping scales this value by the factors in
 // `scalingValues`.
-void tMappingAdd(tMapping *mapping, leaf::tProcessor *outputProcessor,
+void tMappingAdd(leaf::tMapping *mapping, leaf::tProcessor *outputProcessor,
     leaf::tProcessor *destProcessor, uint8_t destParam, uint8_t source,
     float const scalingValues[MAX_NUM_SOURCES])
 {
@@ -65,7 +66,7 @@ void tMappingAdd(tMapping *mapping, leaf::tProcessor *outputProcessor,
     
     mapping->initialVal = destProcessor->inParameters[destParam];
     mapping->setter = destProcessor->setterFunctions[destParam];
-    mapping->processorUniqueID = destProcessor->processorUniqueID;
+    mapping->destinationProcessorUniqueID = destProcessor->processorUniqueID;
     mapping->paramID = destParam; 
     mapping->destObject = destProcessor->object;
 }

@@ -23,14 +23,16 @@ typedef enum {
 } EnvParams;
 
 
+
 typedef struct _tEnvModule {
     tADSRT theEnv;
     uint32_t moduleType;
     uint32_t uniqueID;
     tTickFuncReturningFloat tick; // The object's tick function
+    tSetter setterFunctions[EnvNumParams]; // Array containing setter functions
     std::atomic<float> params[EnvNumParams];
     std::atomic<float> outputs[1];
-    float* envTimeTableAddress;
+    const float* envTimeTableAddress;
     float envTimeTableSizeMinusOne;
     uint32_t tableSize;
     tMempool mempool;

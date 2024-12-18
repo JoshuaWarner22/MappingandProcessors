@@ -50,39 +50,39 @@ void tOscModule_setType (tOscModule const osc, float typefloat)
 
     if (type == OscTypeSawSquare) {
         tPBSawSquare_initToPool((tPBSawSquare*)&osc->theOsc, &osc->mempool);
-        osc->freq_set_func = reinterpret_cast<tFreqSetFunc> (tPBSawSquare_setFreq);
-        osc->setterFunctions[OscShapeParam] = reinterpret_cast<tSetter> (tPBSawSquare_setShape);
-        osc->tick = reinterpret_cast<tTickFuncReturningFloat> (tPBSawSquare_tick);
+        osc->freq_set_func = (tFreqSetFunc) (tPBSawSquare_setFreq);
+        osc->setterFunctions[OscShapeParam] = (tSetter) (tPBSawSquare_setShape);
+        osc->tick = (tTickFuncReturningFloat) (tPBSawSquare_tick);
     }
     else if (type == OscTypeSineTri) {
         tPBSineTriangle_initToPool((tPBSineTriangle*)&osc->theOsc, &osc->mempool);
-        osc->freq_set_func = reinterpret_cast<tFreqSetFunc> (tPBSineTriangle_setFreq);
-        osc->setterFunctions[OscShapeParam] = reinterpret_cast<tSetter> (tPBSineTriangle_setShape);
-        osc->tick = reinterpret_cast<tTickFuncReturningFloat> (tPBSineTriangle_tick);
+        osc->freq_set_func = (tFreqSetFunc) (tPBSineTriangle_setFreq);
+        osc->setterFunctions[OscShapeParam] = (tSetter) (tPBSineTriangle_setShape);
+        osc->tick = (tTickFuncReturningFloat) (tPBSineTriangle_tick);
     }
     else if (type == OscTypeSaw) {
         tPBSaw_initToPool((tPBSaw*)&osc->theOsc, &osc->mempool);
-        osc->freq_set_func = reinterpret_cast<tFreqSetFunc> (tPBSaw_setFreq);
-        osc->setterFunctions[OscShapeParam] = reinterpret_cast<tSetter> (tOscModule_blankFunction);
-        osc->tick = reinterpret_cast<tTickFuncReturningFloat> (tPBSaw_tick);
+        osc->freq_set_func = (tFreqSetFunc) (tPBSaw_setFreq);
+        osc->setterFunctions[OscShapeParam] = (tSetter) (tOscModule_blankFunction);
+        osc->tick = (tTickFuncReturningFloat) (tPBSaw_tick);
     }
     else if (type == OscTypePulse) {
         tPBPulse_initToPool((tPBPulse*)&osc->theOsc, &osc->mempool);
-        osc->freq_set_func = reinterpret_cast<tFreqSetFunc> (tPBPulse_setFreq);
-        osc->setterFunctions[OscShapeParam] = reinterpret_cast<tSetter> (tPBPulse_setWidth);
-        osc->tick = reinterpret_cast<tTickFuncReturningFloat> (tPBPulse_tick);
+        osc->freq_set_func = (tFreqSetFunc) (tPBPulse_setFreq);
+        osc->setterFunctions[OscShapeParam] = (tSetter) (tPBPulse_setWidth);
+        osc->tick = (tTickFuncReturningFloat) (tPBPulse_tick);
     }
     else if (type == OscTypeSine) {
         tCycle_initToPool((tCycle*)&osc->theOsc, &osc->mempool);
-        osc->freq_set_func = reinterpret_cast<tFreqSetFunc> (tCycle_setFreq);
-        osc->setterFunctions[OscShapeParam] = reinterpret_cast<tSetter> (tOscModule_blankFunction);
-        osc->tick = reinterpret_cast<tTickFuncReturningFloat> (tCycle_tick);
+        osc->freq_set_func = (tFreqSetFunc) (tCycle_setFreq);
+        osc->setterFunctions[OscShapeParam] = (tSetter) (tOscModule_blankFunction);
+        osc->tick = (tTickFuncReturningFloat) (tCycle_tick);
     }
     else if (type == OscTypeTri) {
         tPBTriangle_initToPool((tPBTriangle*)&osc->theOsc, &osc->mempool);
-        osc->freq_set_func = reinterpret_cast<tFreqSetFunc> (tPBTriangle_setFreq);
-        osc->setterFunctions[OscShapeParam] = reinterpret_cast<tSetter> (tPBTriangle_setSkew);
-        osc->tick = reinterpret_cast<tTickFuncReturningFloat> (tPBTriangle_tick);
+        osc->freq_set_func = (tFreqSetFunc) (tPBTriangle_setFreq);
+        osc->setterFunctions[OscShapeParam] = (tSetter) (tPBTriangle_setSkew);
+        osc->tick = (tTickFuncReturningFloat) (tPBTriangle_tick);
     }
     osc->osctype = type;
 }

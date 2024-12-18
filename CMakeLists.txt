@@ -31,7 +31,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 )
 
 # Link libraries to the main project
-target_link_libraries(${PROJECT_NAME} PUBLIC LEAF)
+target_link_libraries(${PROJECT_NAME} PUBLIC LEAF procUtils)
 if (MODULE_TESTING)
 
     # Enable testing
