@@ -9,7 +9,7 @@
 // Process mapping function
 void processMapping (leaf::tMapping* mapping)
 {
-    float sum = mapping->initialVal; 
+    float sum = *mapping->initialVal;
 
     for (int i = 0; i < mapping->numUsedSources; i++)
     {
@@ -22,51 +22,58 @@ void processMapping (leaf::tMapping* mapping)
 //clears out a new mapping
 void tMapping_init(leaf::tMapping *mapping, LEAF& leaf)
 {
-    mapping-> numUsedSources= 0;
-    mapping->uuid = getNextUuid(&leaf);
+    mapping->numUsedSources= 0;
+
+    for(int i = 0; i < MAX_NUM_SOURCES; i++)
+    {
+        mapping->scalingValues[i] = 0;
+    }
 }
 // Initializes the mapping `mapping` to map from the output of 
 // `outputProcessor` to the input of `destProcessor` on the parameter 
 // `destParam`.  The mapping scales this value by the factors in
 // `scalingValues`.
-void tMappingAdd(leaf::tMapping *mapping, leaf::tProcessor *outputProcessor,
-    leaf::tProcessor *destProcessor, uint8_t destParam, uint8_t source,
-    float const scalingValues[MAX_NUM_SOURCES])
+std::atomic<float>* tMappingAdd(leaf::tMapping *mapping, leaf::tProcessor *outputProcessor,
+    leaf::tProcessor *destProcessor, uint8_t destParam, uint8_t source, LEAF& leaf)
+
 {
+
 
     // Checks that arguments are valid
     if (mapping == NULL)
     {
-    	return;
+    	return nullptr;
     }
     if  (outputProcessor == NULL)
     {
-    	return;
+        return nullptr;
     }
     if  (destProcessor == NULL)
     {
-    	return;
+        return nullptr;
     }
     if  (destParam < 0 || destParam > MAX_NUM_PARAMS)
     {
-    	return;
+        return nullptr;
     }
-    if (scalingValues == NULL)
-    {
-    	return;
-    }
-
+//    if (scalingValues == NULL)
+//    {
+//    	return;
+//    }
+    mapping->uuid = getNextUuid(&leaf);
     // Updates the _tMapping struct with the given arguments
     mapping->inSources[source] = &outputProcessor->outParameters[0];
+    mapping->inUUIDS[source] = outputProcessor->processorUniqueID;
     mapping->numUsedSources++;
     
-    mapping->scalingValues[0] = scalingValues[0];
-    mapping->scalingValues[1] = scalingValues[1]; 
-    mapping->scalingValues[2] = scalingValues[2]; 
+//    mapping->scalingValues[0] = scalingValues[0];
+//    mapping->scalingValues[1] = scalingValues[1];
+//    mapping->scalingValues[2] = scalingValues[2];
     
-    mapping->initialVal = destProcessor->inParameters[destParam];
+    mapping->initialVal = &destProcessor->inParameters[destParam];
     mapping->setter = destProcessor->setterFunctions[destParam];
     mapping->destinationProcessorUniqueID = destProcessor->processorUniqueID;
     mapping->paramID = destParam; 
     mapping->destObject = destProcessor->object;
+    return &mapping->scalingValues[source];
 }

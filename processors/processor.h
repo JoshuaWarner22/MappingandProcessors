@@ -16,7 +16,7 @@ namespace leaf{
 // Defines a struct Processor as a _tProcessor object
 typedef struct Processor
 {
-    uint8_t processorUniqueID; // ID for this processors
+    uint16_t processorUniqueID; // ID for this processors
     uint8_t processorTypeID; // ID for this processors
 
     void *object; // Processor's aliased Leaf object
