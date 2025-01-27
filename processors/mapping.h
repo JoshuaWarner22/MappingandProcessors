@@ -22,6 +22,7 @@ namespace leaf
         int paramID;
         uint8_t numUsedSources; // Number of active sources for the mapping
         int inUUIDS[MAX_NUM_SOURCES];
+        std::atomic<float>* bipolarSum[MAX_NUM_SOURCES];
         std::atomic<float>* inSources[MAX_NUM_SOURCES]; // IN sources from processors
         std::atomic<float> scalingValues[MAX_NUM_SOURCES]; // Scaling for the IN sources
         std::atomic<float>* initialVal; // The mapping's initial value
