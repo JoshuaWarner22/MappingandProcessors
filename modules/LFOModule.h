@@ -11,7 +11,7 @@
 #include "../LEAF/leaf/Inc/leaf-mempool.h"
 #include "../LEAF/leaf/Inc/leaf-oscillators.h"
 
-
+typedef void (*tFreqSetFunc)(void*, float);
 typedef enum {
     LFONoteOnWatchFlag,
     LFORateParam,
@@ -39,8 +39,8 @@ typedef struct _tLFOModule {
     tSetter setterFunctions[LFONumParams]; // Array containing setter functions
     std::atomic<float> params[LFONumParams];
     std::atomic<float> outputs[1];
-    float* rateTable;
-    uint32_t rateTableSize;
+    tlookuptable table;
+    tFreqSetFunc freq_set_func;
    tMempool mempool;
 } _tLFOModule;
 
@@ -48,7 +48,7 @@ typedef _tLFOModule* tLFOModule;
 
 //init module
 void tLFOModule_init(void** const lfo, float* const params, float id, LEAF* const leaf);
-void tLFOModule_initToPool(void** const lfo, float* const params, float id, tMempool* const mempool);
+void tLFOModule_initToPool(void** const lfo, float* const params, float id, tMempool* const mempool, tlookuptable );
 void tLFOModule_free(void** const lfo);
 
 //note on action
@@ -58,7 +58,7 @@ void tLFOModule_onNoteOn(tLFOModule const lfo, float pitch, float velocity);
 void tLFOModule_setRate (tLFOModule const lfo, float rate);
 
 // Non-modulatable setters
-void tLFOModule_setRateTableLocationAndSize (tLFOModule const lfo, float* tableAddress, uint32_t size);
+//void tLFOModule_setRateTableLocationAndSize (tLFOModule const lfo, float* tableAddress, uint32_t size);
 void tLFOModule_setSampleRate (tLFOModule const lfo, float sr);
 
 //init processors

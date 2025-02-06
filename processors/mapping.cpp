@@ -13,7 +13,7 @@ void processMapping (leaf::tMapping* mapping)
 
     for (int i = 0; i < mapping->numUsedSources; i++)
     {
-        sum += *mapping->inSources[i] * mapping->scalingValues[i];
+        sum += (*mapping->inSources[i] * mapping->scalingValues[i]) + mapping->bipolarOffset[i];
     }
 
     mapping->setter(mapping->destObject, sum);

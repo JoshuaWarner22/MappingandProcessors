@@ -185,6 +185,7 @@ void tOscModule_tick (tOscModule const osc,float* buffer)
     float nowFreq = mtof(tempMIDI);// ((freqToSmooth1 * (1.0f - tempIndexF)) + (freqToSmooth2 * tempIndexF));
 
     float finalFreq = (nowFreq * osc->harmonicMultiplier ) + osc->freqOffset;
+
     osc->freq_set_func(osc->theOsc, finalFreq);
     osc->outputs[0] = osc->tick(osc->theOsc) * osc->amp;
 }
