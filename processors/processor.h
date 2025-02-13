@@ -26,8 +26,8 @@ typedef struct Processor
     // pointers to the setter functions for the processors's object
 
 
-    std::atomic<float>* inParameters; //  points to parameter array of the actual object
-    std::atomic<float>* outParameters; // OUT sources for the processors
+    ATOMIC_FLOAT* inParameters; //  points to parameter array of the actual object
+    ATOMIC_FLOAT* outParameters; // OUT sources for the processors
 
 } tProcessor;
 
@@ -48,7 +48,7 @@ typedef union
     uint8_t bytes[sizeof(tProcessorPreset)];
 } tProcessorPresetUnion;
 // Struct for holding the 7-bit chunked version of tProcessorPreset
-struct tProcessorPreset7Bit {
+typedef struct _tProcessorPreset7Bit {
         // Chunks for each field
         uint8_t processorTag[2];                // 2 chunks of 7-bits
         uint8_t processorTypeID[2];             // 2 chunks of 7-bits
@@ -56,7 +56,8 @@ struct tProcessorPreset7Bit {
         uint8_t proc_chain[2];                  // 2 chunks of 7-bits
         uint8_t index[2];                       // 2 chunks of 7-bits
         uint8_t params[MAX_NUM_PARAMS][5];      // Each float -> 5 chunks of 7-bits
-    };
+    } tProcessorPreset7Bit;
+
 // Function definitions for split and unsplit
 void splitProcessorPreset(const tProcessorPreset *preset, tProcessorPreset7Bit *preset7Bit);
 void unsplitProcessorPreset(const tProcessorPreset7Bit *preset7Bit, tProcessorPreset *preset);

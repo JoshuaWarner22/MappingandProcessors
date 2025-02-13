@@ -8,7 +8,9 @@
 #ifdef __cplusplus
     #include <atomic>
     #define ATOMIC_FLOAT std::atomic<float>
+#define LEAF_NAMESPACE leaf::
 #else
+#define LEAF_NAMESPACE
     #define ATOMIC_FLOAT float
 #endif
 #ifdef __cplusplus

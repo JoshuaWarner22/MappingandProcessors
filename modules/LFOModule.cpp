@@ -24,7 +24,7 @@ void tLFOModule_initToPool(void** const lfo, float* const params, float id, tMem
 {
     _tMempool* m = *mempool;
     _tLFOModule* LFOModule = static_cast<_tLFOModule*>(*lfo = (_tLFOModule*) mpool_alloc(sizeof(_tLFOModule), m));
-    memcpy(LFOModule->params, params, LFONumParams*sizeof(std::atomic<float>));
+    memcpy(LFOModule->params, params, LFONumParams*sizeof(ATOMIC_FLOAT));
     LFOModule->uniqueID = id;
     LFOModule->table = rateTable;
     LFOModule->params[LFOType] = 0;

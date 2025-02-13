@@ -4,12 +4,12 @@
 
 #ifndef SIMPLEOSCMODULE_H
 #define SIMPLEOSCMODULE_H
-#include "../LEAF/leaf/leaf.h"
-#include "../processors/defs.h"
-#include "../processors/processor.h"
-#include "../LEAF/leaf/Inc/leaf-mempool.h"
-#include "../LEAF/leaf/Inc/leaf-oscillators.h"
-#include <atomic>
+#include "leaf.h"
+#include "defs.h"
+#include "processor.h"
+#include "Inc/leaf-mempool.h"
+#include "Inc/leaf-oscillators.h"
+
 
 typedef enum {
     OscMidiPitch,
@@ -48,8 +48,8 @@ typedef struct _tOscModule {
     tTickFuncReturningFloat tick; // The object's tick function
     tFreqSetFunc freq_set_func;
     tSetter setterFunctions[OscNumParams]; // Array containing setter functions
-    std::atomic<float> params[OscNumParams];
-    std::atomic<float> outputs[1];
+    ATOMIC_FLOAT params[OscNumParams];
+    ATOMIC_FLOAT outputs[1];
     float fine;
     float harmonicMultiplier;
     float pitchOffset;
@@ -85,6 +85,6 @@ void tOscModule_setMTOFTableLocation (tOscModule const osc, float* tableAddress)
 void tOscModule_setSampleRate (tOscModule const osc, float sr);
 
 //init processors
-void tOscModule_processorInit(tOscModule const osc, leaf::tProcessor* processor);
+void tOscModule_processorInit(tOscModule const osc, LEAF_NAMESPACE tProcessor* processor);
 
 #endif //SIMPLEOSCMODULE_H

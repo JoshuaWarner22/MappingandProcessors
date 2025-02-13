@@ -5,11 +5,11 @@
 #ifndef LFOMODULE_H
 #define LFOMODULE_H
 
-#include "../LEAF/leaf/leaf.h"
-#include "../processors/defs.h"
-#include "../processors/processor.h"
-#include "../LEAF/leaf/Inc/leaf-mempool.h"
-#include "../LEAF/leaf/Inc/leaf-oscillators.h"
+#include "leaf.h"
+#include "defs.h"
+#include "processor.h"
+#include "Inc/leaf-mempool.h"
+#include "Inc/leaf-oscillators.h"
 
 typedef void (*tFreqSetFunc)(void*, float);
 typedef enum {
@@ -37,9 +37,9 @@ typedef struct _tLFOModule {
    uint32_t uniqueID;
     tTickFuncReturningFloat tick; // The object's tick function
     tSetter setterFunctions[LFONumParams]; // Array containing setter functions
-    std::atomic<float> params[LFONumParams];
-    std::atomic<float> outputs[1];
-    tlookuptable table;
+    ATOMIC_FLOAT params[LFONumParams];
+    ATOMIC_FLOAT outputs[1];
+    tLookupTable table;
     tFreqSetFunc freq_set_func;
    tMempool mempool;
 } _tLFOModule;
@@ -48,7 +48,7 @@ typedef _tLFOModule* tLFOModule;
 
 //init module
 void tLFOModule_init(void** const lfo, float* const params, float id, LEAF* const leaf);
-void tLFOModule_initToPool(void** const lfo, float* const params, float id, tMempool* const mempool, tlookuptable );
+void tLFOModule_initToPool(void** const lfo, float* const params, float id, tMempool* const mempool, tLookupTable );
 void tLFOModule_free(void** const lfo);
 
 //note on action
@@ -62,7 +62,7 @@ void tLFOModule_setRate (tLFOModule const lfo, float rate);
 void tLFOModule_setSampleRate (tLFOModule const lfo, float sr);
 
 //init processors
-void tLFOModule_processorInit(tLFOModule const lfo, leaf::tProcessor* processor);
+void tLFOModule_processorInit(tLFOModule const lfo, LEAF_NAMESPACE tProcessor* processor);
 
 
 

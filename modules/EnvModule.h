@@ -3,11 +3,11 @@
 //
 
 #pragma once
-#include "../LEAF/leaf/leaf.h"
-#include "../processors/defs.h"
-#include "../processors/processor.h"
-#include "../LEAF/leaf/Inc/leaf-mempool.h"
-#include "../LEAF/leaf/Inc/leaf-envelopes.h"
+#include "leaf.h"
+#include "defs.h"
+#include "processor.h"
+#include "Inc/leaf-mempool.h"
+#include "Inc/leaf-envelopes.h"
 
 typedef enum {
     EnvNoteOnWatchFlag,
@@ -30,8 +30,8 @@ typedef struct _tEnvModule {
     uint32_t uniqueID;
     tTickFuncReturningFloat tick; // The object's tick function
     tSetter setterFunctions[EnvNumParams]; // Array containing setter functions
-    std::atomic<float> params[EnvNumParams];
-    std::atomic<float> outputs[1];
+    ATOMIC_FLOAT params[EnvNumParams];
+    ATOMIC_FLOAT outputs[1];
     const float* envTimeTableAddress;
     float envTimeTableSizeMinusOne;
     uint32_t tableSize;
@@ -56,6 +56,6 @@ void tEnvModule_setRateTableLocation (tEnvModule const env, float* tableAddress)
 void tEnvModule_setSampleRate (tEnvModule const env, float sr);
 
 //init processors
-void tEnvModule_processorInit(tEnvModule const env, leaf::tProcessor* processor);
+void tEnvModule_processorInit(tEnvModule const env, LEAF_NAMESPACE  tProcessor* processor);
 
 

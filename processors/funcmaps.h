@@ -4,10 +4,10 @@
 
 #ifndef UNTITLED_FUNCMAPS_H
 #define UNTITLED_FUNCMAPS_H
-#include "../modules/EnvModule.h"
-#include "../modules/FilterModule.h"
-#include "../modules/LFOModule.h"
-#include "../modules/SimpleOscModule.h"
+#include "EnvModule.h"
+#include "FilterModule.h"
+#include "LFOModule.h"
+#include "SimpleOscModule.h"
 #ifdef __cplusplus
 namespace leaf
 {
