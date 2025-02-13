@@ -69,6 +69,11 @@ typedef void (*createProcFunc)(void* const module, tProcessor* proc);
 typedef void (*createModuleFunc)(void** const module, float* const params, float id, LEAF* const leaf);
 
 
+void    tProcessor_init (tProcessor** const pr, LEAF* const leaf);
+
+
+void    tProcessor_initToPool   (tProcessor** const pr, tMempool* const mp);
+
 void processor_to_preset(tProcessor *, tProcessorPresetUnion * );
 
 void preset_to_processor(tProcessorPresetUnion *, tProcessor *);

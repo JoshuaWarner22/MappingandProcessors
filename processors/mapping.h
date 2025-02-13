@@ -63,7 +63,8 @@ namespace leaf
         uint8_t bipolarOffset[MAX_NUM_SOURCES][5]; // Each float -> 5 chunks of 7 bits
         uint8_t scalingValues[MAX_NUM_SOURCES][5]; // Each float -> 5 chunks of 7 bits
     } tMappingPreset7Bit;
-#ifdef __cplusplus
+
+
     void splitMappingPreset(const tMappingPreset* preset, tMappingPreset7Bit* preset7Bit);
     void unsplitMappingPreset(const tMappingPreset7Bit* preset7Bit, tMappingPreset* preset);
     void mapping_to_preset(tMapping *mapping, tMappingPresetUnion * preset);
@@ -72,13 +73,18 @@ namespace leaf
 
     void processMapping (tMapping* mapping);
 
-    void tMapping_init (tMapping* mapping, LEAF &leaf);
+    void tMapping_init (tMapping** const mapping, LEAF* const leaf);
+
+    void tMapping_initToPool (tMapping** const mapping, tMempool* const mp);
 
     ATOMIC_FLOAT* tMappingAdd (tMapping* mapping, tProcessor* outputProcessor, tProcessor* destProcessor, uint8_t destParam, uint8_t source, LEAF& leaf);
 
+#ifdef __cplusplus
 
 }
 #endif
+
+
 
 
 #endif
