@@ -3,16 +3,16 @@ include_directories(${CMAKE_SOURCE_DIR}/processors)
 include_directories(${CMAKE_SOURCE_DIR}/modules)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-# Add library procUtils with processor.c and mapping.c
-add_library(procUtils
-        ../processors/processor.cpp
-        ../processors/mapping.cpp
-        ../modules/SimpleOscModule.cpp
-        ../modules/EnvModule.cpp
-        ../modules/LFOModule.cpp
-        ../modules/FilterModule.cpp
-        ../modules/FilterModule.h
-)
+## Add library procUtils with processor.c and mapping.c
+#add_library(procUtils
+#        ../processors/processor.cpp
+#        ../processors/mapping.cpp
+#        ../modules/SimpleOscModule.cpp
+#        ../modules/EnvModule.cpp
+#        ../modules/LFOModule.cpp
+#        ../modules/FilterModule.cpp
+#        ../modules/FilterModule.h
+#)
 
 target_link_libraries(procUtils PRIVATE LEAF)
 # Optionally, set include directories for procUtils (if needed)
@@ -26,6 +26,7 @@ add_executable(
         _tests
         test.cpp
         other_test.cpp
+        serializing_tests.cpp
 )
 target_link_libraries(
         _tests  PRIVATE procUtils LEAF Catch2::Catch2WithMain

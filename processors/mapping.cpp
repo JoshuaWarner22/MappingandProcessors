@@ -5,7 +5,7 @@
 
 #include <assert.h>
 #include "mapping.h"
-
+#include "sysex_chunks.h"
 // Process mapping function
 void processMapping (leaf::tMapping* mapping)
 {
@@ -76,4 +76,85 @@ std::atomic<float>* tMappingAdd(leaf::tMapping *mapping, leaf::tProcessor *outpu
     mapping->paramID = destParam; 
     mapping->destObject = destProcessor->object;
     return &mapping->scalingValues[source];
+}
+
+void mapping_to_preset(leaf::tMapping *mapping, leaf::tMappingPresetUnion * preset)
+{
+    preset->data.mappingTag = BYTETAGS::MAPTAG;//;mapping->uuid;
+    preset->data.uuid = mapping->uuid;
+    preset->data.destinationUUID = mapping->destinationProcessorUniqueID;
+    preset->data.destParamID = mapping->paramID;
+    preset->data.numUsedSources = mapping->numUsedSources;
+    preset->data.index = mapping->index;
+    for (int i = 0; i < mapping->numUsedSources; i++)
+    {
+        preset->data.inUUIDs[i] = mapping->inUUIDS[i];
+        preset->data.bipolarOffset[i] = mapping->bipolarOffset[i];
+        preset->data.scalingValues[i] = mapping->scalingValues[i];
+    }
+}
+
+void preset_to_mapping(leaf::tMappingPresetUnion preset, leaf::tMapping *mapping)
+{
+    mapping->uuid = preset.data.uuid;
+    mapping->destinationProcessorUniqueID = preset.data.destinationUUID;
+    mapping->paramID = preset.data.destParamID;
+    mapping->numUsedSources = preset.data.numUsedSources;
+    mapping->index = preset.data.index;
+    for (int i = 0; i < mapping->numUsedSources; i++)
+    {
+        mapping->inUUIDS[i] = preset.data.inUUIDs[i];
+        mapping->bipolarOffset[i] = preset.data.bipolarOffset[i];
+        mapping->scalingValues[i] = preset.data.scalingValues[i];
+    }
+}
+
+void splitMappingPreset(const leaf::tMappingPreset* preset, leaf::tMappingPreset7Bit* preset7Bit) {
+    // Split basic fields
+    splitUint8To7bit(preset->mappingTag, preset7Bit->mappingTag);
+    splitUint8To7bit(preset->index, preset7Bit->index);
+    splitUint8To7bit(preset->uuid, preset7Bit->uuid);
+    splitUint8To7bit(preset->destinationUUID, preset7Bit->destinationUUID);
+    splitUint8To7bit(preset->destParamID, preset7Bit->destParamID);
+    splitUint8To7bit(preset->numUsedSources, preset7Bit->numUsedSources);
+
+    // Split inUUIDs
+    for (int i = 0; i < MAX_NUM_SOURCES; i++) {
+        splitUint8To7bit(preset->inUUIDs[i], preset7Bit->inUUIDs[i]);
+    }
+
+    // Split bipolarOffset
+    for (int i = 0; i < MAX_NUM_SOURCES; i++) {
+        splitFloatTo7bit(preset->bipolarOffset[i], preset7Bit->bipolarOffset[i]);
+    }
+
+    // Split scalingValues
+    for (int i = 0; i < MAX_NUM_SOURCES; i++) {
+        splitFloatTo7bit(preset->scalingValues[i], preset7Bit->scalingValues[i]);
+    }
+}
+
+void unsplitMappingPreset(const leaf::tMappingPreset7Bit* preset7Bit, leaf::tMappingPreset* preset) {
+    // Reconstruct basic fields
+    preset->mappingTag = unsplitUint8(preset7Bit->mappingTag);
+    preset->index = unsplitUint8(preset7Bit->index);
+    preset->uuid = unsplitUint8(preset7Bit->uuid);
+    preset->destinationUUID = unsplitUint8(preset7Bit->destinationUUID);
+    preset->destParamID = unsplitUint8(preset7Bit->destParamID);
+    preset->numUsedSources = unsplitUint8(preset7Bit->numUsedSources);
+
+    // Reconstruct inUUIDs
+    for (int i = 0; i < MAX_NUM_SOURCES; i++) {
+        preset->inUUIDs[i] = unsplitUint8(preset7Bit->inUUIDs[i]);
+    }
+
+    // Reconstruct bipolarOffset
+    for (int i = 0; i < MAX_NUM_SOURCES; i++) {
+        preset->bipolarOffset[i] = unsplitFloat(preset7Bit->bipolarOffset[i]);
+    }
+
+    // Reconstruct scalingValues
+    for (int i = 0; i < MAX_NUM_SOURCES; i++) {
+        preset->scalingValues[i] = unsplitFloat(preset7Bit->scalingValues[i]);
+    }
 }

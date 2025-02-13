@@ -13,6 +13,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 add_library(procUtils
         processor.cpp
         mapping.cpp
+        sysex_chunks.cpp
 )
 
 # Include directories for procUtils
