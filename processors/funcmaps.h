@@ -8,18 +8,24 @@
 #include "../modules/FilterModule.h"
 #include "../modules/LFOModule.h"
 #include "../modules/SimpleOscModule.h"
-//each file that includes this will get its own copy of it. this wastes memory. Should find a singleton style solution
-static leaf::createProcFunc proc_init_map[] = {
-    (leaf::createProcFunc) tOscModule_processorInit,
-    (leaf::createProcFunc) tFiltModule_processorInit,
-    (leaf::createProcFunc) tEnvModule_processorInit,
-    (leaf::createProcFunc) tLFOModule_processorInit
-};
-static leaf::createModuleFunc module_init_map[] = {
-    (leaf::createModuleFunc) tOscModule_init,
-    (leaf::createModuleFunc) tFiltModule_init,
-    (leaf::createModuleFunc) tEnvModule_init,
-    (leaf::createModuleFunc) tLFOModule_init
-};
-
+#ifdef __cplusplus
+namespace leaf
+{
+#endif
+    //each file that includes this will getits own copy of it. this wastes memory. Should find a singleton style solution
+    static createProcFunc proc_init_map[] = {
+        (createProcFunc) tOscModule_processorInit,
+        (createProcFunc) tFiltModule_processorInit,
+        (createProcFunc) tEnvModule_processorInit,
+        (createProcFunc) tLFOModule_processorInit
+    };
+    static createModuleFunc module_init_map[] = {
+        (createModuleFunc) tOscModule_init,
+        (createModuleFunc) tFiltModule_init,
+        (createModuleFunc) tEnvModule_init,
+        (createModuleFunc) tLFOModule_init
+    };
+#ifdef __cplusplus
+}
+        #endif
 #endif //UNTITLED_FUNCMAPS_H

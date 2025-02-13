@@ -6,8 +6,17 @@
 #ifndef DEFS_HEADER
 #define DEFS_HEADER
 #ifdef __cplusplus
+    #include <atomic>
+    #define ATOMIC_FLOAT std::atomic<float>
+#else
+    #define ATOMIC_FLOAT float
+#endif
+#ifdef __cplusplus
 extern "C" {
 #endif
+
+
+
 // Maximum number of parameters for a processors object
 #define MAX_NUM_PARAMS 14
 

@@ -7,11 +7,14 @@
 #define MAPPING_HEADER
 
 
-#include <stdio.h>
+
 #include "processor.h"
 #include "defs.h"
+    #ifdef __cplusplus
+    #include <cstdio>
 namespace leaf
 {
+    #endif
     typedef struct Mapping
     {
         tSetter setter; // Setter function for the parameter of the mapping
@@ -22,10 +25,10 @@ namespace leaf
         uint8_t paramID;
         uint8_t numUsedSources; // Number of active sources for the mapping
         uint8_t inUUIDS[MAX_NUM_SOURCES];
-        std::atomic<float> bipolarOffset[MAX_NUM_SOURCES];
-        std::atomic<float>* inSources[MAX_NUM_SOURCES]; // IN sources from processors
-        std::atomic<float> scalingValues[MAX_NUM_SOURCES]; // Scaling for the IN sources
-        std::atomic<float>* initialVal; // The mapping's initial value
+        ATOMIC_FLOAT bipolarOffset[MAX_NUM_SOURCES];
+        ATOMIC_FLOAT* inSources[MAX_NUM_SOURCES]; // IN sources from processors
+        ATOMIC_FLOAT scalingValues[MAX_NUM_SOURCES]; // Scaling for the IN sources
+        ATOMIC_FLOAT* initialVal; // The mapping's initial value
     } tMapping;
 
     typedef struct MappingPreset
@@ -60,20 +63,22 @@ namespace leaf
         uint8_t bipolarOffset[MAX_NUM_SOURCES][5]; // Each float -> 5 chunks of 7 bits
         uint8_t scalingValues[MAX_NUM_SOURCES][5]; // Each float -> 5 chunks of 7 bits
     } tMappingPreset7Bit;
+#ifdef __cplusplus
+    void splitMappingPreset(const tMappingPreset* preset, tMappingPreset7Bit* preset7Bit);
+    void unsplitMappingPreset(const tMappingPreset7Bit* preset7Bit, tMappingPreset* preset);
+    void mapping_to_preset(tMapping *mapping, tMappingPresetUnion * preset);
+    
+    void preset_to_mapping(tMappingPresetUnion preset, tMapping *mapping);
+
+    void processMapping (tMapping* mapping);
+
+    void tMapping_init (tMapping* mapping, LEAF &leaf);
+
+    ATOMIC_FLOAT* tMappingAdd (tMapping* mapping, tProcessor* outputProcessor, tProcessor* destProcessor, uint8_t destParam, uint8_t source, LEAF& leaf);
+
 
 }
-void splitMappingPreset(const leaf::tMappingPreset* preset, leaf::tMappingPreset7Bit* preset7Bit);
-void unsplitMappingPreset(const leaf::tMappingPreset7Bit* preset7Bit, leaf::tMappingPreset* preset);
-    void mapping_to_preset(leaf::tMapping *mapping, leaf::tMappingPresetUnion * preset);
-
-    void preset_to_mapping(leaf::tMappingPresetUnion preset, leaf::tMapping *mapping);
-
-    void processMapping (leaf::tMapping* mapping);
-
-    void tMapping_init (leaf::tMapping* mapping, LEAF &leaf);
-
-    std::atomic<float>* tMappingAdd (leaf::tMapping* mapping, leaf::tProcessor* outputProcessor, leaf::tProcessor* destProcessor, uint8_t destParam, uint8_t source, LEAF& leaf);
-
+#endif
 
 
 #endif

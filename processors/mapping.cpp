@@ -7,7 +7,11 @@
 #include "mapping.h"
 #include "sysex_chunks.h"
 // Process mapping function
-void processMapping (leaf::tMapping* mapping)
+#ifdef __cplusplus
+namespace leaf
+{
+#endif
+void processMapping (tMapping* mapping)
 {
     float sum = *mapping->initialVal;
 
@@ -20,7 +24,7 @@ void processMapping (leaf::tMapping* mapping)
 }
 
 //clears out a new mapping
-void tMapping_init(leaf::tMapping *mapping, LEAF& leaf)
+void tMapping_init(tMapping *mapping, LEAF& leaf)
 {
     mapping->numUsedSources= 0;
 
@@ -33,8 +37,8 @@ void tMapping_init(leaf::tMapping *mapping, LEAF& leaf)
 // `outputProcessor` to the input of `destProcessor` on the parameter 
 // `destParam`.  The mapping scales this value by the factors in
 // `scalingValues`.
-std::atomic<float>* tMappingAdd(leaf::tMapping *mapping, leaf::tProcessor *outputProcessor,
-    leaf::tProcessor *destProcessor, uint8_t destParam, uint8_t source, LEAF& leaf)
+ATOMIC_FLOAT* tMappingAdd(tMapping *mapping, tProcessor *outputProcessor,
+    tProcessor *destProcessor, uint8_t destParam, uint8_t source, LEAF& leaf)
 
 {
 
@@ -78,7 +82,7 @@ std::atomic<float>* tMappingAdd(leaf::tMapping *mapping, leaf::tProcessor *outpu
     return &mapping->scalingValues[source];
 }
 
-void mapping_to_preset(leaf::tMapping *mapping, leaf::tMappingPresetUnion * preset)
+void mapping_to_preset(tMapping *mapping, tMappingPresetUnion * preset)
 {
     preset->data.mappingTag = BYTETAGS::MAPTAG;//;mapping->uuid;
     preset->data.uuid = mapping->uuid;
@@ -94,7 +98,7 @@ void mapping_to_preset(leaf::tMapping *mapping, leaf::tMappingPresetUnion * pres
     }
 }
 
-void preset_to_mapping(leaf::tMappingPresetUnion preset, leaf::tMapping *mapping)
+void preset_to_mapping(tMappingPresetUnion preset, tMapping *mapping)
 {
     mapping->uuid = preset.data.uuid;
     mapping->destinationProcessorUniqueID = preset.data.destinationUUID;
@@ -109,7 +113,7 @@ void preset_to_mapping(leaf::tMappingPresetUnion preset, leaf::tMapping *mapping
     }
 }
 
-void splitMappingPreset(const leaf::tMappingPreset* preset, leaf::tMappingPreset7Bit* preset7Bit) {
+void splitMappingPreset(const tMappingPreset* preset, tMappingPreset7Bit* preset7Bit) {
     // Split basic fields
     splitUint8To7bit(preset->mappingTag, preset7Bit->mappingTag);
     splitUint8To7bit(preset->index, preset7Bit->index);
@@ -134,7 +138,7 @@ void splitMappingPreset(const leaf::tMappingPreset* preset, leaf::tMappingPreset
     }
 }
 
-void unsplitMappingPreset(const leaf::tMappingPreset7Bit* preset7Bit, leaf::tMappingPreset* preset) {
+void unsplitMappingPreset(const tMappingPreset7Bit* preset7Bit, tMappingPreset* preset) {
     // Reconstruct basic fields
     preset->mappingTag = unsplitUint8(preset7Bit->mappingTag);
     preset->index = unsplitUint8(preset7Bit->index);
@@ -158,3 +162,6 @@ void unsplitMappingPreset(const leaf::tMappingPreset7Bit* preset7Bit, leaf::tMap
         preset->scalingValues[i] = unsplitFloat(preset7Bit->scalingValues[i]);
     }
 }
+#ifdef __cplusplus
+}
+#endif
