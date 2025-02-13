@@ -17,7 +17,7 @@ file(GLOB SRC CONFIGURE_DEPENDS "*.h" "*.c")
 file(GLOB _MODULES CONFIGURE_DEPENDS "modules/*.h" "modules/*.cpp")
 
 # Add subdirectories for libraries and processors
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/LEAF/leaf)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/LEAF/)
 add_subdirectory(processors)
 
 # Create main library
