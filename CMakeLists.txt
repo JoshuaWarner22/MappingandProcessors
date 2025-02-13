@@ -18,7 +18,24 @@ file(GLOB _MODULES CONFIGURE_DEPENDS "modules/*.h" "modules/*.cpp")
 
 # Add subdirectories for libraries and processors
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/LEAF/)
-add_subdirectory(processors)
+#add_subdirectory(processors)
+# Add library procUtils with processor.c and mapping.c
+add_library(procUtils
+        processors/processor.cpp
+        processors/mapping.cpp
+        processors/sysex_chunks.cpp
+)
+
+# Include directories for procUtils
+target_include_directories(procUtils PUBLIC
+        ${CMAKE_CURRENT_LIST_DIR}
+)
+
+# Link library LEAF to procUtils
+target_link_libraries(procUtils PRIVATE
+        LEAF
+)
+
 
 # Create main library
 add_library(${PROJECT_NAME} ${SRC} ${_MODULES})
