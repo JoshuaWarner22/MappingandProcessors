@@ -29,6 +29,7 @@ namespace leaf
         ATOMIC_FLOAT* inSources[MAX_NUM_SOURCES]; // IN sources from processors
         ATOMIC_FLOAT scalingValues[MAX_NUM_SOURCES]; // Scaling for the IN sources
         ATOMIC_FLOAT* initialVal; // The mapping's initial value
+        tMempool mempool;
     } tMapping;
 
     typedef struct MappingPreset

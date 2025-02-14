@@ -1,10 +1,7 @@
 cmake_minimum_required(VERSION 3.26.4)
 project(LEAF_modules)
 option(MODULE_ENABLE_TESTS "Enable tests modules" ON)
-# Include directories for LEAF
-include_directories("${CMAKE_CURRENT_LIST_DIR}/LEAF/leaf")
-include_directories("${CMAKE_CURRENT_LIST_DIR}/LEAF/leaf/Inc")
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
 
 # Enable verbose output
@@ -18,7 +15,6 @@ file(GLOB _MODULES CONFIGURE_DEPENDS "modules/*.h" "modules/*.cpp")
 
 # Add subdirectories for libraries and processors
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/LEAF/)
-#add_subdirectory(processors)
 # Add library procUtils with processor.c and mapping.c
 add_library(procUtils
         processors/processor.cpp
@@ -29,6 +25,10 @@ add_library(procUtils
 # Include directories for procUtils
 target_include_directories(procUtils PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}
+        "${CMAKE_CURRENT_LIST_DIR}/processors/"
+        "${CMAKE_CURRENT_LIST_DIR}/modules/"
+        "${CMAKE_CURRENT_LIST_DIR}/LEAF/"
+
 )
 
 # Link library LEAF to procUtils

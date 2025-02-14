@@ -22,7 +22,7 @@ void tMapping_initToPool (tMapping** const mapping, tMempool* const mp)
 {
     _tMempool* m = *mp;
     tMapping* map = *mapping = (tMapping*) mpool_alloc(sizeof(tMapping), m);
-    p->mempool = m;
+    map->mempool = m;
     map->numUsedSources = 0;
 }
 

@@ -28,7 +28,7 @@ typedef struct Processor
 
     ATOMIC_FLOAT* inParameters; //  points to parameter array of the actual object
     ATOMIC_FLOAT* outParameters; // OUT sources for the processors
-
+    tMempool mempool;
 } tProcessor;
 
 typedef struct ProcessorPreset
