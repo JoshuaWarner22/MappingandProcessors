@@ -52,12 +52,18 @@ typedef struct _tProcessorPreset7Bit {
         // Chunks for each field
         uint8_t processorTag[2];                // 2 chunks of 7-bits
         uint8_t processorTypeID[2];             // 2 chunks of 7-bits
-        uint8_t processorUniqueID[2];           // 3 chunks of 7-bits
+        uint8_t processorUniqueID[2];           // 2 chunks of 7-bits
         uint8_t proc_chain[2];                  // 2 chunks of 7-bits
         uint8_t index[2];                       // 2 chunks of 7-bits
         uint8_t params[MAX_NUM_PARAMS][5];      // Each float -> 5 chunks of 7-bits
     } tProcessorPreset7Bit;
 
+
+    typedef struct _tProcessorReceiver {
+       uint8_t receivedData[sizeof(tProcessorPreset7Bit)]; //
+        size_t receivedDataSize;
+
+    }tProcessorReceiver;
 // Function definitions for split and unsplit
 void splitProcessorPreset(const tProcessorPreset *preset, tProcessorPreset7Bit *preset7Bit);
 void unsplitProcessorPreset(const tProcessorPreset7Bit *preset7Bit, tProcessorPreset *preset);
