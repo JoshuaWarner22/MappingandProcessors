@@ -62,8 +62,11 @@ typedef struct _tProcessorPreset7Bit {
     typedef struct _tProcessorReceiver {
        uint8_t receivedData[sizeof(tProcessorPreset7Bit)]; //
         size_t receivedDataSize;
-
     }tProcessorReceiver;
+
+    //returns 1 if finished
+int receiveProcessorPreset(tProcessorReceiver *receiver, tProcessorPreset* output, uint8_t *data, size_t size);
+
 // Function definitions for split and unsplit
 void splitProcessorPreset(const tProcessorPreset *preset, tProcessorPreset7Bit *preset7Bit);
 void unsplitProcessorPreset(const tProcessorPreset7Bit *preset7Bit, tProcessorPreset *preset);

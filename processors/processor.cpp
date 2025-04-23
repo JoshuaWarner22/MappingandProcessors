@@ -56,6 +56,17 @@ void    tProcessor_initToPool   (tProcessor** const pr, tMempool* const mp)
             proc->inParameters[i] = preset->data.params[i];
         }
     }
+    void preset_to_processor_ (tProcessorPreset* preset, tProcessor* proc)
+{
+    proc->processorTypeID = preset->processorTypeID;
+    proc->processorUniqueID = preset->processorUniqueID;
+    proc->index = preset->index;
+    proc->proc_chain = preset->proc_chain;
+    for (int i = 0; i < MAX_NUM_PARAMS; i++)
+    {
+        proc->inParameters[i] = preset->params[i];
+    }
+}
 
     void splitProcessorPreset (const tProcessorPreset* preset, tProcessorPreset7Bit* preset7Bit)
     {
@@ -103,6 +114,26 @@ void    tProcessor_initToPool   (tProcessor** const pr, tMempool* const mp)
             preset->params[i] = unsplitFloat (preset7Bit->params[i]);
         }
     }
+    //null check tProcessor when calling this. it will be instantiated whenever the preset is ready
+    void receiveProcessorPreset(tProcessorReceiver *receiver,tProcessor* output, uint8_t *data, size_t size, LEAF* leaf) {
+        if (receiver->receivedDataSize + (size - 3)  <= sizeof(tProcessorPreset7Bit) ) {
+            memcpy(receiver->receivedData + receiver->receivedDataSize, data, size - 3);
+            receiver->receivedDataSize += size - 3;
+        }
+        if (receiver->receivedDataSize == sizeof(tProcessorPreset7Bit)) {
+            tProcessorPreset7Bit preset7Bit;
+            memcpy(&preset7Bit, receiver->receivedData, sizeof(tProcessorPreset7Bit));
+            tProcessorPreset preset;
+            unsplitProcessorPreset(&preset7Bit, &preset);
+            tProcessor_init(&output,leaf);
+            preset_to_processor_(&preset,output);
+            receiver->receivedDataSize = 0;
+            for (int i = 0; i < sizeof(tProcessorPreset7Bit); i++) {
+                receiver->receivedData[i] = 0;
+            }
+        }
+    }
+
 #ifdef __cplusplus
 }
 #endif
