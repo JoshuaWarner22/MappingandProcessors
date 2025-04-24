@@ -33,7 +33,7 @@ typedef struct Processor
 
 typedef struct ProcessorPreset
 {
-    uint8_t processorTag; //byte tag
+
     uint8_t processorTypeID; // ID for this processors
     uint8_t processorUniqueID; // ID for this processors
     uint8_t proc_chain;
@@ -50,7 +50,6 @@ typedef union
 // Struct for holding the 7-bit chunked version of tProcessorPreset
 typedef struct _tProcessorPreset7Bit {
         // Chunks for each field
-        uint8_t processorTag[2];                // 2 chunks of 7-bits
         uint8_t processorTypeID[2];             // 2 chunks of 7-bits
         uint8_t processorUniqueID[2];           // 2 chunks of 7-bits
         uint8_t proc_chain[2];                  // 2 chunks of 7-bits

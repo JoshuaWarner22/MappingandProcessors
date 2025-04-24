@@ -14,9 +14,11 @@ namespace leaf {
 
     void receiveProcessorPreset(tProcessorReceiver *receiver, tProcessor **output, uint8_t *data, size_t size,
                                 LEAF *leaf) {
-        if (receiver->receivedDataSize + (size - 3) <= sizeof(tProcessorPreset7Bit)) {
-            memcpy(receiver->receivedData + receiver->receivedDataSize, data + 2, size - 3);
-            receiver->receivedDataSize += size - 3;
+        if (receiver->receivedDataSize + (size - 4) <= sizeof(tProcessorPreset7Bit)) {
+            memcpy(receiver->receivedData + receiver->receivedDataSize,
+                data + 3,//skip sysex tag, type tag, and info tag
+                size - 4);
+            receiver->receivedDataSize += size - 4;
         }
         if (receiver->receivedDataSize == sizeof(tProcessorPreset7Bit)) {
             tProcessorPreset7Bit preset7Bit;
@@ -42,9 +44,11 @@ namespace leaf {
 
     void receiveMappingPreset(tMappingReceiver *receiver, tMapping **output, uint8_t *data, size_t size, LEAF *leaf) {
         //does not contain an extra header right now bcus it can be packed into a single chunk
-        if (receiver->receivedDataSize + (size - 2) <= sizeof(tMappingPreset7Bit)) {
-            memcpy(receiver->receivedData + receiver->receivedDataSize, data + 1, size - 2);
-            receiver->receivedDataSize += size - 2;
+        if (receiver->receivedDataSize + (size - 4) <= sizeof(tMappingPreset7Bit)) {
+            memcpy(receiver->receivedData + receiver->receivedDataSize,
+                data + 3,//skip sysex tag, type tag, and info tag
+                size - 4);
+            receiver->receivedDataSize += size - 4;
         }
         if (receiver->receivedDataSize == sizeof(tMappingPreset7Bit)) {
             tMappingPreset7Bit preset7Bit;

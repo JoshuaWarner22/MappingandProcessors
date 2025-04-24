@@ -34,7 +34,6 @@ namespace leaf
 
     typedef struct MappingPreset
     {
-        uint8_t mappingTag;
         uint8_t index;
         uint8_t uuid; // ID for this processors
         uint8_t destinationUUID;
@@ -54,7 +53,6 @@ namespace leaf
 
 // 7-Bit representation of tMappingPreset
     typedef struct tMappingPreset7Bit {
-        uint8_t mappingTag[2];                   // 2 chunks of 7 bits
         uint8_t index[2];                        // 2 chunks of 7 bits
         uint8_t uuid[2];                         // 2 chunks of 7 bits
         uint8_t destinationUUID[2];              // 2 chunks of 7 bits
@@ -67,7 +65,7 @@ namespace leaf
 
 
     typedef struct  _tMappingReceiver{
-       uint8_t receivedData[sizeof(tProcessorPreset7Bit)]; //
+       uint8_t receivedData[sizeof(tMappingPreset7Bit)]; //
         size_t receivedDataSize;
     }tMappingReceiver;
 

@@ -97,7 +97,6 @@ ATOMIC_FLOAT* tMappingAdd(tMapping *mapping, tProcessor *outputProcessor,
 
 void mapping_to_preset(tMapping *mapping, tMappingPresetUnion * preset)
 {
-    preset->data.mappingTag = BYTETAGS::MAPTAG;//;mapping->uuid;
     preset->data.uuid = mapping->uuid;
     preset->data.destinationUUID = mapping->destinationProcessorUniqueID;
     preset->data.destParamID = mapping->paramID;
@@ -142,7 +141,6 @@ void preset_to_mapping(tMappingPresetUnion preset, tMapping *mapping)
 
 void splitMappingPreset(const tMappingPreset* preset, tMappingPreset7Bit* preset7Bit) {
     // Split basic fields
-    splitUint8To7bit(preset->mappingTag, preset7Bit->mappingTag);
     splitUint8To7bit(preset->index, preset7Bit->index);
     splitUint8To7bit(preset->uuid, preset7Bit->uuid);
     splitUint8To7bit(preset->destinationUUID, preset7Bit->destinationUUID);
@@ -167,7 +165,6 @@ void splitMappingPreset(const tMappingPreset* preset, tMappingPreset7Bit* preset
 
 void unsplitMappingPreset(const tMappingPreset7Bit* preset7Bit, tMappingPreset* preset) {
     // Reconstruct basic fields
-    preset->mappingTag = unsplitUint8(preset7Bit->mappingTag);
     preset->index = unsplitUint8(preset7Bit->index);
     preset->uuid = unsplitUint8(preset7Bit->uuid);
     preset->destinationUUID = unsplitUint8(preset7Bit->destinationUUID);

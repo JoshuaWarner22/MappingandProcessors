@@ -202,7 +202,6 @@ TEST_CASE("Test size of MappingPreset and ProcessorPreset", "[sizes]") {
 TEST_CASE("tProcessorPreset split and unsplit operations are consistent", "[tProcessorPreset]") {
     // Create and initialize a tProcessorPreset instance
     leaf::tProcessorPreset originalPreset;
-    originalPreset.processorTag = 42;
     originalPreset.processorTypeID = 84;
     originalPreset.processorUniqueID = 126;
     originalPreset.proc_chain = 21;
@@ -224,7 +223,6 @@ TEST_CASE("tProcessorPreset split and unsplit operations are consistent", "[tPro
     leaf::unsplitProcessorPreset(&preset7Bit, &reconstructedPreset);
 
     // Verify that the reconstructed preset matches the original
-    REQUIRE(reconstructedPreset.processorTag == originalPreset.processorTag);
     REQUIRE(reconstructedPreset.processorTypeID == originalPreset.processorTypeID);
     REQUIRE(reconstructedPreset.processorUniqueID == originalPreset.processorUniqueID);
     REQUIRE(reconstructedPreset.proc_chain == originalPreset.proc_chain);
@@ -241,7 +239,6 @@ TEST_CASE("tProcessorPreset split and unsplit operations are consistent", "[tPro
 TEST_CASE("tMappingPreset split and unsplit operations are consistent", "[tMappingPreset]") {
     // Create and initialize an example tMappingPreset
     leaf::tMappingPreset originalPreset;
-    originalPreset.mappingTag = 42;
     originalPreset.index = 84;
     originalPreset.uuid = 126;
     originalPreset.destinationUUID = 21;
@@ -266,7 +263,6 @@ TEST_CASE("tMappingPreset split and unsplit operations are consistent", "[tMappi
     unsplitMappingPreset(&preset7Bit, &reconstructedPreset);
 
     // Verify that the reconstructed preset matches the original
-    REQUIRE(reconstructedPreset.mappingTag == originalPreset.mappingTag);
     REQUIRE(reconstructedPreset.index == originalPreset.index);
     REQUIRE(reconstructedPreset.uuid == originalPreset.uuid);
     REQUIRE(reconstructedPreset.destinationUUID == originalPreset.destinationUUID);

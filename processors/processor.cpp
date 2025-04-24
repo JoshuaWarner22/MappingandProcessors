@@ -26,7 +26,7 @@ void    tProcessor_initToPool   (tProcessor** const pr, tMempool* const mp)
 
     void processor_to_preset (tProcessor* proc, tProcessorPresetUnion* preset)
     {
-        preset->data.processorTag = BYTETAGS::PROCTAG;
+
         preset->data.processorTypeID = proc->processorTypeID;
         preset->data.processorUniqueID = proc->processorUniqueID;
         preset->data.index = proc->index;
@@ -62,8 +62,7 @@ void    tProcessor_initToPool   (tProcessor** const pr, tMempool* const mp)
 
     void splitProcessorPreset (const tProcessorPreset* preset, tProcessorPreset7Bit* preset7Bit)
     {
-        // Split processorTag (8 bits -> 2 chunks of 7 bits)
-        splitUint8To7bit (preset->processorTag, preset7Bit->processorTag);
+
 
         // Split processorTypeID (8 bits -> 2 chunks of 7 bits)
         splitUint8To7bit (preset->processorTypeID, preset7Bit->processorTypeID);
@@ -85,9 +84,6 @@ void    tProcessor_initToPool   (tProcessor** const pr, tMempool* const mp)
     }
     void unsplitProcessorPreset (const tProcessorPreset7Bit* preset7Bit, tProcessorPreset* preset)
     {
-        // Reconstruct processorTag (2 chunks -> 8 bits)
-        preset->processorTag = unsplitUint8 (preset7Bit->processorTag);
-
         // Reconstruct processorTypeID (2 chunks -> 8 bits)
         preset->processorTypeID = unsplitUint8 (preset7Bit->processorTypeID);
 
