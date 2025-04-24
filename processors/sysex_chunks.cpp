@@ -13,7 +13,7 @@ void splitUint8To7bit(uint8_t byte, uint8_t chunk[2]) {
 }
  void splitFloatTo7bit (float val, uint8_t chunks[5]) {
      // Split the 32-bit representation into 5 chunks of 7 bits
-     FloatUnion floatUnion = {val};
+     union FloatUnion floatUnion = {val};
 
      chunks[0] = (floatUnion.u >> 0) & 0x7F;  // First 7 bits
      chunks[1] = (floatUnion.u >> 7) & 0x7F;  // Next 7 bits

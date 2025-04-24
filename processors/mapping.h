@@ -7,7 +7,7 @@
 #define MAPPING_HEADER
 
 
-
+#include <stdint.h>
 #include "processor.h"
 #include "defs.h"
     #ifdef __cplusplus
@@ -82,7 +82,7 @@ namespace leaf
 
 
     void tMapping_initToPool (tMapping** const mapping, tMempool* const mp);
-    ATOMIC_FLOAT* tMappingAdd (tMapping* mapping, tProcessor* outputProcessor, tProcessor* destProcessor, uint8_t destParam, uint8_t source, LEAF& leaf);
+    ATOMIC_FLOAT* tMappingAdd (tMapping* mapping, tProcessor* outputProcessor, tProcessor* destProcessor, uint8_t destParam, uint8_t source, LEAF *leaf);
 
 #ifdef __cplusplus
 

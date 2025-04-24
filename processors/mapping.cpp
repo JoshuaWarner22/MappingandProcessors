@@ -51,33 +51,17 @@ void tMapping_free (tMapping** const mapping) {
 // `destParam`.  The mapping scales this value by the factors in
 // `scalingValues`.
 ATOMIC_FLOAT* tMappingAdd(tMapping *mapping, tProcessor *outputProcessor,
-    tProcessor *destProcessor, uint8_t destParam, uint8_t source, LEAF& leaf)
+    tProcessor *destProcessor, uint8_t destParam, uint8_t source, LEAF* leaf)
 
 {
 
 
-    // Checks that arguments are valid
-    if (mapping == NULL)
-    {
-    	return nullptr;
-    }
-    if  (outputProcessor == NULL)
-    {
-        return nullptr;
-    }
-    if  (destProcessor == NULL)
-    {
-        return nullptr;
-    }
-    if  (destParam < 0 || destParam > MAX_NUM_PARAMS)
-    {
-        return nullptr;
-    }
+
 //    if (scalingValues == NULL)
 //    {
 //    	return;
 //    }
-    mapping->uuid = getNextUuid(&leaf);
+    mapping->uuid = getNextUuid(leaf);
     // Updates the _tMapping struct with the given arguments
     mapping->inSources[source] = &outputProcessor->outParameters[0];
     mapping->inUUIDS[source] = outputProcessor->processorUniqueID;
