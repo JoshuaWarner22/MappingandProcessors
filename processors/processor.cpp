@@ -4,19 +4,11 @@
 /**********************************************************************/
 #include "processor.h"
 #include "sysex_chunks.h"
-#include "funcmaps.h"
 #ifdef __cplusplus
 namespace leaf
 {
 #endif
-    //createProcFunc proc_init_map[] = {
-    //    (createProcFunc)tOscModule_processorInit,
-    //    (createProcFunc)tOscModule_processorInit,
-    //    (createProcFunc)tOscModule_processorInit};
-    //createModuleFunc module_init_map[] = {
-    //    (createModuleFunc)tOscModule_init,
-    //    (createModuleFunc)tOscModule_init,
-    //    (createModuleFunc)tOscModule_init};
+
 
 
 void    tProcessor_init (tProcessor** const pr, LEAF* const leaf)
@@ -114,25 +106,11 @@ void    tProcessor_initToPool   (tProcessor** const pr, tMempool* const mp)
             preset->params[i] = unsplitFloat (preset7Bit->params[i]);
         }
     }
-    //null check tProcessor when calling this. it will be instantiated whenever the preset is ready
-    void receiveProcessorPreset(tProcessorReceiver *receiver,tProcessor* output, uint8_t *data, size_t size, LEAF* leaf) {
-        if (receiver->receivedDataSize + (size - 3)  <= sizeof(tProcessorPreset7Bit) ) {
-            memcpy(receiver->receivedData + receiver->receivedDataSize, data, size - 3);
-            receiver->receivedDataSize += size - 3;
-        }
-        if (receiver->receivedDataSize == sizeof(tProcessorPreset7Bit)) {
-            tProcessorPreset7Bit preset7Bit;
-            memcpy(&preset7Bit, receiver->receivedData, sizeof(tProcessorPreset7Bit));
-            tProcessorPreset preset;
-            unsplitProcessorPreset(&preset7Bit, &preset);
-            tProcessor_init(&output,leaf);
-            preset_to_processor_(&preset,output);
-            receiver->receivedDataSize = 0;
-            for (int i = 0; i < sizeof(tProcessorPreset7Bit); i++) {
-                receiver->receivedData[i] = 0;
-            }
-        }
-    }
+void tProcessor_free (tProcessor** const pr) {
+    tProcessor* p = *pr;
+    mpool_free((char*)p, p->mempool);
+    *pr = NULL;
+}
 
 #ifdef __cplusplus
 }

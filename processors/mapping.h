@@ -66,18 +66,24 @@ namespace leaf
     } tMappingPreset7Bit;
 
 
+    typedef struct  _tMappingReceiver{
+       uint8_t receivedData[sizeof(tProcessorPreset7Bit)]; //
+        size_t receivedDataSize;
+    }tMappingReceiver;
+
     void splitMappingPreset(const tMappingPreset* preset, tMappingPreset7Bit* preset7Bit);
     void unsplitMappingPreset(const tMappingPreset7Bit* preset7Bit, tMappingPreset* preset);
     void mapping_to_preset(tMapping *mapping, tMappingPresetUnion * preset);
     
     void preset_to_mapping(tMappingPresetUnion preset, tMapping *mapping);
-
+    void preset_to_mapping_(const tMappingPreset *preset, tMapping *mapping);
     void processMapping (tMapping* mapping);
 
     void tMapping_init (tMapping** const mapping, LEAF* const leaf);
+    void tMapping_free (tMapping** const mapping);
+
 
     void tMapping_initToPool (tMapping** const mapping, tMempool* const mp);
-
     ATOMIC_FLOAT* tMappingAdd (tMapping* mapping, tProcessor* outputProcessor, tProcessor* destProcessor, uint8_t destParam, uint8_t source, LEAF& leaf);
 
 #ifdef __cplusplus

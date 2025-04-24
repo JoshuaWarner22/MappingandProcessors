@@ -65,7 +65,6 @@ typedef struct _tProcessorPreset7Bit {
     }tProcessorReceiver;
 
     //returns 1 if finished
-int receiveProcessorPreset(tProcessorReceiver *receiver, tProcessorPreset* output, uint8_t *data, size_t size);
 
 // Function definitions for split and unsplit
 void splitProcessorPreset(const tProcessorPreset *preset, tProcessorPreset7Bit *preset7Bit);
@@ -82,6 +81,9 @@ void    tProcessor_init (tProcessor** const pr, LEAF* const leaf);
 
 
 void    tProcessor_initToPool   (tProcessor** const pr, tMempool* const mp);
+
+    void tProcessor_free(tProcessor** pr);
+
 
 void processor_to_preset(tProcessor *, tProcessorPresetUnion * );
 

@@ -13,18 +13,9 @@ namespace leaf
 {
 #endif
     //each file that includes this will getits own copy of it. this wastes memory. Should find a singleton style solution
-    static createProcFunc proc_init_map[] = {
-        (createProcFunc) tOscModule_processorInit,
-        (createProcFunc) tFiltModule_processorInit,
-        (createProcFunc) tEnvModule_processorInit,
-        (createProcFunc) tLFOModule_processorInit
-    };
-    static createModuleFunc module_init_map[] = {
-        (createModuleFunc) tOscModule_init,
-        (createModuleFunc) tFiltModule_init,
-        (createModuleFunc) tEnvModule_init,
-        (createModuleFunc) tLFOModule_init
-    };
+    extern createProcFunc proc_init_map[];
+    extern createModuleFunc module_init_map[];
+
 #ifdef __cplusplus
 }
         #endif

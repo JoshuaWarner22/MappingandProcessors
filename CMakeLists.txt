@@ -17,9 +17,15 @@ file(GLOB _MODULES CONFIGURE_DEPENDS "modules/*.h" "modules/*.cpp")
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/LEAF/)
 # Add library procUtils with processor.c and mapping.c
 add_library(procUtils
+        modules/EnvModule.cpp
+        modules/SimpleOscModule.cpp
+        modules/FilterModule.cpp
+        modules/LFOModule.cpp
         processors/processor.cpp
         processors/mapping.cpp
         processors/sysex_chunks.cpp
+        processors/midi_sysex.cpp
+        processors/funcmaps.cpp
 )
 
 # Include directories for procUtils
@@ -38,8 +44,8 @@ target_link_libraries(procUtils PRIVATE
 
 
 # Create main library
-add_library(${PROJECT_NAME} ${SRC} ${_MODULES})
-message("include ${CMAKE_CURRENT_SOURCE_DIR}/modules")
+add_library(${PROJECT_NAME} ${SRC})
+#message("include ${CMAKE_CURRENT_SOURCE_DIR}/modules")
 # Include directories for the main library
 target_include_directories(${PROJECT_NAME} PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}

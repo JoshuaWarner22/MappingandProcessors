@@ -39,7 +39,9 @@ void processMapping (tMapping* mapping)
 
     mapping->setter(mapping->destObject, sum);
 }
-
+void tMapping_free (tMapping** const mapping) {
+   mpool_free((char*)*mapping, (*mapping)->mempool);
+}
 
 
 
@@ -121,6 +123,20 @@ void preset_to_mapping(tMappingPresetUnion preset, tMapping *mapping)
         mapping->inUUIDS[i] = preset.data.inUUIDs[i];
         mapping->bipolarOffset[i] = preset.data.bipolarOffset[i];
         mapping->scalingValues[i] = preset.data.scalingValues[i];
+    }
+}
+    void preset_to_mapping_(const tMappingPreset* preset, tMapping *mapping)
+{
+    mapping->uuid = preset->uuid;
+    mapping->destinationProcessorUniqueID = preset->destinationUUID;
+    mapping->paramID = preset->destParamID;
+    mapping->numUsedSources = preset->numUsedSources;
+    mapping->index = preset->index;
+    for (int i = 0; i < mapping->numUsedSources; i++)
+    {
+        mapping->inUUIDS[i] = preset->inUUIDs[i];
+        mapping->bipolarOffset[i] = preset->bipolarOffset[i];
+        mapping->scalingValues[i] = preset->scalingValues[i];
     }
 }
 

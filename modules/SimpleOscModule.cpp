@@ -144,26 +144,26 @@ void tOscModule_free(void** const osc)
     _tOscModule* OscModule = static_cast<_tOscModule*> (*osc);
     int type = roundf(OscModule->params[OscType]);
     if (type == OscTypeSawSquare)
-        tPBSawSquare_free ((tPBSawSquare*)OscModule->theOsc);
+        tPBSawSquare_free ((tPBSawSquare*)&OscModule->theOsc);
     else if (type == OscTypeSineTri)
     {
-        tPBSineTriangle_free ((tPBSineTriangle*)OscModule->theOsc);
+        tPBSineTriangle_free ((tPBSineTriangle*)&OscModule->theOsc);
     }
     else if (type == OscTypeSaw)
     {
-        tPBSaw_free ((tPBSaw*)OscModule->theOsc);
+        tPBSaw_free ((tPBSaw*)&OscModule->theOsc);
     }
     else if (type == OscTypePulse)
     {
-        tPBPulse_free ((tPBPulse*)OscModule->theOsc);
+        tPBPulse_free ((tPBPulse*)&OscModule->theOsc);
     }
     else if (type == OscTypeSine)
     {
-        tCycle_free ((tCycle*)OscModule->theOsc);
+        tCycle_free ((tCycle*)&OscModule->theOsc);
     }
     else if (type == OscTypeTri)
     {
-        tPBTriangle_free ((tPBTriangle*)OscModule->theOsc);
+        tPBTriangle_free ((tPBTriangle*)&OscModule->theOsc);
     }
     tExpSmooth_free(&OscModule->pitchSmoother);
     mpool_free((char*)OscModule, OscModule->mempool);
@@ -328,10 +328,11 @@ void tOscModule_processorInit(tOscModule const osc, leaf::tProcessor* const proc
     osc->setterFunctions[OscSyncMode] = (tSetter)&tOscModule_setSyncMode;
     osc->setterFunctions[OscSyncIn] = (tSetter)&tOscModule_setSyncIn;
     osc->setterFunctions[OscType] = (tSetter)&tOscModule_setType;
-//    for (int i = 0; i < OscNumParams; i++)
-//    {
-//        processor->setterFunctions[i](osc, osc->params[i]);
-//    }
+    // for (int i = 0; i < OscNumParams; i++)
+    // {
+    //
+    //     processor->setterFunctions[i](osc, osc->params[i]);
+    // }
     processor->inParameters = osc->params;
     processor->outParameters = osc->outputs;
     processor->processorTypeID = ModuleTypeOscModule;
