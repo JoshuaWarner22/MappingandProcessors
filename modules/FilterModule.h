@@ -4,11 +4,11 @@
 #ifndef FILTERMODULE_H
 #define FILTERMODULE_H
 
-#include "../LEAF/leaf/leaf.h"
-#include "../processors/defs.h"
-#include "../processors/processor.h"
-#include "../LEAF/leaf/Inc/leaf-mempool.h"
-#include "../LEAF/leaf/Inc/leaf-filters.h"
+#include "leaf.h"
+#include "defs.h"
+#include "processor.h"
+#include "Inc/leaf-mempool.h"
+#include "Inc/leaf-filters.h"
 
 
 typedef enum {
@@ -53,8 +53,8 @@ typedef struct _tFiltModule {
     float dbTableSizeMinusOne;
     float* resTableAddress;
     float resTableSizeMinusOne;
-    std::atomic<float> params[FiltNumParams];
-    std::atomic<float> outputs[1];
+    ATOMIC_FLOAT params[FiltNumParams];
+    ATOMIC_FLOAT outputs[1];
     float amp;
     float cutoffKnob;
     float keyFollow;
@@ -85,7 +85,7 @@ void tFiltModule_setResTableLocation (tFiltModule const filt, float* tableAddres
 void tFiltModule_setSampleRate (tFiltModule const filt, float sr);
 
 //init processors
-void tFiltModule_processorInit(tFiltModule const filt, leaf::tProcessor* processor);
+void tFiltModule_processorInit(tFiltModule const filt, LEAF_NAMESPACE tProcessor* processor);
 
 
 

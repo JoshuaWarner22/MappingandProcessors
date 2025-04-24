@@ -8,7 +8,9 @@
 #ifdef __cplusplus
     #include <atomic>
     #define ATOMIC_FLOAT std::atomic<float>
+#define LEAF_NAMESPACE leaf::
 #else
+#define LEAF_NAMESPACE
     #define ATOMIC_FLOAT float
 #endif
 #ifdef __cplusplus
@@ -18,7 +20,9 @@ extern "C" {
 
 
 // Maximum number of parameters for a processors object
-#define MAX_NUM_PARAMS 14
+//if this changes past 12 we need to update sysex sending and receiving
+// it is currently set to 12 so that all params can fit in a single sysex package
+#define MAX_NUM_PARAMS 12
 
 // Maximum number of processors sources for a mapping object
 #define MAX_NUM_SOURCES 3

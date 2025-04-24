@@ -4,19 +4,24 @@
 /**********************************************************************/
 #include "processor.h"
 #include "sysex_chunks.h"
-#include "funcmaps.h"
 #ifdef __cplusplus
 namespace leaf
 {
 #endif
-    //createProcFunc proc_init_map[] = {
-    //    (createProcFunc)tOscModule_processorInit,
-    //    (createProcFunc)tOscModule_processorInit,
-    //    (createProcFunc)tOscModule_processorInit};
-    //createModuleFunc module_init_map[] = {
-    //    (createModuleFunc)tOscModule_init,
-    //    (createModuleFunc)tOscModule_init,
-    //    (createModuleFunc)tOscModule_init};
+
+
+
+void    tProcessor_init (tProcessor** const pr, LEAF* const leaf)
+{
+	tProcessor_initToPool(pr, &leaf->mempool);
+}
+
+void    tProcessor_initToPool   (tProcessor** const pr, tMempool* const mp)
+{
+    _tMempool* m = *mp;
+    tProcessor* p = *pr = (tProcessor*) mpool_alloc(sizeof(tProcessor), m);
+    p->mempool = m;
+}
 
 
     void processor_to_preset (tProcessor* proc, tProcessorPresetUnion* preset)
@@ -43,6 +48,17 @@ namespace leaf
             proc->inParameters[i] = preset->data.params[i];
         }
     }
+    void preset_to_processor_ (tProcessorPreset* preset, tProcessor* proc)
+{
+    proc->processorTypeID = preset->processorTypeID;
+    proc->processorUniqueID = preset->processorUniqueID;
+    proc->index = preset->index;
+    proc->proc_chain = preset->proc_chain;
+    for (int i = 0; i < MAX_NUM_PARAMS; i++)
+    {
+        proc->inParameters[i] = preset->params[i];
+    }
+}
 
     void splitProcessorPreset (const tProcessorPreset* preset, tProcessorPreset7Bit* preset7Bit)
     {
@@ -90,6 +106,12 @@ namespace leaf
             preset->params[i] = unsplitFloat (preset7Bit->params[i]);
         }
     }
+void tProcessor_free (tProcessor** const pr) {
+    tProcessor* p = *pr;
+    mpool_free((char*)p, p->mempool);
+    *pr = NULL;
+}
+
 #ifdef __cplusplus
 }
 #endif

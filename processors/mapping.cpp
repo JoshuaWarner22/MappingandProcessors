@@ -11,6 +11,23 @@
 namespace leaf
 {
 #endif
+
+
+void tMapping_init (tMapping** const mapping, LEAF* const leaf)
+{
+	tMapping_initToPool(mapping, &leaf->mempool);
+}
+
+void tMapping_initToPool (tMapping** const mapping, tMempool* const mp)
+{
+    _tMempool* m = *mp;
+    tMapping* map = *mapping = (tMapping*) mpool_alloc(sizeof(tMapping), m);
+    map->mempool = m;
+    map->numUsedSources = 0;
+}
+
+
+
 void processMapping (tMapping* mapping)
 {
     float sum = *mapping->initialVal;
@@ -22,17 +39,13 @@ void processMapping (tMapping* mapping)
 
     mapping->setter(mapping->destObject, sum);
 }
-
-//clears out a new mapping
-void tMapping_init(tMapping *mapping, LEAF& leaf)
-{
-    mapping->numUsedSources= 0;
-
-    for(int i = 0; i < MAX_NUM_SOURCES; i++)
-    {
-        mapping->scalingValues[i] = 0;
-    }
+void tMapping_free (tMapping** const mapping) {
+   mpool_free((char*)*mapping, (*mapping)->mempool);
 }
+
+
+
+
 // Initializes the mapping `mapping` to map from the output of 
 // `outputProcessor` to the input of `destProcessor` on the parameter 
 // `destParam`.  The mapping scales this value by the factors in
@@ -110,6 +123,20 @@ void preset_to_mapping(tMappingPresetUnion preset, tMapping *mapping)
         mapping->inUUIDS[i] = preset.data.inUUIDs[i];
         mapping->bipolarOffset[i] = preset.data.bipolarOffset[i];
         mapping->scalingValues[i] = preset.data.scalingValues[i];
+    }
+}
+    void preset_to_mapping_(const tMappingPreset* preset, tMapping *mapping)
+{
+    mapping->uuid = preset->uuid;
+    mapping->destinationProcessorUniqueID = preset->destinationUUID;
+    mapping->paramID = preset->destParamID;
+    mapping->numUsedSources = preset->numUsedSources;
+    mapping->index = preset->index;
+    for (int i = 0; i < mapping->numUsedSources; i++)
+    {
+        mapping->inUUIDS[i] = preset->inUUIDs[i];
+        mapping->bipolarOffset[i] = preset->bipolarOffset[i];
+        mapping->scalingValues[i] = preset->scalingValues[i];
     }
 }
 
