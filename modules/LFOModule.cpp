@@ -20,7 +20,7 @@ void tLFOModule_blankFunction (tLFOModule const lfo, float freq)
 {
     ;
 }
-void tLFOModule_initToPool(void** const lfo, float* const params, float id, tMempool* const mempool, tlookuptable rateTable)
+void tLFOModule_initToPool(void** const lfo, float* const params, float id, tMempool* const mempool, tLookupTable rateTable)
 {
     _tMempool* m = *mempool;
     _tLFOModule* LFOModule = static_cast<_tLFOModule*>(*lfo = (_tLFOModule*) mpool_alloc(sizeof(_tLFOModule), m));
