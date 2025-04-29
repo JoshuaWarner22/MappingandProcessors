@@ -109,7 +109,9 @@ void tEnvModule_initToPool(void** const env, float* const params, float id, tMem
 {
     _tMempool* m = *mempool;
     _tEnvModule* EnvModule = static_cast<_tEnvModule *>(*env = (_tEnvModule*) mpool_alloc(sizeof(_tEnvModule), m));
+#ifndef __cplusplus
     memcpy(EnvModule->params, params, EnvNumParams);
+#endif __cplusplus
     EnvModule->mempool = m;
 
     EnvModule->uniqueID = id;

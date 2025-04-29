@@ -105,7 +105,9 @@ void tFiltModule_initToPool(void** const filt, float* const params, float id, tM
 {
     _tMempool* m = *mempool;
     _tFiltModule* FiltModule =static_cast<_tFiltModule *> ( *filt = (_tFiltModule*) mpool_alloc(sizeof(_tFiltModule), m));
+#ifndef __cplusplus
     memcpy(FiltModule->params, params, FiltNumParams*sizeof(float));
+#endif
     FiltModule->uniqueID = id;
 
     int type = 0.0f;//roundf(FiltModule->params[FiltType]);
@@ -175,14 +177,14 @@ void tFiltModule_initToPool(void** const filt, float* const params, float id, tM
         FiltModule->tick = (tTickFuncFloatInReturningFloat)tLadderFilter_tick;
     }
     FiltModule->moduleType = ModuleTypeFilterModule;
-    FiltModule->params[FiltAudioInput] = 0.0f;
+    CPPDEREF FiltModule->params[FiltAudioInput] = 0.0f;
 }
 
 
 void tFiltModule_free(void** const filt)
 {
     _tFiltModule* FiltModule =(_tFiltModule*) *filt;
-    int type = roundf(FiltModule->params[FiltType]);
+    int type = roundf(CPPDEREF FiltModule->params[FiltType]);
     if (type == FiltTypeLowpass) {
         tSVF_free((tSVF*)FiltModule->theFilt);
     }
@@ -217,9 +219,9 @@ void tFiltModule_free(void** const filt)
 // tick function
 void tFiltModule_tick (tFiltModule const filt, float* buffer)
 {
-    float const cutoff  = filt->cutoffKnob + (filt->inputNote  * filt->params[FiltKeyfollow]); // TODO: should this be cutoffKnob * 137 to allow full range of knob turn to map to maxium freq?)
+    float const cutoff  = filt->cutoffKnob + (filt->inputNote  * CPPDEREF filt->params[FiltKeyfollow]); // TODO: should this be cutoffKnob * 137 to allow full range of knob turn to map to maxium freq?)
     filt->freq_set_func(filt->theFilt, cutoff);
-    buffer[0] += filt->params[FiltAudioInput];
+    buffer[0] += CPPDEREF filt->params[FiltAudioInput];
     buffer[0] = filt->outputs[0] = filt->tick(filt->theFilt,  buffer[0]) * filt->amp;
 }
 

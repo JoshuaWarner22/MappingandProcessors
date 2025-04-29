@@ -18,7 +18,9 @@ void tStringModule_initToPool(void** const env, float* const params, float id, t
 {
     _tMempool* m = *mempool;
     _tStringModule* module = static_cast<_tStringModule *>(*env = (_tStringModule*) mpool_alloc(sizeof(_tStringModule), m));
+    #ifndef __cplusplus
     memcpy(module->params, params, StringNumParams);
+    #endif
     module->mempool = m;
 
     tSimpleLivingString3_initToPool(&module->theString, 1,440.f, 440.0,

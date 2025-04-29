@@ -33,7 +33,7 @@ void    tProcessor_initToPool   (tProcessor** const pr, tMempool* const mp)
         preset->data.proc_chain = proc->proc_chain;
         for (int i = 0; i < MAX_NUM_PARAMS; i++)
         {
-            preset->data.params[i] = proc->inParameters[i];
+            preset->data.params[i] = CPPDEREF proc->inParameters[i];
         }
     }
 
@@ -45,7 +45,7 @@ void    tProcessor_initToPool   (tProcessor** const pr, tMempool* const mp)
         proc->proc_chain = preset->data.proc_chain;
         for (int i = 0; i < MAX_NUM_PARAMS; i++)
         {
-            proc->inParameters[i] = preset->data.params[i];
+            CPPDEREF proc->inParameters[i] =  preset->data.params[i];
         }
     }
     void preset_to_processor_ (tProcessorPreset* preset, tProcessor* proc)
@@ -56,7 +56,7 @@ void    tProcessor_initToPool   (tProcessor** const pr, tMempool* const mp)
     proc->proc_chain = preset->proc_chain;
     for (int i = 0; i < MAX_NUM_PARAMS; i++)
     {
-        proc->inParameters[i] = preset->params[i];
+       CPPDEREF  proc->inParameters[i] = preset->params[i];
     }
 }
 

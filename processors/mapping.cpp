@@ -71,7 +71,7 @@ ATOMIC_FLOAT* tMappingAdd(tMapping *mapping, tProcessor *outputProcessor,
 //    mapping->scalingValues[1] = scalingValues[1];
 //    mapping->scalingValues[2] = scalingValues[2];
     
-    mapping->initialVal = &destProcessor->inParameters[destParam];
+    mapping->initialVal = CPPDEREF &destProcessor->inParameters[destParam];
     mapping->setter = destProcessor->setterFunctions[destParam];
     mapping->destinationProcessorUniqueID = destProcessor->processorUniqueID;
     mapping->paramID = destParam; 

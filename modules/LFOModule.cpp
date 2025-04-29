@@ -24,11 +24,13 @@ void tLFOModule_initToPool(void** const lfo, float* const params, float id, tMem
 {
     _tMempool* m = *mempool;
     _tLFOModule* LFOModule = static_cast<_tLFOModule*>(*lfo = (_tLFOModule*) mpool_alloc(sizeof(_tLFOModule), m));
+#ifndef __cplusplus
     memcpy(LFOModule->params, params, LFONumParams*sizeof(ATOMIC_FLOAT));
+#endif
     LFOModule->uniqueID = id;
     LFOModule->table = rateTable;
     LFOModule->params[LFOType] = 0;
-    int type = roundf(LFOModule->params[LFOType]);
+    int type = roundf(CPPDEREF LFOModule->params[LFOType]);
 
     LFOModule->mempool = m;
     LFOModule->setterFunctions[LFOEventWatchFlag] = (tSetter)(&tLFOModule_blankFunction);
@@ -88,7 +90,7 @@ void tLFOModule_initToPool(void** const lfo, float* const params, float id, tMem
 void tLFOModule_free(void** const lfo)
 {
     _tLFOModule* LFOModule = static_cast<_tLFOModule*>(*lfo);
-    int type = roundf(LFOModule->params[LFOType]);
+    int type = roundf(CPPDEREF LFOModule->params[LFOType]);
     if (type == LFOTypeSineTri) {
         tSineTriLFO_free((tSineTriLFO*)LFOModule->theLFO);
     }
@@ -118,7 +120,7 @@ void tLFOModule_tick (tLFOModule const lfo)
 //special noteOnFunction
 void tLFOModule_onNoteOn(tLFOModule const lfo, float pitch, float velocity)
 {
-    lfo->setterFunctions[LFOPhaseParam](lfo->theLFO, lfo->params[LFOPhaseParam]); //call actual function
+    lfo->setterFunctions[LFOPhaseParam](lfo->theLFO, CPPDEREF lfo->params[LFOPhaseParam]); //call actual function
 }
 
 // Modulatable setters
@@ -178,7 +180,7 @@ void tLFOModule_processorInit(tLFOModule const lfo, leaf::tProcessor* processor)
     processor->setterFunctions[LFOType] = (tSetter)(&tLFOModule_blankFunction);
     for (int i = 0; i < LFONumParams; i++)
     {
-        processor->setterFunctions[i](lfo, lfo->params[i]);
+        processor->setterFunctions[i](lfo, CPPDEREF lfo->params[i]);
     }
     processor->inParameters = lfo->params;
     processor->outParameters = lfo->outputs;

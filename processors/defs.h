@@ -8,9 +8,11 @@
 #ifdef __cplusplus
     #include <atomic>
     #define ATOMIC_FLOAT std::atomic<float>
+#define CPPDEREF *
 #define LEAF_NAMESPACE leaf::
 #else
 #define LEAF_NAMESPACE
+#define CPPDEREF
     #define ATOMIC_FLOAT float
 #endif
 #ifdef __cplusplus
@@ -24,6 +26,7 @@ extern "C" {
 
 // Maximum number of processors sources for a mapping object
 #define MAX_NUM_SOURCES 3
+#define MAX_NUM_VOICES 12
 
 // Defines 'pTickFunction' to be the name of a new function pointer type
 typedef void (*tTickFuncReturningVoid)(void*, float*); // used for processors (don't return audio because that will be stored in the modules' output array

@@ -36,8 +36,8 @@ typedef struct _tStringModule {
     uint32_t moduleType;
     uint32_t uniqueID;
     tTickFuncReturningFloat tick; // The object's tick function
-    tSetter setterFunctions[StringNumParams]; // Array containing setter functions
-    ATOMIC_FLOAT params[StringNumParams];
+    tSetter setterFunctions[MAX_NUM_PARAMS]; // Array containing setter functions
+    ATOMIC_FLOAT CPPDEREF params[MAX_NUM_PARAMS];
     ATOMIC_FLOAT outputs[1];
     tMempool mempool;
 } _tStringModule;

@@ -47,14 +47,14 @@ typedef struct _tFiltModule {
     tFiltInternalParamSetFunc freq_set_func;
     tFiltInternalParamSetFunc gain_set_func;
     tFiltInternalParamSetFunc Q_set_func;
-    tSetter setterFunctions[FiltNumParams]; // Array containing setter functions
+    tSetter setterFunctions[MAX_NUM_PARAMS]; // Array containing setter functions
     float* dbTableAddress;
     uint32_t dbTableScalar;
     float dbTableOffset;
     float dbTableSizeMinusOne;
     float* resTableAddress;
     float resTableSizeMinusOne;
-    ATOMIC_FLOAT params[FiltNumParams];
+    ATOMIC_FLOAT CPPDEREF params[MAX_NUM_PARAMS];
     ATOMIC_FLOAT outputs[1];
     float amp;
     float cutoffKnob;

@@ -48,8 +48,8 @@ typedef struct _tOscModule {
     uint32_t uniqueID;
     tTickFuncReturningFloat tick; // The object's tick function
     tFreqSetFunc freq_set_func;
-    tSetter setterFunctions[OscNumParams]; // Array containing setter functions
-    ATOMIC_FLOAT params[OscNumParams];
+    tSetter setterFunctions[MAX_NUM_PARAMS]; // Array containing setter functions
+    ATOMIC_FLOAT CPPDEREF params[MAX_NUM_PARAMS];
     ATOMIC_FLOAT outputs[1];
     float fine;
     float harmonicMultiplier;

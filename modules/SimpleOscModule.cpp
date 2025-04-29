@@ -91,10 +91,13 @@ void tOscModule_initToPool(void** const osc, float* const params, float id, tMem
 {
     _tMempool* m = *mempool;
     _tOscModule* OscModule = static_cast<_tOscModule*> (*osc = (_tOscModule*) mpool_alloc (sizeof (_tOscModule), m));
+#ifndef __cplusplus
     memcpy(OscModule->params, params, OscNumParams*sizeof(float));
+    int type = roundf(CPPDEREF OscModule->params[OscType]);
+#endif __cplusplus
     OscModule->uniqueID = id;
 
-    int type = roundf(OscModule->params[OscType]);
+    int type =OscTypeSawSquare;
     OscModule->osctype = type;
     OscModule->mempool = m;
 
@@ -142,7 +145,7 @@ void tOscModule_initToPool(void** const osc, float* const params, float id, tMem
 void tOscModule_free(void** const osc)
 {
     _tOscModule* OscModule = static_cast<_tOscModule*> (*osc);
-    int type = roundf(OscModule->params[OscType]);
+    int type = roundf(CPPDEREF OscModule->params[OscType]);
     if (type == OscTypeSawSquare)
         tPBSawSquare_free ((tPBSawSquare*)&OscModule->theOsc);
     else if (type == OscTypeSineTri)

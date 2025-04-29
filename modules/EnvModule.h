@@ -30,8 +30,8 @@ typedef struct _tEnvModule {
     uint32_t moduleType;
     uint32_t uniqueID;
     tTickFuncReturningFloat tick; // The object's tick function
-    tSetter setterFunctions[EnvNumParams]; // Array containing setter functions
-    ATOMIC_FLOAT params[EnvNumParams];
+    tSetter setterFunctions[MAX_NUM_PARAMS]; // Array containing setter functions
+    ATOMIC_FLOAT CPPDEREF params[MAX_NUM_PARAMS];
     ATOMIC_FLOAT outputs[1];
     const float* envTimeTableAddress;
     float envTimeTableSizeMinusOne;

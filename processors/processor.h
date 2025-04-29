@@ -26,7 +26,7 @@ typedef struct Processor
     // pointers to the setter functions for the processors's object
 
 
-    ATOMIC_FLOAT* inParameters; //  points to parameter array of the actual object
+    ATOMIC_FLOAT CPPDEREF * inParameters; //  points to parameter array of the actual object
     ATOMIC_FLOAT* outParameters; // OUT sources for the processors
     tMempool mempool;
 } tProcessor;
