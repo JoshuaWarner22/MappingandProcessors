@@ -20,9 +20,7 @@ extern "C" {
 
 
 // Maximum number of parameters for a processors object
-//if this changes past 12 we need to update sysex sending and receiving
-// it is currently set to 12 so that all params can fit in a single sysex package
-#define MAX_NUM_PARAMS 12
+#define MAX_NUM_PARAMS 16
 
 // Maximum number of processors sources for a mapping object
 #define MAX_NUM_SOURCES 3
@@ -41,6 +39,7 @@ typedef enum {
     ModuleTypeLFOModule,
     ModuleTypeEnvModule,
     ModuleTypeFilterModule,
+    ModuleTypeStringModule,
     ModuleTypeVCAModule,
 
 } ModuleType;

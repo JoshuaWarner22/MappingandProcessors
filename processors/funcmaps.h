@@ -8,6 +8,7 @@
 #include "FilterModule.h"
 #include "LFOModule.h"
 #include "SimpleOscModule.h"
+#include "StringModule.h"
 #ifdef __cplusplus
 namespace leaf
 {

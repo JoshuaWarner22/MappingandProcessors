@@ -31,7 +31,7 @@ void tLFOModule_initToPool(void** const lfo, float* const params, float id, tMem
     int type = roundf(LFOModule->params[LFOType]);
 
     LFOModule->mempool = m;
-    LFOModule->setterFunctions[LFONoteOnWatchFlag] = (tSetter)(&tLFOModule_blankFunction);
+    LFOModule->setterFunctions[LFOEventWatchFlag] = (tSetter)(&tLFOModule_blankFunction);
     LFOModule->setterFunctions[LFOType] = (tSetter)(&tLFOModule_blankFunction);
     LFOModule->setterFunctions[LFORateParam] = (tSetter)(&tLFOModule_setRate);
     if (type == LFOTypeSineTri) {
@@ -174,7 +174,7 @@ void tLFOModule_processorInit(tLFOModule const lfo, leaf::tProcessor* processor)
     processor->setterFunctions[LFORateParam] =  (tSetter)(&tLFOModule_setRate);
     processor->setterFunctions[LFOShapeParam] = (tSetter)(&tLFOModule_setShape);
     processor->setterFunctions[LFOPhaseParam] = (tSetter)(&tLFOModule_setPhase);
-    processor->setterFunctions[LFONoteOnWatchFlag] = (tSetter)(&tLFOModule_blankFunction);
+    processor->setterFunctions[LFOEventWatchFlag] = (tSetter)(&tLFOModule_blankFunction);
     processor->setterFunctions[LFOType] = (tSetter)(&tLFOModule_blankFunction);
     for (int i = 0; i < LFONumParams; i++)
     {

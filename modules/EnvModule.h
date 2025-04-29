@@ -1,3 +1,4 @@
+
 //
 // Created by Jeffrey Snyder on 7/9/24.
 //
@@ -10,7 +11,7 @@
 #include "Inc/leaf-envelopes.h"
 
 typedef enum {
-    EnvNoteOnWatchFlag,
+    EnvEventWatchFlag,
     EnvAttack,
     EnvDecay,
     EnvSustain,

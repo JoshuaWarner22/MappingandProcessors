@@ -12,6 +12,7 @@
 
 
 typedef enum {
+    OscEventWatchFlag,
     OscMidiPitch,
     OscHarmonic,
     OscPitchOffset,

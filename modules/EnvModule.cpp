@@ -115,7 +115,7 @@ void tEnvModule_initToPool(void** const env, float* const params, float id, tMem
     EnvModule->uniqueID = id;
     tADSRT_initToPool(&EnvModule->theEnv, 1.0f,1000.0f,1.0f,1000.0f, NULL, 2048,mempool);
     EnvModule->tick = reinterpret_cast<tTickFuncReturningFloat>(tADSRT_tick);
-    EnvModule->setterFunctions[EnvNoteOnWatchFlag] =(tSetter) &tEnvModule_blankFunction;
+    EnvModule->setterFunctions[EnvEventWatchFlag] =(tSetter) &tEnvModule_blankFunction;
     EnvModule->setterFunctions[EnvAttack] =(tSetter) &tEnvModule_setAttack;
     EnvModule->setterFunctions[EnvDecay] = (tSetter)&tEnvModule_setDecay;
     EnvModule->setterFunctions[EnvSustain] = (tSetter)&tEnvModule_setSustain;
@@ -141,7 +141,7 @@ void tEnvModule_processorInit(tEnvModule const env, leaf::tProcessor* processor)
     processor->object = env;
     processor->numSetterFunctions = EnvNumParams;
     processor->tick = reinterpret_cast<tTickFuncReturningVoid>(tEnvModule_tick);
-    processor->setterFunctions[EnvNoteOnWatchFlag] =(tSetter) &tEnvModule_blankFunction;
+    processor->setterFunctions[EnvEventWatchFlag] =(tSetter) &tEnvModule_blankFunction;
     processor->setterFunctions[EnvAttack] =(tSetter) &tEnvModule_setAttack;
     processor->setterFunctions[EnvDecay] = (tSetter)&tEnvModule_setDecay;
     processor->setterFunctions[EnvSustain] = (tSetter)&tEnvModule_setSustain;
