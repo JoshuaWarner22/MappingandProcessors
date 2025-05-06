@@ -143,7 +143,7 @@ void tEnvModule_processorInit(tEnvModule const env, leaf::tProcessor* processor)
     processor->object = env;
     processor->numSetterFunctions = EnvNumParams;
     processor->tick = reinterpret_cast<tTickFuncReturningVoid>(tEnvModule_tick);
-    processor->setterFunctions[EnvEventWatchFlag] =(tSetter) &tEnvModule_blankFunction;
+    processor->setterFunctions[EnvEventWatchFlag] =(tSetter) &tEnvModule_onNoteOn;
     processor->setterFunctions[EnvAttack] =(tSetter) &tEnvModule_setAttack;
     processor->setterFunctions[EnvDecay] = (tSetter)&tEnvModule_setDecay;
     processor->setterFunctions[EnvSustain] = (tSetter)&tEnvModule_setSustain;
