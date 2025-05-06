@@ -28,6 +28,8 @@ extern "C" {
 #define MAX_NUM_SOURCES 3
 #define MAX_NUM_VOICES 12
 
+#define EVENT_WATCH_INDEX 0
+#define MAX_EVENT_LISTENERS 30
 // Defines 'pTickFunction' to be the name of a new function pointer type
 typedef void (*tTickFuncReturningVoid)(void*, float*); // used for processors (don't return audio because that will be stored in the modules' output array
 

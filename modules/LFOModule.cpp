@@ -24,13 +24,15 @@ void tLFOModule_initToPool(void** const lfo, float* const params, float id, tMem
 {
     _tMempool* m = *mempool;
     _tLFOModule* LFOModule = static_cast<_tLFOModule*>(*lfo = (_tLFOModule*) mpool_alloc(sizeof(_tLFOModule), m));
+    int type = 0;
 #ifndef __cplusplus
     memcpy(LFOModule->params, params, LFONumParams*sizeof(ATOMIC_FLOAT));
+    int type = roundf(CPPDEREF LFOModule->params[LFOType]);
 #endif
     LFOModule->uniqueID = id;
     LFOModule->table = rateTable;
     LFOModule->params[LFOType] = 0;
-    int type = roundf(CPPDEREF LFOModule->params[LFOType]);
+
 
     LFOModule->mempool = m;
     LFOModule->setterFunctions[LFOEventWatchFlag] = (tSetter)(&tLFOModule_blankFunction);
