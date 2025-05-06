@@ -117,7 +117,7 @@ void tEnvModule_initToPool(void** const env, float* const params, float id, tMem
     EnvModule->uniqueID = id;
     tADSRT_initToPool(&EnvModule->theEnv, 1.0f,1000.0f,1.0f,1000.0f, NULL, 2048,mempool);
     EnvModule->tick = reinterpret_cast<tTickFuncReturningFloat>(tADSRT_tick);
-    EnvModule->setterFunctions[EnvEventWatchFlag] =(tSetter) &tEnvModule_blankFunction;
+    EnvModule->setterFunctions[EnvEventWatchFlag] =(tSetter) &tEnvModule_onNoteOn;
     EnvModule->setterFunctions[EnvAttack] =(tSetter) &tEnvModule_setAttack;
     EnvModule->setterFunctions[EnvDecay] = (tSetter)&tEnvModule_setDecay;
     EnvModule->setterFunctions[EnvSustain] = (tSetter)&tEnvModule_setSustain;
