@@ -47,7 +47,7 @@ void tEnvModule_initToPool(void** const env, float* const params, float id, tMem
 void tEnvModule_free(void** const env);
 
 //note on action
-void tEnvModule_onNoteOn(tEnvModule const env, float pitch, float velocity);
+void tEnvModule_onNoteOn(tEnvModule const env, float pitch);
 
 // Modulatable setters
 void tEnvModule_setRate (tEnvModule const env, float rate);

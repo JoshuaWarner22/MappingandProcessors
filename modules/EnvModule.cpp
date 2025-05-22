@@ -32,7 +32,7 @@ void tEnvModule_tick (tEnvModule const env)
 }
 
 //special noteOnFunction
-void tEnvModule_onNoteOn(tEnvModule const env, float pitch, float velocity)
+void tEnvModule_onNoteOn(tEnvModule const env, float velocity)
 {
     float envVel = velocity;
     if (velocity > 0.0001f)

@@ -176,7 +176,7 @@ void tOscModule_free(void** const osc)
 // tick function
 void tOscModule_tick (tOscModule const osc,float* buffer)
 {
-    float freqToSmooth = (60 + (osc->fine));
+    float freqToSmooth = (osc->inputNote + (osc->fine));
     tExpSmooth_setDest(osc->pitchSmoother, freqToSmooth);
     float tempMIDI =  tExpSmooth_tick(osc->pitchSmoother) + osc->pitchOffset + osc->octaveOffset;
 
@@ -198,7 +198,7 @@ void tOscModule_tick (tOscModule const osc,float* buffer)
 void tOscModule_setMIDIPitch (tOscModule const osc, float const input)
 {
 
-    osc->inputNote = input * 127.0f;
+    osc->inputNote = input *127.0f;
 
 }
 void tOscModule_setHarmonic (tOscModule const osc, float harm)

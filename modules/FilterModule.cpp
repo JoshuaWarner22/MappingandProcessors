@@ -107,9 +107,10 @@ void tFiltModule_initToPool(void** const filt, float* const params, float id, tM
     _tFiltModule* FiltModule =static_cast<_tFiltModule *> ( *filt = (_tFiltModule*) mpool_alloc(sizeof(_tFiltModule), m));
 #ifndef __cplusplus
     memcpy(FiltModule->params, params, FiltNumParams*sizeof(float));
+
 #endif
     FiltModule->uniqueID = id;
-
+    //CPPDEREF FiltModule->params[FiltAudioInput] = 0.0f;
     int type = 0.0f;//roundf(FiltModule->params[FiltType]);
     FiltModule->mempool = m;
     FiltModule->amp = 1.0f;
@@ -177,7 +178,7 @@ void tFiltModule_initToPool(void** const filt, float* const params, float id, tM
         FiltModule->tick = (tTickFuncFloatInReturningFloat)tLadderFilter_tick;
     }
     FiltModule->moduleType = ModuleTypeFilterModule;
-    CPPDEREF FiltModule->params[FiltAudioInput] = 0.0f;
+
 }
 
 
