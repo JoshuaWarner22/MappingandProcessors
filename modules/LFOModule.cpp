@@ -180,10 +180,7 @@ void tLFOModule_processorInit(tLFOModule const lfo, leaf::tProcessor* processor)
     processor->setterFunctions[LFOPhaseParam] = (tSetter)(&tLFOModule_setPhase);
     processor->setterFunctions[LFOEventWatchFlag] = (tSetter)(&tLFOModule_blankFunction);
     processor->setterFunctions[LFOType] = (tSetter)(&tLFOModule_blankFunction);
-    for (int i = 0; i < LFONumParams; i++)
-    {
-        processor->setterFunctions[i](lfo, CPPDEREF lfo->params[i]);
-    }
+
     processor->inParameters = lfo->params;
     processor->outParameters = lfo->outputs;
     processor->processorTypeID = ModuleTypeLFOModule;

@@ -178,7 +178,13 @@ void tFiltModule_initToPool(void** const filt, float* const params, float id, tM
         FiltModule->tick = (tTickFuncFloatInReturningFloat)tLadderFilter_tick;
     }
     FiltModule->moduleType = ModuleTypeFilterModule;
-
+    FiltModule->setterFunctions[FiltMidiPitch] = (tSetter)&tFiltModule_setMIDIPitch;
+    FiltModule->setterFunctions[FiltCutoff] = (tSetter)&tFiltModule_setCutoff;
+    FiltModule->setterFunctions[FiltGain] = (tSetter)&(*FiltModule->gain_set_func);
+    FiltModule->setterFunctions[FiltResonance] = (tSetter)&(*FiltModule->Q_set_func);
+    FiltModule->setterFunctions[FiltKeyfollow] = (tSetter)&tFiltModule_blankFunction;
+    FiltModule->setterFunctions[FiltType] = (tSetter)&tFiltModule_blankFunction;
+    FiltModule->setterFunctions[FiltAudioInput] = (tSetter)&tFiltModule_blankFunction;
 }
 
 
