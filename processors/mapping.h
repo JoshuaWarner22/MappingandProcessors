@@ -27,7 +27,7 @@ namespace leaf
         uint8_t inUUIDS[MAX_NUM_SOURCES];
         ATOMIC_FLOAT bipolarOffset[MAX_NUM_SOURCES];
         ATOMIC_FLOAT* inSources[MAX_NUM_SOURCES]; // IN sources from processors
-        ATOMIC_FLOAT scalingValues[MAX_NUM_SOURCES]; // Scaling for the IN sources
+        ATOMIC_FLOAT CPPDEREF scalingValues[MAX_NUM_SOURCES]; // Scaling for the IN sources
         ATOMIC_FLOAT* initialVal; // The mapping's initial value
         tMempool mempool;
     } tMapping;
@@ -82,7 +82,7 @@ namespace leaf
 
 
     void tMapping_initToPool (tMapping** const mapping, tMempool* const mp);
-    ATOMIC_FLOAT* tMappingAdd (tMapping* mapping, tProcessor* outputProcessor, tProcessor* destProcessor, uint8_t destParam, uint8_t source, LEAF *leaf);
+    void tMappingAdd (tMapping* mapping, tProcessor* outputProcessor, tProcessor* destProcessor, uint8_t destParam, uint8_t source, LEAF *leaf, ATOMIC_FLOAT* scalingptr);
 
 #ifdef __cplusplus
 

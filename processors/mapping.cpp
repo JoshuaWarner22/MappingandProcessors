@@ -34,7 +34,7 @@ void processMapping (tMapping* mapping)
 
     for (int i = 0; i < mapping->numUsedSources; i++)
     {
-        sum += (*mapping->inSources[i] * mapping->scalingValues[i]) + mapping->bipolarOffset[i];
+        sum += (*mapping->inSources[i] * CPPDEREF mapping->scalingValues[i]) + mapping->bipolarOffset[i];
     }
 
     mapping->setter(mapping->destObject, sum);
@@ -50,8 +50,8 @@ void tMapping_free (tMapping** const mapping) {
 // `outputProcessor` to the input of `destProcessor` on the parameter 
 // `destParam`.  The mapping scales this value by the factors in
 // `scalingValues`.
-ATOMIC_FLOAT* tMappingAdd(tMapping *mapping, tProcessor *outputProcessor,
-    tProcessor *destProcessor, uint8_t destParam, uint8_t source, LEAF* leaf)
+void tMappingAdd(tMapping *mapping, tProcessor *outputProcessor,
+    tProcessor *destProcessor, uint8_t destParam, uint8_t source, LEAF* leaf, ATOMIC_FLOAT *scalingValue)
 
 {
 
@@ -76,7 +76,8 @@ ATOMIC_FLOAT* tMappingAdd(tMapping *mapping, tProcessor *outputProcessor,
     mapping->destinationProcessorUniqueID = destProcessor->processorUniqueID;
     mapping->paramID = destParam; 
     mapping->destObject = destProcessor->object;
-    return &mapping->scalingValues[source];
+    if (scalingValue != nullptr)
+        mapping->scalingValues[source] = scalingValue;
 }
 
 void mapping_to_preset(tMapping *mapping, tMappingPresetUnion * preset)
@@ -90,7 +91,7 @@ void mapping_to_preset(tMapping *mapping, tMappingPresetUnion * preset)
     {
         preset->data.inUUIDs[i] = mapping->inUUIDS[i];
         preset->data.bipolarOffset[i] = mapping->bipolarOffset[i];
-        preset->data.scalingValues[i] = mapping->scalingValues[i];
+        preset->data.scalingValues[i] = CPPDEREF mapping->scalingValues[i];
     }
 }
 
@@ -105,7 +106,7 @@ void preset_to_mapping(tMappingPresetUnion preset, tMapping *mapping)
     {
         mapping->inUUIDS[i] = preset.data.inUUIDs[i];
         mapping->bipolarOffset[i] = preset.data.bipolarOffset[i];
-        mapping->scalingValues[i] = preset.data.scalingValues[i];
+        CPPDEREF mapping->scalingValues[i] =  preset.data.scalingValues[i];
     }
 }
     void preset_to_mapping_(const tMappingPreset* preset, tMapping *mapping)
@@ -119,7 +120,7 @@ void preset_to_mapping(tMappingPresetUnion preset, tMapping *mapping)
     {
         mapping->inUUIDS[i] = preset->inUUIDs[i];
         mapping->bipolarOffset[i] = preset->bipolarOffset[i];
-        mapping->scalingValues[i] = preset->scalingValues[i];
+       CPPDEREF mapping->scalingValues[i] = preset->scalingValues[i];
     }
 }
 

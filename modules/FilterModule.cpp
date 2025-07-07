@@ -226,9 +226,11 @@ void tFiltModule_free(void** const filt)
 // tick function
 void tFiltModule_tick (tFiltModule const filt, float* buffer)
 {
-    float const cutoff  = filt->cutoffKnob + (filt->inputNote  * CPPDEREF filt->params[FiltKeyfollow]); // TODO: should this be cutoffKnob * 137 to allow full range of knob turn to map to maxium freq?)
+    //removing keyfollow since it is not set up to a parameter right now
+    //TODO: add keyfollow
+    float const cutoff  = filt->cutoffKnob + (filt->inputNote);//  * CPPDEREF filt->params[FiltKeyfollow]); // TODO: should this be cutoffKnob * 137 to allow full range of knob turn to map to maxium freq?)
     filt->freq_set_func(filt->theFilt, cutoff);
-    buffer[0] += CPPDEREF filt->params[FiltAudioInput];
+    //buffer[0] += CPPDEREF filt->params[FiltAudioInput]; //buffer passed to function
     buffer[0] = filt->outputs[0] = filt->tick(filt->theFilt,  buffer[0]) * filt->amp;
 }
 
