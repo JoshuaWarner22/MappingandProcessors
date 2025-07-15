@@ -184,7 +184,7 @@ void tFiltModule_initToPool(void** const filt, float* const params, float id, tM
     FiltModule->setterFunctions[FiltResonance] = (tSetter)&(*FiltModule->Q_set_func);
     FiltModule->setterFunctions[FiltKeyfollow] = (tSetter)&tFiltModule_blankFunction;
     FiltModule->setterFunctions[FiltType] = (tSetter)&tFiltModule_blankFunction;
-    FiltModule->setterFunctions[FiltAudioInput] = (tSetter)&tFiltModule_blankFunction;
+    // FiltModule->setterFunctions[FiltAudioInput] = (tSetter)&tFiltModule_blankFunction;
 }
 
 
@@ -292,13 +292,13 @@ void tFiltModule_processorInit(tFiltModule const filt, leaf::tProcessor* const p
     processor->setterFunctions[FiltResonance] = (tSetter)&(*filt->Q_set_func);
     processor->setterFunctions[FiltKeyfollow] = (tSetter)&tFiltModule_blankFunction;
     processor->setterFunctions[FiltType] = (tSetter)&tFiltModule_blankFunction;
-    processor->setterFunctions[FiltAudioInput] = (tSetter)&tFiltModule_blankFunction;
 //    for (int i = 0; i < FiltNumParams; i++)
 //    {
 //        processor->setterFunctions[i](filt, filt->params[i]);
 //    }
     processor->inParameters = filt->params;
     processor->outParameters = filt->outputs;
+    processor->audioInParameters = filt->inputs;
     processor->processorTypeID = ModuleTypeFilterModule;
 }
 

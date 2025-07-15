@@ -9,6 +9,7 @@
 #include "LFOModule.h"
 #include "SimpleOscModule.h"
 #include "StringModule.h"
+#include "VCAModule.h"
 #ifdef __cplusplus
 namespace leaf
 {

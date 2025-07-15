@@ -21,6 +21,7 @@ add_library(procUtils
         modules/SimpleOscModule.cpp
         modules/FilterModule.cpp
         modules/LFOModule.cpp
+        modules/VCAModule.cpp
         modules/StringModule.cpp
         processors/processor.cpp
         processors/mapping.cpp

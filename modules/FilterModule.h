@@ -19,7 +19,6 @@ typedef enum {
     FiltResonance,
     FiltKeyfollow,
     FiltType,
-    FiltAudioInput,
     FiltNumParams
 } FiltParams;
 
@@ -56,6 +55,7 @@ typedef struct _tFiltModule {
     float resTableSizeMinusOne;
     ATOMIC_FLOAT CPPDEREF params[MAX_NUM_PARAMS];
     ATOMIC_FLOAT outputs[1];
+    ATOMIC_FLOAT inputs[1];
     float amp;
     float cutoffKnob;
     float keyFollow;

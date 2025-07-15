@@ -24,6 +24,7 @@ void tMapping_initToPool (tMapping** const mapping, tMempool* const mp)
     tMapping* map = *mapping = (tMapping*) mpool_alloc(sizeof(tMapping), m);
     map->mempool = m;
     map->numUsedSources = 0;
+    map->uuid = 255;
 }
 
 
@@ -51,7 +52,7 @@ void tMapping_free (tMapping** const mapping) {
 // `destParam`.  The mapping scales this value by the factors in
 // `scalingValues`.
 void tMappingAdd(tMapping *mapping, tProcessor *outputProcessor,
-    tProcessor *destProcessor, uint8_t destParam, uint8_t source, LEAF* leaf, ATOMIC_FLOAT *scalingValue)
+    tProcessor *destProcessor, uint8_t destParam, uint8_t source, LEAF* leaf, ATOMIC_FLOAT *scalingValue=nullptr)
 
 {
 
@@ -61,7 +62,8 @@ void tMappingAdd(tMapping *mapping, tProcessor *outputProcessor,
 //    {
 //    	return;
 //    }
-    mapping->uuid = getNextUuid(leaf);
+    if (mapping->uuid == 255)
+        mapping->uuid = getNextUuid(leaf);
     // Updates the _tMapping struct with the given arguments
     mapping->inSources[source] = &outputProcessor->outParameters[0];
     mapping->inUUIDS[source] = outputProcessor->processorUniqueID;
@@ -79,7 +81,14 @@ void tMappingAdd(tMapping *mapping, tProcessor *outputProcessor,
     if (scalingValue != nullptr)
         mapping->scalingValues[source] = scalingValue;
 }
-
+void tMappingUpdateDest(tMapping* mapping, uint8_t source,
+    tProcessor *newDestProcessor, uint8_t destParam, ATOMIC_FLOAT *scalingValue=nullptr) {
+    mapping->initialVal = CPPDEREF &newDestProcessor->inParameters[destParam];
+    mapping->setter = newDestProcessor->setterFunctions[destParam];
+    mapping->destinationProcessorUniqueID = newDestProcessor->processorUniqueID;
+    if (scalingValue != nullptr)
+        mapping->scalingValues[source] = scalingValue;
+}
 void mapping_to_preset(tMapping *mapping, tMappingPresetUnion * preset)
 {
     preset->data.uuid = mapping->uuid;

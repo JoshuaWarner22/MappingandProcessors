@@ -25,14 +25,16 @@ namespace leaf
         (createProcFunc) tFiltModule_processorInit,
         (createProcFunc) tEnvModule_processorInit,
         (createProcFunc) tLFOModule_processorInit,
-         (createProcFunc) tStringModule_processorInit
+         (createProcFunc) tStringModule_processorInit,
+         (createProcFunc) tVCAModule_processorInit,
     };
     createModuleFunc module_init_map[] = {
         (createModuleFunc) tOscModule_init,
         (createModuleFunc) tFiltModule_init,
         (createModuleFunc) tEnvModule_init,
         (createModuleFunc) tLFOModule_init,
-        (createModuleFunc) tStringModule_init
+        (createModuleFunc) tStringModule_init,
+        (createModuleFunc) tVCAModule_init
     };
 //
 //void createProcessor(float *params, tProcessor* proc,LEAF* leaf)

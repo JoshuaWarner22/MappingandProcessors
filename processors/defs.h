@@ -53,6 +53,7 @@ typedef enum {
     PROCTAG,
     MAPTAG
 } BYTETAGS;
+
 #ifdef __cplusplus
 }
 #endif

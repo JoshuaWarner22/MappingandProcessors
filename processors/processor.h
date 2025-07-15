@@ -28,6 +28,7 @@ typedef struct Processor
 
     ATOMIC_FLOAT CPPDEREF * inParameters; //  points to parameter array of the actual object
     ATOMIC_FLOAT* outParameters; // OUT sources for the processors
+    ATOMIC_FLOAT* audioInParameters; //audio in params
     tMempool mempool;
 } tProcessor;
 

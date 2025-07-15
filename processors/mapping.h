@@ -15,6 +15,12 @@
 namespace leaf
 {
     #endif
+
+    typedef struct AudioRouting {
+        ATOMIC_FLOAT* audio;
+    } tAudioRouting;
+
+
     typedef struct Mapping
     {
         tSetter setter; // Setter function for the parameter of the mapping
@@ -82,7 +88,11 @@ namespace leaf
 
 
     void tMapping_initToPool (tMapping** const mapping, tMempool* const mp);
-    void tMappingAdd (tMapping* mapping, tProcessor* outputProcessor, tProcessor* destProcessor, uint8_t destParam, uint8_t source, LEAF *leaf, ATOMIC_FLOAT* scalingptr);
+    void tMappingAdd (tMapping* mapping, tProcessor* outputProcessor, tProcessor* destProcessor, uint8_t destParam,
+        uint8_t source, LEAF *leaf, ATOMIC_FLOAT* scalingptr);
+    void tMappingUpdateDest(tMapping* mapping, uint8_t source,
+        LEAF* leaf, tProcessor *newDestProcessor, uint8_t destParam,
+        ATOMIC_FLOAT *scalingValue);
 
 #ifdef __cplusplus
 
