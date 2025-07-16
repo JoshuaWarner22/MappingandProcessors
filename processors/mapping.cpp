@@ -44,6 +44,30 @@ void tMapping_free (tMapping** const mapping) {
    mpool_free((char*)*mapping, (*mapping)->mempool);
 }
 
+void tMappingAdd_(tMapping *mapping, ATOMIC_FLOAT* insource, uint8_t insource_uuid,  ATOMIC_FLOAT* dest_param, uint8_t dest_uuid,
+    tSetter setter, uint8_t dest_param_index, void* obj, LEAF* leaf, ATOMIC_FLOAT* scalingValue = nullptr)
+ {
+     if (mapping->uuid == 255)
+         mapping->uuid = getNextUuid(leaf);
+    int currIndex = mapping->numUsedSources;
+     // Updates the _tMapping struct with the given arguments
+     mapping->inSources[currIndex] = insource;
+     mapping->inUUIDS[currIndex] = insource_uuid;
+
+
+ //    mapping->scalingValues[0] = scalingValues[0];
+ //    mapping->scalingValues[1] = scalingValues[1];
+ //    mapping->scalingValues[2] = scalingValues[2];
+
+     mapping->initialVal = dest_param;
+     mapping->setter = setter;
+     mapping->destinationProcessorUniqueID = dest_uuid;
+     mapping->paramID = dest_param_index;
+     mapping->destObject = obj;
+     if (scalingValue != nullptr)
+         mapping->scalingValues[currIndex] = scalingValue;
+     mapping->numUsedSources++;
+ }
 
 
 
@@ -56,12 +80,6 @@ void tMappingAdd(tMapping *mapping, tProcessor *outputProcessor,
 
 {
 
-
-
-//    if (scalingValues == NULL)
-//    {
-//    	return;
-//    }
     if (mapping->uuid == 255)
         mapping->uuid = getNextUuid(leaf);
     // Updates the _tMapping struct with the given arguments
@@ -81,6 +99,9 @@ void tMappingAdd(tMapping *mapping, tProcessor *outputProcessor,
     if (scalingValue != nullptr)
         mapping->scalingValues[source] = scalingValue;
 }
+
+
+
 void tMappingUpdateDest(tMapping* mapping, uint8_t source,
     tProcessor *newDestProcessor, uint8_t destParam, ATOMIC_FLOAT *scalingValue=nullptr) {
     mapping->initialVal = CPPDEREF &newDestProcessor->inParameters[destParam];

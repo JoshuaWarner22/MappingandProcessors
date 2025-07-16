@@ -305,19 +305,6 @@ void tOscModule_processorInit(tOscModule const osc, leaf::tProcessor* const proc
     processor->object = osc;
     processor->numSetterFunctions = OscNumParams;
     processor->tick = (tTickFuncReturningVoid )&tOscModule_tick;
-    processor->setterFunctions[OscMidiPitch] =(tSetter) &tOscModule_setMIDIPitch;
-    processor->setterFunctions[OscHarmonic] = (tSetter)&tOscModule_setHarmonic;
-    processor->setterFunctions[OscPitchOffset] = (tSetter)&tOscModule_setPitchOffset;
-    processor->setterFunctions[OscPitchFine] = (tSetter)&tOscModule_setFine;
-    processor->setterFunctions[OscFreqOffset] =(tSetter) &tOscModule_setFreq;
-    processor->setterFunctions[OscShapeParam] = osc->setterFunctions[OscShapeParam];
-    processor->setterFunctions[OscAmpParam] = (tSetter)&tOscModule_setAmp;
-    processor->setterFunctions[OscGlide] = (tSetter)&tOscModule_setGlide;
-    processor->setterFunctions[OscSteppedHarmonic] = (tSetter)&tOscModule_setHStepped;
-    processor->setterFunctions[OscSteppedPitch] = (tSetter)&tOscModule_setPStepped;
-    processor->setterFunctions[OscSyncMode] = (tSetter)&tOscModule_setSyncMode;
-    processor->setterFunctions[OscSyncIn] = (tSetter)&tOscModule_setSyncIn;
-    processor->setterFunctions[OscType] = (tSetter)&tOscModule_setType;
     osc->setterFunctions[OscMidiPitch] =(tSetter) &tOscModule_setMIDIPitch;
     osc->setterFunctions[OscHarmonic] = (tSetter)&tOscModule_setHarmonic;
     osc->setterFunctions[OscPitchOffset] = (tSetter)&tOscModule_setPitchOffset;
@@ -331,6 +318,20 @@ void tOscModule_processorInit(tOscModule const osc, leaf::tProcessor* const proc
     osc->setterFunctions[OscSyncMode] = (tSetter)&tOscModule_setSyncMode;
     osc->setterFunctions[OscSyncIn] = (tSetter)&tOscModule_setSyncIn;
     osc->setterFunctions[OscType] = (tSetter)&tOscModule_setType;
+    processor->setterFunctions[OscMidiPitch] =(tSetter) &tOscModule_setMIDIPitch;
+    processor->setterFunctions[OscHarmonic] = (tSetter)&tOscModule_setHarmonic;
+    processor->setterFunctions[OscPitchOffset] = (tSetter)&tOscModule_setPitchOffset;
+    processor->setterFunctions[OscPitchFine] = (tSetter)&tOscModule_setFine;
+    processor->setterFunctions[OscFreqOffset] =(tSetter) &tOscModule_setFreq;
+    processor->setterFunctions[OscShapeParam] = osc->setterFunctions[OscShapeParam];
+    processor->setterFunctions[OscAmpParam] = (tSetter)&tOscModule_setAmp;
+    processor->setterFunctions[OscGlide] = (tSetter)&tOscModule_setGlide;
+    processor->setterFunctions[OscSteppedHarmonic] = (tSetter)&tOscModule_setHStepped;
+    processor->setterFunctions[OscSteppedPitch] = (tSetter)&tOscModule_setPStepped;
+    processor->setterFunctions[OscSyncMode] = (tSetter)&tOscModule_setSyncMode;
+    processor->setterFunctions[OscSyncIn] = (tSetter)&tOscModule_setSyncIn;
+    processor->setterFunctions[OscType] = (tSetter)&tOscModule_setType;
+
     // for (int i = 0; i < OscNumParams; i++)
     // {
     //
