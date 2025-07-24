@@ -1,3 +1,4 @@
+configure_file(${CMAKE_SOURCE_DIR}/.catch2 ${CMAKE_BINARY_DIR}/test/.catch2 COPYONLY)
 include(AddCatch2)
 include_directories(${CMAKE_SOURCE_DIR}/processors)
 include_directories(${CMAKE_SOURCE_DIR}/modules)
