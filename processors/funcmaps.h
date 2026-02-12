@@ -11,6 +11,7 @@
 #include "StringModule.h"
 #include "VCAModule.h"
 #include "SoftClipModule.h"
+#include "DelayModule.h"
 typedef void (*createModuleFunc)(void** const module, float* const params, float id, LEAF* const leaf);
 
 #include "defs.h"

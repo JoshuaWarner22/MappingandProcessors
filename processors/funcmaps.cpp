@@ -27,7 +27,8 @@ namespace leaf
         (createModuleFunc) tLFOModule_init,
         (createModuleFunc) tStringModule_init,
         (createModuleFunc) tVCAModule_init,
-        (createModuleFunc) tSoftClipModule_init
+        (createModuleFunc) tSoftClipModule_init,
+        (createModuleFunc) tDelayModule_init
     };
 //
 //void createProcessor(float *params, tProcessor* proc,LEAF* leaf)

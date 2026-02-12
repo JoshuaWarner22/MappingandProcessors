@@ -14,6 +14,7 @@
 #include "StringModule.h"
 #include "LFOModule.h"
 #include "SoftClipModule.h"
+#include "DelayModule.h"
 // Process mapping function
 #ifdef __cplusplus
 namespace leaf
@@ -62,6 +63,11 @@ void tMapping_setParameter(void* module, int paramID, float value) {
         case ModuleTypeSoftClipModule:
             tSoftClipModule_setParameter((tSoftClipModule) module, (SoftClipModuleParams) paramID, value);
             break;
+
+        case ModuleTypeDelayModule:
+            tDelayModule_setParameter ((tDelayModule) module, (DelParams) paramID, value);
+            break;
+
         default:
             // handle invalid type
             break;

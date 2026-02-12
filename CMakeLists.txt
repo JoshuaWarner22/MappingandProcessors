@@ -29,6 +29,7 @@ add_library(procUtils
         processors/funcmaps.cpp
         processors/event_emitter.cpp
         modules/SoftClipModule.cpp
+        modules/DelayModule.cpp
 )
 
 # Include directories for procUtils

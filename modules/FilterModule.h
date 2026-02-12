@@ -65,6 +65,7 @@ void tFiltModule_init(void** const filt, float* const params, float id, LEAF* co
 void tFiltModule_initToPool(void** const filt, float* const params, float id, tMempool** const mempool, tLookupTable* resTable);
 
 void tFiltModule_free(void** const filt);
+float dbToATableLookupFunction(float const in, float const sizeMinusOne, float* const tableAddress);
 
 // tick
 void tFiltModule_tick (tFiltModule const filt, float*);

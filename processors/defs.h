@@ -48,6 +48,7 @@ typedef enum {
     ModuleTypeStringModule,
     ModuleTypeVCAModule,
     ModuleTypeSoftClipModule,
+    ModuleTypeDelayModule
 
 } ModuleType;
 
